@@ -123,10 +123,3 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime, interval: int = 60
             df = pd.concat([df, dfAdded], ignore_index=True)
 
         return df.reset_index(drop=True)
-
-
-#! Test code ONLY
-startDate = datetime(year=2023, month=6, day=6)
-endDate = datetime(year=2023, month=6, day=6)
-df = fetchWeatherRange(startDate, endDate)
-print(df.head())
