@@ -1,7 +1,6 @@
 # General utilities for pulling data
 import requests, json, os
 import pandas as pd
-import numpy as np
 from datetime import datetime
 
 
@@ -69,6 +68,18 @@ def normalizeWeather(data: dict) -> pd.DataFrame:
     cols = cols[-1:] + cols[:-1]
     df = df[cols].sort_values(by=["timestamp", "station_id"])
     df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%dT%H:%M:%S%z")
+    return df.reset_index(drop=True)
+
+
+def mergeWeather(
+    data: list[pd.DataFrame], on: list = ["timestamp", "station_id"], how: str = "left"
+):
+    """
+    Merges different weather dataframes together. List of dataframes, columns to merge with, and how to merge can be specified.
+    """
+    df = data[0]
+    for i in range(1, len(data)):
+        df = df.merge(data[i], how=how, on=on)
     return df.reset_index(drop=True)
 
 
