@@ -5,7 +5,6 @@ import numpy as np
 from datetime import datetime
 
 
-# todo: Remove once done
 def genJSON(data: dict, filename: str = "data"):
     """
     Creates a [filename].json file using the data passed in.
@@ -21,7 +20,7 @@ def genJSON(data: dict, filename: str = "data"):
 
 def fetchWeatherData(type, date: datetime):
     """
-    Fetch data using the NEA's reatime weather API at 1h intervals.
+    Fetches raw data using the NEA's reatime weather API at 1h intervals.
 
     type: Can be air-temperature, relative-humidity, rainfall, wind-direction or wind-speed
     date: Date from which data is taken
@@ -32,11 +31,11 @@ def fetchWeatherData(type, date: datetime):
     params = {"date": date.strftime("%Y-%m-%d")}
     response = requests.get(endpoint, params=params).json()
 
-    # Separate and filter data
+    # Separate and filter data to 1h granularity
     stations = response["metadata"]["stations"]
 
     def filterReading(reading):
-        timestamp = datetime.strptime(reading["timestamp"], "%Y-%m-%dT%H:%M:%S+08:00")
+        timestamp = datetime.strptime(reading["timestamp"], "%Y-%m-%dT%H:%M:%S%z")
         return timestamp.minute == 1
 
     timedReadings = list(
@@ -59,6 +58,24 @@ def fetchWeatherData(type, date: datetime):
     }
 
 
+def normalizeWeather(data: dict) -> pd.DataFrame:
+    """
+    Normalizes and cleans weather readings in dictionary format, generating a flattened dataframe.
+    """
+    # Flatten json
+    df = pd.json_normalize(readings, record_path="readings", meta=["timestamp"])
+    # Clean up by reordering and sorting columns
+    cols = df.columns.to_list()
+    cols = cols[-1:] + cols[:-1]
+    df = df[cols].sort_values(by=["timestamp", "station_id"])
+    df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%dT%H:%M:%S%z")
+    return df.reset_index(drop=True)
+
+
 #! Test code ONLY
 date = datetime(year=2023, month=6, day=5)
-data = fetchWeatherData("air-temperature", date)
+readings = fetchWeatherData("air-temperature", date)["readings"]
+df = normalizeWeather(readings)
+print(df.dtypes)
+print("---------------------------------------")
+print(df.head())
