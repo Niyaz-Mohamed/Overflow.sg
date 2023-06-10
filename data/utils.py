@@ -1,7 +1,7 @@
 # General utilities for pulling data
 import requests, json, os
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 def genJSON(data: dict, filename: str = "data"):
@@ -17,11 +17,15 @@ def genJSON(data: dict, filename: str = "data"):
     file.close()
 
 
-# todo: Change behavior to aggregate data
-def fetchWeather(type: str, date: datetime, interval: int = 60):
+def fetchWeather(type: str, date: datetime):
     """
-    NOTE: Using fetchWeatherRange() is preferred
-    Fetches raw data using the NEA's reatime weather API at the specified intervals, and aggregates that data over the interval.
+    NOTE: Using fetchWeatherRange() is preferred.\n
+    Fetches raw data using the NEA's reatime weather API for the given date, of a specific type.
+
+    Parameters
+    ----------
+    `startDate`: Date on which data should begin\n
+    `endDate`: Date on which data should end, defaults to same day as startDate\n
     """
 
     # Fetch data
@@ -87,14 +91,13 @@ def mergeWeather(
     return df.reset_index(drop=True)
 
 
-def fetchWeatherRange(startDate: datetime, endDate: datetime, interval: int = 60):
-    """Fetches and processes weather over a date range using the NEA's reatime weather API at the specified interval.
+def fetchWeatherRange(startDate: datetime, endDate: datetime):
+    """Fetches and processes weather over a date range using the NEA's reatime weather API.
 
     Parameters
     ----------
-    `type`: Can be air-temperature, relative-humidity, rainfall, wind-direction or wind-speed\n
-    `date`: Date from which data is taken\n
-    `interval`: Intervals, in minutes, between each reading
+    `startDate`: Date on which data should begin\n
+    `endDate`: Date on which data should end, defaults to same day as startDate\n
     """
     dates = list(pd.date_range(startDate, endDate))
 
@@ -108,7 +111,7 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime, interval: int = 60
             "wind-speed",
         ]
         temp, humidity, rainfall, windDirection, windSpeed = [
-            normalizeWeather(fetchWeather(type, date, interval))
+            normalizeWeather(fetchWeather(type, date)["readings"])
             for type in weatherTypes
         ]
         mergedWeather = mergeWeather(
@@ -116,7 +119,7 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime, interval: int = 60
         )
 
         # Combine data from multiple dates
-        if date == date[0]:
+        if date == dates[0]:
             df = mergedWeather
         else:
             dfAdded = mergedWeather
