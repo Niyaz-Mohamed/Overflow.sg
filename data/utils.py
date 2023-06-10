@@ -62,7 +62,11 @@ def fetchWeather(type: str, date: datetime):
 
 def normalizeWeather(data: dict) -> pd.DataFrame:
     """
-    Normalizes and cleans weather readings in dictionary format to a flattened dataframe.
+    Normalizes and cleans weather readings, converting it to a flattened dataframe.
+
+    Parameters
+    ----------
+    `data`: Raw weather data in dictionary format\n
     """
     # Flatten json
     df = pd.json_normalize(data, record_path="readings", meta=["timestamp"])
@@ -72,6 +76,27 @@ def normalizeWeather(data: dict) -> pd.DataFrame:
     df = df[cols].sort_values(by=["timestamp", "station_id"])
     df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%dT%H:%M:%S%z")
     return df.reset_index(drop=True)
+
+
+def normalizeStations(data: dict) -> pd.DataFrame:
+    """
+    Normalizes and cleans station data, converting it to a flattened dataframe.
+
+    Parameters
+    ----------
+    `data`: Raw station data in dictionary format\n
+    """
+    # Flatten json and clean df
+    df = pd.json_normalize(data)
+    df = df.drop(columns="device_id").rename(
+        columns={
+            "id": "station_id",
+            "name": "station_name",
+            "location.latitude": "latitude",
+            "location.longitude": "longitude",
+        }
+    )
+    return df
 
 
 def mergeWeather(
@@ -91,18 +116,35 @@ def mergeWeather(
     return df.reset_index(drop=True)
 
 
-def fetchWeatherRange(startDate: datetime, endDate: datetime):
-    """Fetches and processes weather over a date range using the NEA's reatime weather API.
+def concatStations(data: list[pd.DataFrame], how: str = "left"):
+    """Merges different station dataframes together.
+
+    Parameters
+    ----------
+    `data`: List of dataframes to merge. First dataframe is taken as the left/right dataframe\n
+    `how`: Merge type (inner, outer, left, right)\n
+    """
+    df = data[0]
+    for i in range(1, len(data)):
+        df = pd.concat([df, data[i]], ignore_index=True).drop_duplicates()
+    return df.reset_index(drop=True)
+
+
+def fetchWeatherRange(startDate: datetime, endDate: datetime = None):
+    """Fetches detailed weather data over a range of dates using the NEA's reatime weather API.
 
     Parameters
     ----------
     `startDate`: Date on which data should begin\n
     `endDate`: Date on which data should end, defaults to same day as startDate\n
     """
+    if endDate == None:
+        endDate = startDate
     dates = list(pd.date_range(startDate, endDate))
+    weatherDf = pd.DataFrame()
 
     for date in dates:
-        # Fetch all weather data and merge
+        # Fetch all weather/station data
         weatherTypes = [
             "air-temperature",
             "relative-humidity",
@@ -110,19 +152,23 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime):
             "wind-direction",
             "wind-speed",
         ]
-        temp, humidity, rainfall, windDirection, windSpeed = [
-            normalizeWeather(fetchWeather(type, date)["readings"])
-            for type in weatherTypes
-        ]
-        mergedWeather = mergeWeather(
-            [temp, humidity, rainfall, windDirection, windSpeed]
+        weatherData = []
+        stationData = []
+        for type in weatherTypes:
+            apiData = fetchWeather(type, date)
+            weatherData.append(normalizeWeather(apiData["readings"]))
+            stationData.append(normalizeStations(apiData["stations"]))
+
+        # Merge weather data and station data
+        mergedStations = concatStations(stationData)
+        mergedWeather = mergeWeather(weatherData).merge(
+            mergedStations, how="left", on="station_id"
         )
+        weatherDf = pd.concat([weatherDf, mergedWeather], ignore_index=True)
 
-        # Combine data from multiple dates
-        if date == dates[0]:
-            df = mergedWeather
-        else:
-            dfAdded = mergedWeather
-            df = pd.concat([df, dfAdded], ignore_index=True)
-
-        return df.reset_index(drop=True)
+    # Reorder weatherDf
+    cols = weatherDf.columns.tolist()
+    cols = cols[:2] + cols[-3:] + cols[2:-3]
+    print(cols)
+    weatherDf = weatherDf[cols]
+    return weatherDf.reset_index(drop=True)
