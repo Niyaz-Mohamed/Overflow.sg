@@ -1,6 +1,7 @@
 # Functions for pulling data from government APIs
-from tools import normalizeWeather, normalizeStations, mergeWeather, concatStations
+from myutils import normalizeWeather, normalizeStations, mergeWeather, concatStations
 from datetime import datetime
+from colorama import Back, Style
 import requests, pandas as pd
 
 
@@ -19,16 +20,20 @@ def fetchWeather(type: str, date: datetime):
     `type`: Type of data to pull (air-temperature, relative-humidity, rainfall, wind-direction, wind-speed)\n
     `endDate`: Date on which data should end, defaults to same date as startDate
     """
-
+    # Log details
+    print(
+        Back.WHITE + "[FETCH]" + Style.RESET_ALL,
+        f"{type}",
+    )
     # Fetch data
     endpoint = "https://api.data.gov.sg/v1/environment/" + type
     params = {"date": date.strftime("%Y-%m-%d")}
     response = requests.get(endpoint, params=params).json()
 
-    # Change 'value' keys (reading labels) to match type of reading, adding units
+    # Change keys for readings to match type of reading, adding units
     timedReadings = response["items"]
-    for i in range(len(timedReadings)):
-        for reading in timedReadings[i]["readings"]:
+    for minute in range(len(timedReadings)):
+        for reading in timedReadings[minute]["readings"]:
             reading[type] = reading.pop("value")
 
     return {
@@ -41,19 +46,27 @@ def fetchWeather(type: str, date: datetime):
 
 
 def fetchWeatherRange(startDate: datetime, endDate: datetime = None):
-    """Fetches detailed weather data over a range of dates using the NEA's realtime weather API.
+    """
+    Fetches detailed weather data over a range of dates using the NEA's realtime weather API.
 
     Parameters
     ----------
     `startDate`: Date on which data should begin\n
     `endDate`: Date on which data should end, defaults to same day as startDate\n
     """
+
+    # Get list of dates to fetch
     if endDate == None:
         endDate = startDate
     dates = list(pd.date_range(startDate, endDate))
     weatherDf = pd.DataFrame()
 
     for date in dates:
+        # Log details
+        print(
+            Back.GREEN + "[DATE]" + Style.RESET_ALL,
+            f"Weather data for {date.strftime('%d/%m/%Y')}",
+        )
         # Fetch all weather/station data
         weatherTypes = [
             "air-temperature",
@@ -72,7 +85,7 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None):
         # Merge weather data and station data
         mergedStations = concatStations(stationData)
         mergedWeather = mergeWeather(weatherData).merge(
-            mergedStations, how="left", on="station_id"
+            mergedStations, how="left", on="station-id"
         )
         weatherDf = pd.concat([weatherDf, mergedWeather], ignore_index=True)
 
@@ -81,16 +94,16 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None):
     cols = cols[:2] + cols[-3:] + cols[2:-3]
     weatherDf = weatherDf[cols]
 
-    # Typecast/clean columns. o refers to degrees
+    # Typecast/clean columns
     weatherDf = weatherDf.infer_objects()
     unitMap = {
         "air-temperature": "oC",
         "relative-humidity": "%",
         "rainfall": "mm",
-        "wind-direction": "o",
+        "wind-direction": "deg",
         "wind-speed": "knots",
     }
     for reading in unitMap:
         unit = unitMap[reading]
         weatherDf = weatherDf.rename(columns={reading: f"{reading} ({unit})"})
-    return weatherDf.sort_values(by=["station_id", "timestamp"]).reset_index(drop=True)
+    return weatherDf.sort_values(by=["station-id", "timestamp"]).reset_index(drop=True)

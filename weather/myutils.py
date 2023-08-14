@@ -12,6 +12,7 @@ def normalizeWeather(data: dict) -> pd.DataFrame:
     cols = df.columns.to_list()
     cols = cols[-1:] + cols[:-1]
     df = df[cols].sort_values(by=["timestamp", "station_id"])
+    df = df.rename(columns={"station_id": "station-id"})
     df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%dT%H:%M:%S%z")
     return df.reset_index(drop=True)
 
@@ -24,18 +25,18 @@ def normalizeStations(data: dict) -> pd.DataFrame:
     df = pd.json_normalize(data)
     df = df.drop(columns="device_id").rename(
         columns={
-            "id": "station_id",
-            "name": "station_name",
-            "location.latitude": "latitude",
-            "location.longitude": "longitude",
+            "id": "station-id",
+            "name": "station-name",
+            "location.latitude": "weather-latitude",
+            "location.longitude": "weather-longitude",
         }
     )
     return df
 
 
 def mergeWeather(
-    data: list[pd.DataFrame], how: str = "left", on: list = ["timestamp", "station_id"]
-):
+    data: list[pd.DataFrame], how: str = "left", on: list = ["timestamp", "station-id"]
+) -> pd.DataFrame:
     """Merges different weather dataframes together.
 
     Parameters
@@ -50,7 +51,7 @@ def mergeWeather(
     return df.reset_index(drop=True)
 
 
-def concatStations(data: list[pd.DataFrame], how: str = "left"):
+def concatStations(data: list[pd.DataFrame]) -> pd.DataFrame:
     """Merges different station dataframes together.
 
     Parameters
