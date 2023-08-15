@@ -63,3 +63,19 @@ def concatStations(data: list[pd.DataFrame]) -> pd.DataFrame:
     for i in range(1, len(data)):
         df = pd.concat([df, data[i]], ignore_index=True).drop_duplicates()
     return df.reset_index(drop=True)
+
+
+def saveWeather(weatherDf: pd.DataFrame, name: str):
+    """
+    Convenience function to save a weather dataframe to [name].csv.
+    """
+    weatherDf.to_csv(f"{name}.csv", index=False)
+
+
+def loadWeather(name):
+    """
+    Loads a weather dataframe from [name].csv
+    """
+    df = pd.read_csv(f"{name}.csv").infer_objects()
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    return df
