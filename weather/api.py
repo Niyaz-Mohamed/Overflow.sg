@@ -45,14 +45,23 @@ def fetchWeather(type: str, date: datetime):
     }
 
 
-def fetchWeatherRange(startDate: datetime, endDate: datetime = None):
+def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: int = 5):
     """
     Fetches detailed weather data over a range of dates using the NEA's realtime weather API.
+
+    Weather Data
+    ----------
+    `air-temperature`: deg C\n
+    `relative-humidity`: %\n
+    `rainfall`: mm\n
+    `wind-direction`: degrees\n
+    `wind-speed`: knots\n
 
     Parameters
     ----------
     `startDate`: Date on which data should begin\n
     `endDate`: Date on which data should end, defaults to same day as startDate\n
+    `interval`: Interval in minutes between each reading. Mean of measurements within each interval is taken as measurement for that interval.
     """
 
     # Get list of dates to fetch
@@ -89,21 +98,34 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None):
         )
         weatherDf = pd.concat([weatherDf, mergedWeather], ignore_index=True)
 
+    # Typecast, clean, and compress columns to interval
+    weatherDf = (
+        weatherDf.infer_objects()
+        .sort_values(by=["station-id", "timestamp"])
+        .reset_index(drop=True)
+    )
+    print(weatherDf.head(10))
+    print("\n\n\n")
+    weatherDf = weatherDf.groupby(
+        [
+            "station-id",
+            "station-name",
+            pd.Grouper(
+                freq=f"{interval}min",
+                key="timestamp",
+                origin="start",
+                label="right",
+                closed="right",
+                offset="-1min",
+            ),
+        ],
+        as_index=False,
+    ).mean()
+
     # Reorder columns
     cols = weatherDf.columns.tolist()
-    cols = cols[:2] + cols[-3:] + cols[2:-3]
+    cols = [cols[2]] + cols[:2] + cols[-2:] + [cols[5]] + cols[3:5] + cols[6:-2]
     weatherDf = weatherDf[cols]
+    print(weatherDf.head())
 
-    # Typecast/clean columns
-    weatherDf = weatherDf.infer_objects()
-    unitMap = {
-        "air-temperature": "oC",
-        "relative-humidity": "%",
-        "rainfall": "mm",
-        "wind-direction": "deg",
-        "wind-speed": "knots",
-    }
-    for reading in unitMap:
-        unit = unitMap[reading]
-        weatherDf = weatherDf.rename(columns={reading: f"{reading} ({unit})"})
-    return weatherDf.sort_values(by=["station-id", "timestamp"]).reset_index(drop=True)
+    return weatherDf

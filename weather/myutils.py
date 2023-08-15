@@ -27,8 +27,8 @@ def normalizeStations(data: dict) -> pd.DataFrame:
         columns={
             "id": "station-id",
             "name": "station-name",
-            "location.latitude": "weather-latitude",
-            "location.longitude": "weather-longitude",
+            "location.latitude": "latitude",
+            "location.longitude": "longitude",
         }
     )
     return df

@@ -8,4 +8,4 @@ if __name__ == "__main__":
 
     # Generate samples, store in a separate folder
     df = fetchWeatherRange(startDate, endDate)
-    df.to_csv("data.csv")
+    df.to_csv("data.csv", index=False)
