@@ -1,7 +1,8 @@
 # Functions for pulling data from government APIs
 from myutils import normalizeWeather, normalizeStations, mergeWeather, concatStations
 from datetime import datetime
-from colorama import Back, Style
+from colorama import Fore, Back, Style
+from time import time
 import requests, pandas as pd
 
 
@@ -21,10 +22,8 @@ def fetchWeather(type: str, date: datetime):
     `endDate`: Date on which data should end, defaults to same date as startDate
     """
     # Log details
-    print(
-        Back.WHITE + "[FETCH]" + Style.RESET_ALL,
-        f"{type}",
-    )
+    print(Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL, f"{type}", end=": ")
+    weatherTimer = time()
     # Fetch data
     endpoint = "https://api.data.gov.sg/v1/environment/" + type
     params = {"date": date.strftime("%Y-%m-%d")}
@@ -36,6 +35,8 @@ def fetchWeather(type: str, date: datetime):
         for reading in timedReadings[minute]["readings"]:
             reading[type] = reading.pop("value")
 
+    # Log and return data
+    print(f"{round(time()-weatherTimer,2)}s")
     return {
         "raw-data": response,
         "stations": normalizeStations(response["metadata"]["stations"]),
@@ -64,6 +65,8 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: i
     `interval`: Interval in minutes between each reading. Mean of measurements within each interval is taken as measurement for that interval.
     """
 
+    # Log time
+    allTimer = time()
     # Get list of dates to fetch
     if endDate == None:
         endDate = startDate
@@ -71,10 +74,11 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: i
     weatherDf = pd.DataFrame()
 
     for date in dates:
+        dateTimer = time()
         # Log details
         print(
-            Back.GREEN + "[DATE]" + Style.RESET_ALL,
-            f"Weather data for {date.strftime('%d/%m/%Y')}",
+            Fore.BLACK + Back.GREEN + "[FETCH]" + Style.RESET_ALL,
+            f"Weather for {date.strftime('%d/%m/%Y')}",
         )
         # Fetch all weather/station data
         weatherTypes = [
@@ -97,6 +101,10 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: i
             mergedStations, how="left", on="station-id"
         )
         weatherDf = pd.concat([weatherDf, mergedWeather], ignore_index=True)
+        print(
+            Fore.BLACK + Back.GREEN + "[FETCH]" + Style.RESET_ALL,
+            f"Completed in {round(time()-dateTimer, 2)}s\n",
+        )
 
     # Typecast, clean, and compress columns to interval
     weatherDf = (
@@ -104,8 +112,6 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: i
         .sort_values(by=["station-id", "timestamp"])
         .reset_index(drop=True)
     )
-    print(weatherDf.head(10))
-    print("\n\n\n")
     weatherDf = weatherDf.groupby(
         [
             "station-id",
@@ -126,6 +132,10 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: i
     cols = weatherDf.columns.tolist()
     cols = [cols[2]] + cols[:2] + cols[-2:] + [cols[5]] + cols[3:5] + cols[6:-2]
     weatherDf = weatherDf[cols]
-    print(weatherDf.head())
-
+    print(
+        Fore.BLACK
+        + Back.GREEN
+        + f"Data fetched in {round(time()-allTimer,2)}s"
+        + Style.RESET_ALL
+    )
     return weatherDf

@@ -3,7 +3,7 @@ from api import fetchWeatherRange
 from datetime import datetime
 
 if __name__ == "__main__":
-    startDate = datetime(year=2023, month=6, day=6)
+    startDate = datetime(year=2023, month=6, day=5)
     endDate = datetime(year=2023, month=6, day=6)
 
     # Generate samples, store in a separate folder
