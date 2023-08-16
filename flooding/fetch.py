@@ -43,28 +43,22 @@ def parseFlooding(raw: str):
         [data for data in sensor.split("$#$")] for sensor in raw.split("$#$$@$")
     ]
     data = []
-    [data.append(record) for record in dataSplit if record not in data]
-
-    # Convert records to dict
-    for i in range(len(data)):
-        record = data[i]
-        if len(record) == 7:
-            record = {
-                "sensor-id": record[0],
-                "sensor-name": record[1],
-                "latitude": float(record[3]),
-                "longitude": float(record[2]),
-                "water-level": float(record[4]),
-                "status": float(record[5]),
-                "timestamp": parseTimestamp(record[6]),
-            }
-            data[i] = record
-        else:
-            data[i] = ""
-    while "" in data:
-        data.remove("")
-    data = pd.DataFrame(data)
-    return data
+    for record in dataSplit:
+        # Convert data to dict, removing duplicates
+        if record not in data and len(record) == 7:
+            data.append(
+                {
+                    "sensor-id": record[0],
+                    "sensor-name": record[1],
+                    "latitude": float(record[3]),
+                    "longitude": float(record[2]),
+                    "water-level": float(record[4]),
+                    "status": float(record[5]),
+                    "timestamp": parseTimestamp(record[6]),
+                }
+            )
+    df = pd.DataFrame(data)
+    return df
 
 
 raw = getFlooding(datetime(year=2023, month=7, day=20))
