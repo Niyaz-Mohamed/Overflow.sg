@@ -4,6 +4,7 @@ certifi==2023.7.22
 cffi==1.15.1
 charset-normalizer==3.2.0
 colorama==0.4.6
+colorful==0.5.5
 constantly==15.1.0
 cryptography==41.0.3
 cssselect==1.2.0
@@ -20,11 +21,13 @@ numpy==1.25.2
 packaging==23.1
 pandas==2.0.3
 parsel==1.8.1
+prettyprinter==0.18.0
 Protego==0.3.0
 pyasn1==0.5.0
 pyasn1-modules==0.3.0
 pycparser==2.21
 PyDispatcher==2.0.7
+Pygments==2.16.1
 pyOpenSSL==23.2.0
 python-dateutil==2.8.2
 pytz==2023.3
