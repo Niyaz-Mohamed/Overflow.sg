@@ -19,4 +19,4 @@ def getFlooding():
     params = {"type": "WL"}
     response = requests.get(endpoint, params=params)
     data = parseFlooding(response.content.decode("utf-8"))
-    return data.sort_values(by=["timestamp", "sensor-id"])
+    return data.sort_values(by=["timestamp", "sensor-id"]).reset_index(drop=True)
