@@ -25,6 +25,7 @@ for index, sensor in sensors.iterrows():
     )
 
     # Search the url
+    auto.PAUSE = 0.6
     auto.moveTo(*SEARCHBAR)
     auto.click()
     auto.press("backspace")
@@ -33,6 +34,7 @@ for index, sensor in sensors.iterrows():
 
     # Scroll down slightly
     auto.moveTo(*DRAGLOCATION)
+    auto.PAUSE = 1
     auto.scroll(-SCROLLDIST)
 
     # Take a screenshot
@@ -45,5 +47,7 @@ for index, sensor in sensors.iterrows():
     sensorCount += 1
     timeSpent = round(time() - timer, 2)
     print(
-        f"Time spent: {round(time()-timer)}s\nTime per chart: {round(timeSpent / sensorCount)}\n"
+        f"Chart-{index}\nTime spent: {round(time()-timer)}s\nAv. time per chart: {round(timeSpent / sensorCount)}\n"
     )
+
+auto.alert("COMPLETED EXTRACTION")
