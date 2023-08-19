@@ -1,338 +1,338 @@
-sensor-id,sensor-name,latitude,longitude,URL
-EWS101,Upp East Coast Rd (Riviera Residences),1.31557,103.943057,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS101
-CWS023,Jln Mashhor OD (Behind RDA),1.3340997,103.8349749,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS023
-CWS033,Stamford Canal (Orchard Tower),1.3066516,103.8290935,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS033
-CWS086,Dunearn Rd / Hillcrest Rd,1.3277872,103.8059192,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS086
-CWS186,Eng Neo Ave OD (D/S culvert),1.33257,103.798134,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS186
-CWS191,Kampong Ampat/ Macpherson Rd,1.332426,103.882585,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS191
-CWS192,Happy Ave OD (Jln Gembira),1.3323852,103.882041,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS192
-CWS193,Harvey Rd/ Macpherson Rd,1.333006,103.884494,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS193
-CWS194,Geylang Rd/ Lor 1 Geylang,1.310597,103.872737,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS194
-CWS198,Meyer Rd OD (Meyer Mansion),1.296131,103.890746,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS198
-CWS200,Jln Benaan Kapal OD (Decathlon),1.3030144,103.8818827,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS200
-CWS206,Yio Chu Kang Rd (Wembly Residences),1.3563951,103.8760704,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS206
-CWS220,Puay Hee Ave/ Siak Kew Ave,1.3298489,103.8701591,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS220
-CWS226,Marine Parade Central/ Marine Parade Rd,1.3030111,103.9070301,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS226
-CWS234,Upper Pickering St / New Bridge Rd,1.2861336,103.8457544,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS234
-CWS239,Sg Namly (Princess of Wales Rd),1.322787,103.807471,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS239
-CWS309,Lorong Chuan OD (The Chuan),1.3496875,103.8607365,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS309
-CWS321,Stirling Rd OD (Queenstown Stadium),1.2957402,103.8032461,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS321
-CWS322,Alexandra Canal (C'wealth Ave) U/S Culvert,1.2971895,103.8043002,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS322
-CWS326,Alexandra Canal SD A (Opp Alexis Condo),1.291379,103.808149,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS326
-CWS332,Tanjong Katong Rd S/Amber Garden,1.3008444,103.897285,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS332
-CWS405,Queens Rd OD (Crown Centre),1.323249,103.811084,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS405
-CWS431,Wan Tho Ave (Unit 11),1.332285,103.870803,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS431
-CWS433,Lor 2 Toa Payoh (Braddell MRT),1.340506,103.84694,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS433
-EWS002,Mimosa Walk / CTE,1.381286,103.859877,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS002
-EWS012,Sg Puak Besar (Cactus Rd),1.389324,103.851581,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS012
-EWS102,Upp East Coast Rd (Unit 517),1.315968,103.943909,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS102
-EWS104,Sembawang Shipyard OD (Cochrame Lodge II),1.461893,103.817611,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS104
-EWS105,Sembawang OD1 (Blk 204),1.4307669,103.8354671,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS105
-EWS107,Jln Tari Zapin OD (The Morning Dew),1.397827,103.8716333,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS107
-EWS110,Sg Mata Ikan (SUTD Sports Complex),1.341598,103.966402,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS110
-EWS112,Bedok Canal (Blk 99),1.333676,103.939603,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS112
-EWS113,Tampines OD1 (SP Bedok),1.336765,103.941727,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS113
-EWS120,Jln Pelikat OD (Blk 121),1.3542771,103.8869233,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS120
-EWS126,Sg Api Api (Tampines Ave 10),1.36882,103.930241,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS126
-EWS127,Tampines Ave 9 OD (Blk 621A),1.360452,103.938975,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS127
-EWS132,Sembawang OD No.7 (Blk 328),1.429439,103.843258,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS132
-EWS146,Carmen St/ Lakme Terrace,1.3176421,103.9263621,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS146
-EWS151,Kaki Bukit OD (Kaki Bukit Rd 5),1.341947,103.915457,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS151
-EWS153,Bedok Canal SD1 (Bedok North MRT),1.334975,103.916341,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS153
-EWS154,Jln Kembangan OD (Jln Senang) U/S Culvert,1.325159,103.916404,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS154
-EWS155,Siglap Canal (Lor M Telok Kurau),1.311866,103.916473,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS155
-EWS157,Kaki Bukit OD (Tampines Ave 10),1.347771,103.9244,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS157
-EWS160,Bedok Canal SD5 (Carpark B),1.347861,103.925619,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS160
-EWS162,Bedok Canal 2nd SD (Bedok MRT),1.324377,103.930659,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS162
-EWS163,Bedok Canal 1st SD (Longvale),1.336945,103.936405,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS163
-EWS164,Bayshore Park OD (Jln Pokok Serunai),1.3127466,103.9363389,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS164
-EWS166,Tampines OD1 (Blk 103),1.347998,103.946123,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS166
-EWS168,Bedok Canal 3rd SD (Jln Limau Bali),1.3225452,103.9483073,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS168
-EWS170,Bedok Rd (Country Pk Condo),1.3213345,103.9550785,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS170
-EWS172,Sg Ketapang (Unit 41),1.338962,103.956279,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS172
-EWS176,Sg Mata Ikan (Nasaco Tech Centre),1.337288,103.971799,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS176
-EWS200,Hougang Ave 10 OD (Hougang Sports Hall),1.370313,103.888592,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS200
-EWS205,Sun Plaza Pk OD (Tampines Ave 7),1.360013,103.942244,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS205
-EWS206,Kensington Park Rd/Jln Chulek,1.3664509,103.8668536,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS206
-EWS207,Serangoon Garden OD3 (Lycee Francais De Singapour),1.3714739,103.8668282,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS207
-EWS208,Ang Mo Kio Ind Pk 2 (Sing Ind Complex),1.3759573,103.8642797,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS208
-EWS211,Opera Estate SD (Siglap Centre),1.3123813,103.9231431,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS211
-EWS213,Opera Estate SD (East Coast Terrace Pk),1.3114575,103.9234861,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS213
-EWS249,TPE Slip Rd (Punggol Crest),1.3994804,103.899298,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS249
-EWS250,TPE Slip Rd (Punggol West Flyover),1.400122,103.896496,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS250
-WWS001,Alexandra Rd/ Telok Blangah Rd,1.27286,103.802931,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS001
-WWS049,Sunset OD (Sunset Way),1.3243589,103.765928,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS049
-WWS094,Gul Circle,1.312554,103.676528,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS094
-WWS116,Choa Chu Kang Ave 1/ Teck Wye Lane,1.380737,103.749716,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS116
-WWS122,Boon Lay Way (Blk 201),1.342899,103.715565,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS122
-WWS123,Corporation Rd (Blk 203),1.344057,103.715993,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS123
-WWS124,Corporation Rd OD (Blk 90),1.3413974,103.7160136,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS124
-WWS125,Chin Bee Ave/Second Chin Bee Rd,1.33399,103.714112,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS125
-WWS127,Jln Tukang OD (Unit 14),1.329544,103.713057,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS127
-WWS132,Sunset Dr (Unit 10),1.325316,103.767279,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS132
-WWS133,Alexandra Rd (Opp Fragrance Empire Bldg),1.2749479,103.8021363,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS133
-WWS134,Bukit Timah Rd/ Blackmore Dr,1.3354153,103.7834913,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS134
-WWS135,Bt Timah Rd (Tan Chong Motor Centre),1.333862,103.788591,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS135
-WWS136,Bt Timah Rd/ Cherry Ave,1.3329527,103.7911614,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS136
-WWS137,Lor Kismis (Unit 2),1.3365898,103.7650484,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS137
-WWS138,Telok Blangah Rise/Lower Delta Rd,1.271842,103.8240409,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS138
-WWS139,West Coast Highway/Clementi Rd,1.291982,103.767392,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS139
-WWS143,West Coast OD (Teban Gardens Rd),1.320187,103.737974,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS143
-WWS146,Tuas Rd OD4 (Tuas Ave 13),1.320024,103.643161,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS146
-WWS152,Sg Lanchar SD C (Customs Ops Cmd),1.353773,103.70026,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS152
-WWS154,Tuas South OD4 (Tuas South Ave 9),1.273519,103.636147,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS154
-WWS155,Tuas South Blvd Ext OD1 (Tuas South Blvd),1.28298,103.621213,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS155
-WWS157,Tuas View OD3 (Tuas South Ave 1),1.307303,103.624609,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS157
-WWS158,Tuas View OD2 (Tuas South Ave 1),1.309572,103.625559,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS158
-WWS159,Tuas Rd OD5 (Tuas West Dr),1.336764,103.637013,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS159
-WWS160,Tuas Rd OD7 (Tuas West Dr),1.329643,103.63311,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS160
-WWS162,CCK North OD (Blk 526),1.3911305,103.7420726,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS162
-WWS163,Fajar Rd OD (Greenridge Pri Sch),1.386692,103.769443,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS163
-WWS165,Chestnut Dr OD (Chestnut Close),1.369055,103.772795,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS165
-WWS166,Bukit Batok OD2 (The Madeira),1.357328,103.748966,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS166
-WWS168,West Coast OD6 (West Coast Rd),1.313951,103.754804,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS168
-WWS170,West Coast OD2 (Waseda Shibuya Sch),1.29703,103.7668894,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS170
-WWS171,Bt Purmei OD (AYE/Keppel Rd),1.2727909,103.8324724,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS171
-WWS172,Ayer Rajah Ind Est OD (Ayer Rajah Ave),1.297121,103.789981,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS172
-WWS183,Tuas South Blvd Ext OD1 (Tuas South Ave 5),1.288865,103.624793,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS183
-WWS184,Tuas South Sub OD3 (Tuas South Ave 10),1.285108,103.630608,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS184
-WWS187,Tuas Rd OD2 (Tuas Ave 4),1.32597,103.652292,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS187
-WWS190,Gul Rd OD1 (Gul Rd),1.297236,103.669609,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS190
-WWS231,Neo Tiew OD4 (Neo Tiew Harvest Place),1.420198,103.726537,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS231
-WWS235,Neo Tiew OD 2 (Kranji Way),1.438236,103.733622,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS235
-WWS283,Sg Ulu Pandan (Waterfront at Faber),1.323817,103.754536,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS283
-WWS285,Sg Ulu Pandan (Freesia Woods),1.323302,103.765752,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS285
-WWS318,Sg Pang Sua SD E (D/S Culvert),1.412937,103.755555,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS318
-WWS418,Eng Kong Place (Unit 65),1.334384,103.76685,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS418
-WWS426,Bt Timah Canal (Sime Darby Centre),1.336086,103.783297,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS426
-CWS020,Happy Ave OD (Jln Setia),1.337119,103.880717,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS020
-CWS032,Stamford Canal (Forum),1.3067141,103.828551,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS032
-CWS035,Lor Chuan OD (Serangoon Ave 2),1.35289,103.866666,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS035
-CWS082,Ubi Ave 2/ Eunos Link,1.3311071,103.901187,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS082
-CWS135,Arumugam Rd,1.3256447,103.8917348,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS135
-CWS146,Stamford Canal Tributary 1 (The Regent Singapore),1.3048295,103.8245988,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS146
-CWS156,Jln Seaview,1.301663,103.8968116,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS156
-CWS245,Whitley Rd OD (Merryn Dr),1.32395,103.826504,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS245
-CWS313,Serangoon Gdn OD2 (Colchester Gr Pk),1.3574218,103.8674822,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS313
-EWS047,Chin Cheng Ave/ Jamiyah Children's Home,1.317228,103.906299,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS047
-EWS058,Aviation Dr,1.3878,103.989499,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS058
-EWS083,Ang Mo Kio Ave 5/ Luxus Hill Rd,1.378733,103.868619,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS083
-EWS086,Tampines Rd / Hougang Ave 3,1.3618378,103.8936989,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS086
-EWS144,Bedok Canal (NEWater Visitor Centre),1.3229933,103.9587864,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS144
-WWS060,Sg Pandan Kechil (College Link),1.302878,103.773364,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS060
-WWS091,JIE OD (Enterprise Rd),1.33351,103.707011,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS091
-WWS097,Sg Pandan Kechil(Clementi West Street 2),1.302088,103.764653,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS097
-WWS103,Upp Bt Timah OD (ESPA),1.369412,103.764809,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS103
-WWS226,Neo Tiew OD 5 (Neo Tiew Lane 2),1.420298,103.7203,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS226
-WWS240,Bt Batok Canal (Bt Batok West Ave 2),1.3623493,103.7428769,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS240
-WWS261,Gombak OD (CCK Rd d/s culvert),1.3796028,103.7597262,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS261
-WWS312,Bukit Timah 1st Diversion Canal (Pine Grove),1.318603,103.772563,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS312
-WWS319,Jln Terusan OD,1.322262,103.722926,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS319
-CWS011,Bt Timah 2nd Diversion Canal (Jln Tenteram),1.3293015,103.8592798,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS011
-CWS039,Sg Namly,1.322988,103.798145,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS039
-CWS041,Camp Rd OD (Rochalie Dr),1.3057526,103.8279911,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS041
-CWS048,Stamford Canal (Wisma Atria) s'pore,1.304091,103.833281,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS048
-CWS057,Fort Rd / Katong Pk,1.2967953,103.8872042,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS057
-CWS117,Bt Timah 2nd Diversion Canal (Jalan Datoh),1.3290247,103.8436519,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS117
-CWS132,Alexandra Canal(Delta Ave),1.29222,103.826256,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS132
-CWS152,Happy Avenue OD (Jln Anggerek),1.3310975,103.882217,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS152
-CWS161,Playfair Rd OD (Bartley Rd East),1.341519,103.8818267,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS161
-CWS230,Serangoon Ave 2/ Serangoon Ave 3,1.35181745,103.8693846,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS230
-CWS329,Bt Timah 2nd Diversion Canal (Jalan Rajah),1.3290193,103.8503537,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS329
-CWS333,Mountbatten Rd / Tanjong Katong Rd,1.301956,103.896686,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS333
-CWS432,Siang Kuang Ave (Unit 43A),1.329966,103.87274,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS432
-EWS020,Tanah Merah Besar Rd,1.3607213,103.9740307,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS020
-EWS034,Sg Ketapang (Xilin Ave),1.329153,103.963372,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS034
-EWS065,Bedok Canal First Sub Drain(Bedok North Road),1.3346953,103.920244,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS065
-EWS066,Upper East Coast Rd / Jalan Haji Salam,1.319486,103.954401,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS066
-EWS076,Sungei Api Api (Pasir Ris Dr 3),1.377751,103.944632,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS076
-EWS092,Sungei Khatib Bongsu (Yishun Ave 6),1.433556,103.844282,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS092
-WWS013, Coronation Rd West/Jln Haji Alias,1.321613,103.796824,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS013
-WWS016,Sg Ulu Pandan (Sunset Walk),1.322861,103.767295,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS016
-WWS026,Sg Pandan (Bukit Batok East Ave 6),1.344481,103.752569,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS026
-WWS066,Clementi Rd / West Coast Rd,1.293455,103.768636,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS066
-WWS086,Clementi Rd / Sunset Lane,1.320677,103.769608,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS086
-WWS181,Yee Siang Road/ W Coast Hwy,1.2769315,103.7923764,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS181
-WWS201,Sg Lanchar SD B2 (Blk 639 Jurong West St 61),1.3409851,103.6968388,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS201
-WWS212,Sg Lanchar SD C (Soka Cultural Ctr),1.348065,103.703917,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS212
-WWS264,Sg Pang Sua SD E (Mandai Rd u/s culvert),1.410518,103.762476,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS264
-WWS293,Toh Tuck OD (Secom Centre),1.334912,103.758996,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS293
-WWS415,Bt Timah Canal (Ascot Rise),1.3338299,103.7896898,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS415
-WWS479,Jurong East St 32 (Blk 312),1.347866,103.731878,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS479
-CWS069,Bencoolen St/ Rochor Canal Rd,1.3027091,103.8539257,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS069
-CWS177,Tanjong Pagar Road / Hoe Chiang Rd,1.2739637,103.8430966,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS177
-CWS227,Jln Lokam/ Upp Paya Lebar Rd,1.3455473,103.8818562,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS227
-EWS018,Tampines Ave 4,1.3478777,103.9381924,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS018
-EWS053,Sembawang Rd / Jalan Jeruju,1.4419291,103.8242511,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS053
-EWS064,Yishun Ave 2 / Yishun Ave 5,1.430976,103.835187,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS064
-EWS079,Bedok Canal(Upper Changi Rd East),1.330595,103.951663,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS079
-EWS089,Bedok Canal 3rd SD (Bedok Rd),1.32299,103.95357,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS089
-EWS142,Hougang Ave 3 / Tampines Road,1.3609724,103.8929938,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS142
-WWS063,Kampong Bahru OD (Kampong Bahru Rd),1.2709785,103.8258698,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS063
-WWS095,PIE/Tuas Exit,1.325286,103.665511,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS095
-WWS098,Sg Pandan Kechil (West Coast Highway),1.3015,103.76318,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS098
-WWS106,Kranji Way,1.438686,103.7432082,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS106
-WWS108,Commonwealth Lane / Commonwealth Dr,1.3043539,103.7974324,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS108
-WWS178,Jurong Town Hall Rd/ West Coast Rd,1.319435,103.74468,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS178
-WWS208,Sg Lanchar SD B (Blk 666A),1.340365,103.701791,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS208
-CWS001,Alexandra Canal SD B (Prince Philip Ave),1.2918496,103.8195177,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS001
-CWS007,Balmoral Rd,1.31396,103.8312701,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS007
-CWS034,Queen Rd OD (Prince Rd),1.3209725,103.8097551,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS034
-CWS047,Rochor Canal(Victoria Street),1.3065369,103.8615264,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS047
-CWS058,Langsat Rd / Lor 101 Changi,1.315948,103.899939,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS058
-CWS078,Bt Timah Canal (Anamalai Ave),1.3321194,103.7941755,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS078
-CWS084,Cambridge Road OD,1.314108,103.847209,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS084
-CWS147,Mackenzie Rd,1.307446,103.846766,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS147
-CWS160,Bt Timah Canal (Watten Park),1.3263412,103.8073388,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS160
-CWS168,Upp Thomson Rd/ Jln Keli,1.3541568,103.8343446,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS168
-CWS223,Paya Lebar Road (ACE Building),1.3278746,103.8904698,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS223
-CWS327,Aljunied Rd (Hong Leong NKF),1.3203608,103.8819065,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS327
-CWS435,Lor Gambir (Le Gambir),1.345356,103.875571,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS435
-EWS001,Admiralty Rd West/ Senoko South Rd,1.4607974,103.8067799,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS001
-EWS005,Bedok North Ave 3,1.3355755,103.9337543,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS005
-EWS006,Siglap Canal (Kg Kembangan CC),1.3237418,103.9121773,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS006
-EWS025,Sg Mandai (Woodlands Rd),1.426591,103.761881,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS025
-EWS030,Sg Seletar Simpang Kanan A (SLE),1.3932555,103.8344928,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS030
-EWS046,Lowland Rd/ Kovan Rd,1.360891,103.883513,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS046
-EWS060,Jln Nipah,1.326236,103.952398,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS060
-EWS063,Woodlands Ave 12 / Gambas Ave,1.444062,103.811168,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS063
-EWS087,Lilac Drive/CTE,1.380716,103.859814,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS087
-WWS012,International Rd / 4th Lok Yang Rd,1.327881,103.687421,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS012
-WWS037,Jurong Industrial Estate OD (Jln Buroh),1.3144494,103.7020192,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS037
-WWS043,Yuan Ching Rd/ Yung Ho Rd,1.326599,103.725225,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS043
-WWS057,Sg Pandan Kechil (AYE 7.9km),1.297940016,103.7829971,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS057
-WWS067,Clementi Ave 4 / Commonwealth Ave West,1.316186,103.765245,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS067
-WWS081,Woodlands Rd/Sg Kadut Ave,1.4079707,103.7557877,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS081
-WWS099,Ulu Pandan Rd / Clementi Rd,1.3194474,103.7714076,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS099
-WWS175,Woodlands Road/ Mandai Estate,1.4071978,103.7562849,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS175
-WWS197,Sg Lanchar SD B2 (Blk 834 Jurong West Ave 5),1.3432881,103.6944551,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS197
-WWS206,Sg Lanchar SD B2 (Blk 613 Jurong West St 65),1.340247,103.70068,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS206
-WWS316,15A Yarwood Avenue,1.338561,103.783423,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS316
-WWS320,Jurong East Subsidiary canal (Blk 374),1.3496114,103.7331341,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS320
-CWS028,Macpherson OD (Geylang Bahru),1.323802,103.868673,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS028
-CWS065,Eng Neo OD (Eng Neo Ave),1.331943,103.798273,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS065
-CWS122,Lorong 23 Geylang/Sims Lane,1.3165373,103.88101814,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS122
-CWS158,Cavenagh Rd/ Kramat Lane,1.3012617,103.8414176,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS158
-CWS222,Happy Ave North /Happy Ave Ctrl,1.3311075,103.8810502,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS222
-CWS228,Langsat Rd/ Lor 105 Changi,1.3153997,103.90281,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS228
-EWS011,Siglap Canal (Frankel Walk),1.3171242,103.9142898,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS011
-EWS015,Sg Serangoon Branch (Hougang Ave 7),1.362659,103.8960327,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS015
-EWS024,Parbury Ave OD (Upp East Coast Rd,1.315339,103.944129,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS024
-EWS036,Bedok Canal (Bedok Reservoir Rd),1.339208,103.935671,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS036
-EWS054,Neram OD (Upper Neram Rd),1.3869,103.867243,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS054
-EWS075,Hougang New Town OD(Hougang Ave 8),1.376488,103.890644,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS075
-WWS009,Commonwealth Ave / Commonwealth Dr,1.303684,103.797218,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS009
-WWS021,Ulu Pandan Canal (Pine Grove),1.315998,103.775243,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS021
-WWS059,Sg Pandan Kechil (AYE 9.2km),1.302919,103.774067,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS059
-WWS109,Yuan Ching Rd (Jurong Secondary School),1.329816,103.72499,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS109
-WWS173,Boon Lay Way (Blk 517C),1.3446688,103.7202632,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS173
-WWS195,Sg Lanchar SD B2 (Blk 846 Pioneer Rd North),1.3452061,103.691172,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS195
-WWS204,Sg Lanchar SD C (Jln Bahar),1.3558585,103.698149,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS204
-WWS251,Sg Kadut OD 2 (Sg Kadut St 1),1.422543,103.7505443,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS251
-CWS046,Upper Paya Lebar Rd,1.3426017,103.8835836,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS046
-CWS101,Macpherson Rd/ Playfair Rd,1.333218,103.88697,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS101
-CWS139,Ang Mo Kio Ave 3/ Mayflower Ave,1.3698369,103.8405432,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS139
-CWS143,Geylang River (CISCO Centre),1.321765,103.892469,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS143
-CWS153,Geylang East Central OD (Paya Lebar Rd),1.3182213,103.8920617,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS153
-CWS154,Tanjong Pagar Rd/Craig Rd,1.2772959,103.8435013,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS154
-CWS162,Mount Vernon Rd,1.3415043,103.881131,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS162
-CWS307,Kallang River (BCA Braddell Campus),1.3444484,103.8575891,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS307
-EWS017,Sg Tongkang (Lor Buangkok),1.382712,103.877028,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS017
-EWS061,Marsiling Dr / Admiralty Rd,1.442321,103.775441,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS061
-EWS094,Tampines Rd/ Jln Teliti,1.361185,103.8918149,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS094
-WWS004,BT Canal (Maple Ave),1.332772,103.792755,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS004
-WWS008,Commonwealth Ave/ Tanglin Halt Rd,1.303122,103.797286,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS008
-WWS084,Sunset Dr/Sunset way,1.32586,103.766071,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS084
-WWS090,University Flyover / AYE1,1.3052894,103.7700051,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS090
-WWS242,Sg Peng Siang Tributary A (Blk 805B Brickland Rd),1.3724825,103.7431762,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS242
-WWS253,Bt Batok OD 2 (Bt Batok St 52),1.356603,103.753222,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS253
-WWS259,Bt Batok Canal (Bt Batok Rd),1.362925,103.742489,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS259
-WWS291,Spring View OD (Bt Batok Ind Pk A),1.3438158,103.7527586,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS291
-WWS314,Bukit Timah 1st Diversion Canal (Holland Green),1.326841,103.783825,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS314
-WWS463,Sg Tengah (Jln Piring),1.379691,103.716675,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS463
-CWS010,Bishan St 21,1.3474994,103.8407024,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS010
-CWS015,Carmichael Rd OD (CTE ),1.342463,103.862048,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS015
-CWS049,Stamford Canal (Lucky Plaza),1.3043,103.833307,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS049
-CWS072,King George's Ave at PA HQ,1.30884,103.860445,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS072
-CWS075,Mandalay Rd/ Martaban Rd,1.324371,103.850346,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS075
-CWS100,Veerasamy Rd,1.3065772,103.855704,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS100
-CWS106,Boon Keng Rd / Bendemeer Rd,1.316782,103.862853,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS106
-CWS112,Fort Rd / ECP,1.2968416,103.8851151,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS112
-CWS118,Thomson Rd OD(Joan Rd),1.338294,103.836541,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS118
-CWS121,Stadium Crescent/Jalan Benaan Kapal,1.303456,103.881202,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS121
-CWS127,Macpherson Rd OD (Siang Kuang Ave),1.3297292,103.8731273,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS127
-CWS163,Balestier Rd / Thomson Rd,1.3263868,103.8424603,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS163
-CWS182,Lorong Chuan OD (AIS),1.3492216,103.8586229,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS182
-CWS303,Ang Mo Kio OD 8A (Townsville Pri Sch),1.3601726,103.8530912,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS303
-CWS314,Serangoon Gdn OD2 (Unit 5 Colchester Gr),1.3590347,103.8679309,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS314
-CWS401,Haig Rd/Butterworth Lane,1.3127133,103.896126,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS401
-EWS007,Meng Suan OD (Mandai Rd),1.4024893,103.8173045,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS007
-EWS021,Swan Lake Ave,1.3204851,103.9245832,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS021
-EWS088,Sg Blukar (Lorong Halus),1.38222,103.920866,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS088
-WWS005,BT Canal (Rifle Range Rd),1.336735,103.781557,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS005
-WWS056,Jurong Canal (PIE 32.7km),1.354112,103.7263,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS056
-WWS058,Sg Pandan Kechil (Lower Kent Ridge Rd),1.297361,103.7825141,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS058
-WWS071,Neo Pee Teck Lane / Pasir Panjang Rd,1.292287,103.768683,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS071
-WWS110,Kampung Bahru Road / Silat Road,1.276542,103.831896,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS110
-WWS182,Kampong Bahru (Bus Interchange),1.2762794,103.8327764,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS182
-WWS198,Sg Lanchar SD B1 (Blk 866 Jurong West St 81),1.3505679,103.6956891,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS198
-WWS236,Sg Peng Siang Tributary A (Blk 484C Brickland Rd),1.375297,103.736794,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS236
-WWS241,CCK OD 3 (CCK Ave 4/CCK Way),1.3833084,103.742833,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS241
-WWS249,Bt Batok Canal (Bt Batok West Ave 5),1.365544,103.750608,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS249
-WWS256,Yew Tee Ind Estate Drain 4 (Sg Kadut Ave),1.400139,103.753642,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS256
-CWS019,Stamford Canal (Handy Rd),1.299421544,103.8460457,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS019
-CWS073,CTE/ Moulmein Rd,1.3182441,103.8501448,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS073
-CWS099,Cuscaden Rd/Tomlinson Rd,1.304627,103.825388,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS099
-CWS150,Sg Whampoa (Whampoa CC),1.3244983,103.85673371,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS150
-CWS151,Tembeling Road OD (East Coast Rd),1.305548,103.906419,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS151
-CWS155,Eu Tong Sen OD (Kreta Ayer Rd),1.281973,103.8415,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS155
-CWS179,East Coast Rd/ Lor Stangee (CWS179),1.3079025,103.9076551,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS179
-CWS233,Upper Hokien St (Fook Hai Building),1.2853174,103.8463371,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS233
-CWS403,Dorset Rd OD (Dorset Rd/Owen Rd),1.314651,103.852107,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS403
-EWS044,Bedok South Rd/ Bedok South Ave 1,1.316762,103.932985,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS044
-EWS074,Sungei Mandai Kechil(Woodlands Bridge),1.439585,103.76881,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS074
-EWS085,Tampines Road OD(Tampines Rd),1.361263,103.890323,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS085
-WWS022,Jln Mat Jambol (Springdew Terrace),1.277007,103.79132,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS022
-WWS045,Mayfair OD (Sime Darby Centre),1.3364909,103.78322,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS045
-WWS070,Eng Kong Crescent,1.33541,103.7683341,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS070
-WWS113,Wan Lee Rd / Enterprise Rd,1.3330559,103.7055339,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS113
-WWS119,Jurong Canal Culvert Inlet (PIE),1.353832,103.728186,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS119
-WWS176,Chin Bee Rd/ International Rd,1.3289087,103.7132841,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS176
-WWS207,Sg Lanchar SD B1 (Blk 667B Jurong West St 62),1.340981,103.701046,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS207
-WWS227,Neo Tiew OD 4 (Turut Track/Neo Tiew Harvest Ln),1.4242005,103.722174,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS227
-WWS229,Neo Tiew OD 5 (Neo Tiew Harvest Ln),1.417482,103.7244,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS229
-WWS246,Bt Batok Canal (Bt Batok West Ave 7),1.364544,103.746928,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS246
-WWS321,International Rd/ Second Chin Bee Rd,1.3297614,103.7143228,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS321
-WWS480,Yuan Ching Rd OD (Opp Yuan Ching Sec),1.342333,103.721506,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS480
-CWS014,Bt Timah Canal (Keng Lee Rd),1.3130728,103.8499974,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS014
-CWS021,Stamford Canal (313 @ Somerset),1.301311,103.83773,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS021
-CWS025,Kallang River (Braddell Rd),1.3429821,103.8577046,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS025
-CWS043,S'pore River (Coleman Bridge),1.29012,103.847601,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS043
-CWS052,Kallang River (Jln Taman),1.3262725,103.8654337,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS052
-CWS110,Lor Ong Lye / Lor Lew Lian,1.3481966,103.8778859,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS110
-CWS136,Binchang Rise/Clover Close,1.3499593,103.8459807,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS136
-CWS178,Stamford Canal (Kramat Lane),1.3009426,103.8421388,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS178
-CWS180,Lorong Chuan OD (Blk 318),1.3525881,103.8669626,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS180
-CWS304,Kallang River (SMRT Bishan Depot),1.3531194,103.8535093,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS304
-CWS312,Kallang River (Blk 114 Potong Pasir),1.3372873,103.8636551,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=CWS312
-EWS004,Bedok Canal (Upper Changi Rd),1.3340447,103.949004,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS004
-EWS013,Sg Punggol (Mugliston Pk),1.391422,103.881919,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS013
-EWS023,Lucky Heights OD (Bayshore Rd),1.3137274,103.9402788,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS023
-EWS045,Thomson Walk,1.3764121,103.833445,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS045
-EWS059,Terang Bulan Ave / New Upper Changi Rd,1.3226266,103.9239294,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS059
-EWS082,Poh Huat Road OD (Jln Arif),1.36773,103.883193,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=EWS082
-WWS003,Sg Pandan (AYE),1.3191182,103.7502734,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS003
-WWS025,Sg Peng Siang (Choa Chu Kang Ave 4),1.3828571,103.739451,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS025
-WWS038,Sg Pang Sua (Bt Panjang),1.381099,103.761277,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS038
-WWS044,Sg Tengah Rd/ Sg Tengah Agrotechnology Pk,1.38248,103.731152,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS044
-WWS061,Woodlands Rd / KJE,1.386982,103.756862,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS061
-WWS069,Clementi Rd/Pasir Panjang Rd,1.2925161,103.7683145,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS069
-WWS089,Gul Way/Pioneer Rd,1.310963,103.670688,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS089
-WWS114,Jalan Boonlay (Bus stop B21339),1.3303607,103.7083301,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS114
-WWS117,Yuan Ching Rd / Yung Kuang Rd,1.331626,103.7248297,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS117
-WWS174,Choa Chu Kang Way/ Choa Chu Kang Ave 1,1.378927,103.7483392,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS174
-WWS179,West Coast Rd (Opp Blk 408),1.3176186,103.7492462,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS179
-WWS289,Bt Batok East OD (PIE u/s culvert),1.3416816,103.7497114,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS289
-WWS093,Sg Pang Sua (Stagmont Ring),1.3924407,103.7530586,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS093
-WWS205,Sg Lanchar SD B1 (Jurong West Ave 4),1.3441387,103.700093,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS205
-WWS292,Bt Batok Ind Pk A OD (Unity Center),1.337657,103.75636,https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid=WWS292
+sensor-id,sensor-name,latitude,longitude
+EWS101,Upp East Coast Rd (Riviera Residences),1.31557,103.943057
+EWS249,TPE Slip Rd (Punggol Crest),1.3994804,103.899298
+WWS162,CCK North OD (Blk 526),1.3911305,103.7420726
+CWS186,Eng Neo Ave OD (D/S culvert),1.33257,103.798134
+CWS191,Kampong Ampat/ Macpherson Rd,1.332426,103.882585
+CWS192,Happy Ave OD (Jln Gembira),1.3323852,103.882041
+CWS193,Harvey Rd/ Macpherson Rd,1.333006,103.884494
+CWS194,Geylang Rd/ Lor 1 Geylang,1.310597,103.872737
+CWS198,Meyer Rd OD (Meyer Mansion),1.296131,103.890746
+CWS200,Jln Benaan Kapal OD (Decathlon),1.3030144,103.8818827
+CWS206,Yio Chu Kang Rd (Wembly Residences),1.3563951,103.8760704
+CWS239,Sg Namly (Princess of Wales Rd),1.322787,103.807471
+CWS321,Stirling Rd OD (Queenstown Stadium),1.2957402,103.8032461
+CWS322,Alexandra Canal (C'wealth Ave) U/S Culvert,1.2971895,103.8043002
+CWS326,Alexandra Canal SD A (Opp Alexis Condo),1.291379,103.808149
+CWS431,Wan Tho Ave (Unit 11),1.332285,103.870803
+CWS433,Lor 2 Toa Payoh (Braddell MRT),1.340506,103.84694
+EWS102,Upp East Coast Rd (Unit 517),1.315968,103.943909
+EWS104,Sembawang Shipyard OD (Cochrame Lodge II),1.461893,103.817611
+EWS105,Sembawang OD1 (Blk 204),1.4307669,103.8354671
+EWS107,Jln Tari Zapin OD (The Morning Dew),1.397827,103.8716333
+EWS110,Sg Mata Ikan (SUTD Sports Complex),1.341598,103.966402
+EWS112,Bedok Canal (Blk 99),1.333676,103.939603
+EWS113,Tampines OD1 (SP Bedok),1.336765,103.941727
+EWS120,Jln Pelikat OD (Blk 121),1.3542771,103.8869233
+EWS126,Sg Api Api (Tampines Ave 10),1.36882,103.930241
+EWS127,Tampines Ave 9 OD (Blk 621A),1.360452,103.938975
+EWS132,Sembawang OD No.7 (Blk 328),1.429439,103.843258
+EWS151,Kaki Bukit OD (Kaki Bukit Rd 5),1.341947,103.915457
+EWS153,Bedok Canal SD1 (Bedok North MRT),1.334975,103.916341
+EWS154,Jln Kembangan OD (Jln Senang) U/S Culvert,1.325159,103.916404
+EWS155,Siglap Canal (Lor M Telok Kurau),1.311866,103.916473
+EWS157,Kaki Bukit OD (Tampines Ave 10),1.347771,103.9244
+EWS160,Bedok Canal SD5 (Carpark B),1.347861,103.925619
+EWS162,Bedok Canal 2nd SD (Bedok MRT),1.324377,103.930659
+EWS163,Bedok Canal 1st SD (Longvale),1.336945,103.936405
+EWS164,Bayshore Park OD (Jln Pokok Serunai),1.3127466,103.9363389
+EWS166,Tampines OD1 (Blk 103),1.347998,103.946123
+EWS168,Bedok Canal 3rd SD (Jln Limau Bali),1.3225452,103.9483073
+EWS170,Bedok Rd (Country Pk Condo),1.3213345,103.9550785
+EWS172,Sg Ketapang (Unit 41),1.338962,103.956279
+EWS176,Sg Mata Ikan (Nasaco Tech Centre),1.337288,103.971799
+EWS200,Hougang Ave 10 OD (Hougang Sports Hall),1.370313,103.888592
+EWS205,Sun Plaza Pk OD (Tampines Ave 7),1.360013,103.942244
+EWS206,Kensington Park Rd/Jln Chulek,1.3664509,103.8668536
+EWS207,Serangoon Garden OD3 (Lycee Francais De Singapour),1.3714739,103.8668282
+EWS208,Ang Mo Kio Ind Pk 2 (Sing Ind Complex),1.3759573,103.8642797
+EWS211,Opera Estate SD (Siglap Centre),1.3123813,103.9231431
+EWS213,Opera Estate SD (East Coast Terrace Pk),1.3114575,103.9234861
+EWS250,TPE Slip Rd (Punggol West Flyover),1.400122,103.896496
+WWS049,Sunset OD (Sunset Way),1.3243589,103.765928
+WWS122,Boon Lay Way (Blk 201),1.342899,103.715565
+WWS123,Corporation Rd (Blk 203),1.344057,103.715993
+WWS124,Corporation Rd OD (Blk 90),1.3413974,103.7160136
+WWS125,Chin Bee Ave/Second Chin Bee Rd,1.33399,103.714112
+WWS127,Jln Tukang OD (Unit 14),1.329544,103.713057
+WWS132,Sunset Dr (Unit 10),1.325316,103.767279
+WWS133,Alexandra Rd (Opp Fragrance Empire Bldg),1.2749479,103.8021363
+WWS134,Bukit Timah Rd/ Blackmore Dr,1.3354153,103.7834913
+WWS135,Bt Timah Rd (Tan Chong Motor Centre),1.333862,103.788591
+WWS136,Bt Timah Rd/ Cherry Ave,1.3329527,103.7911614
+WWS137,Lor Kismis (Unit 2),1.3365898,103.7650484
+WWS138,Telok Blangah Rise/Lower Delta Rd,1.271842,103.8240409
+WWS139,West Coast Highway/Clementi Rd,1.291982,103.767392
+WWS143,West Coast OD (Teban Gardens Rd),1.320187,103.737974
+WWS146,Tuas Rd OD4 (Tuas Ave 13),1.320024,103.643161
+WWS152,Sg Lanchar SD C (Customs Ops Cmd),1.353773,103.70026
+WWS154,Tuas South OD4 (Tuas South Ave 9),1.273519,103.636147
+WWS155,Tuas South Blvd Ext OD1 (Tuas South Blvd),1.28298,103.621213
+WWS157,Tuas View OD3 (Tuas South Ave 1),1.307303,103.624609
+WWS158,Tuas View OD2 (Tuas South Ave 1),1.309572,103.625559
+WWS159,Tuas Rd OD5 (Tuas West Dr),1.336764,103.637013
+WWS160,Tuas Rd OD7 (Tuas West Dr),1.329643,103.63311
+WWS163,Fajar Rd OD (Greenridge Pri Sch),1.386692,103.769443
+WWS165,Chestnut Dr OD (Chestnut Close),1.369055,103.772795
+WWS166,Bukit Batok OD2 (The Madeira),1.357328,103.748966
+WWS168,West Coast OD6 (West Coast Rd),1.313951,103.754804
+WWS170,West Coast OD2 (Waseda Shibuya Sch),1.29703,103.7668894
+WWS171,Bt Purmei OD (AYE/Keppel Rd),1.2727909,103.8324724
+WWS172,Ayer Rajah Ind Est OD (Ayer Rajah Ave),1.297121,103.789981
+WWS183,Tuas South Blvd Ext OD1 (Tuas South Ave 5),1.288865,103.624793
+WWS184,Tuas South Sub OD3 (Tuas South Ave 10),1.285108,103.630608
+WWS187,Tuas Rd OD2 (Tuas Ave 4),1.32597,103.652292
+WWS190,Gul Rd OD1 (Gul Rd),1.297236,103.669609
+WWS283,Sg Ulu Pandan (Waterfront at Faber),1.323817,103.754536
+WWS285,Sg Ulu Pandan (Freesia Woods),1.323302,103.765752
+WWS318,Sg Pang Sua SD E (D/S Culvert),1.412937,103.755555
+WWS418,Eng Kong Place (Unit 65),1.334384,103.76685
+WWS426,Bt Timah Canal (Sime Darby Centre),1.336086,103.783297
+WWS463,Sg Tengah (Jln Piring),1.379691,103.716675
+CWS099,Cuscaden Rd/Tomlinson Rd,1.304627,103.825388
+CWS110,Lor Ong Lye / Lor Lew Lian,1.3481966,103.8778859
+CWS151,Tembeling Road OD (East Coast Rd),1.305548,103.906419
+CWS155,Eu Tong Sen OD (Kreta Ayer Rd),1.281973,103.8415
+CWS178,Stamford Canal (Kramat Lane),1.3009426,103.8421388
+CWS179,East Coast Rd/ Lor Stangee (CWS179),1.3079025,103.9076551
+CWS180,Lorong Chuan OD (Blk 318),1.3525881,103.8669626
+EWS004,Bedok Canal (Upper Changi Rd),1.3340447,103.949004
+EWS023,Lucky Heights OD (Bayshore Rd),1.3137274,103.9402788
+EWS045,Thomson Walk,1.3764121,103.833445
+EWS059,Terang Bulan Ave / New Upper Changi Rd,1.3226266,103.9239294
+EWS074,Sungei Mandai Kechil(Woodlands Bridge),1.439585,103.76881
+WWS022,Jln Mat Jambol (Springdew Terrace),1.277007,103.79132
+WWS025,Sg Peng Siang (Choa Chu Kang Ave 4),1.3828571,103.739451
+WWS044,Sg Tengah Rd/ Sg Tengah Agrotechnology Pk,1.38248,103.731152
+WWS061,Woodlands Rd / KJE,1.386982,103.756862
+WWS069,Clementi Rd/Pasir Panjang Rd,1.2925161,103.7683145
+WWS114,Jalan Boonlay (Bus stop B21339),1.3303607,103.7083301
+WWS117,Yuan Ching Rd / Yung Kuang Rd,1.331626,103.7248297
+WWS174,Choa Chu Kang Way/ Choa Chu Kang Ave 1,1.378927,103.7483392
+WWS207,Sg Lanchar SD B1 (Blk 667B Jurong West St 62),1.340981,103.701046
+WWS227,Neo Tiew OD 4 (Turut Track/Neo Tiew Harvest Ln),1.4242005,103.722174
+WWS246,Bt Batok Canal (Bt Batok West Ave 7),1.364544,103.746928
+WWS321,International Rd/ Second Chin Bee Rd,1.3297614,103.7143228
+WWS480,Yuan Ching Rd OD (Opp Yuan Ching Sec),1.342333,103.721506
+CWS014,Bt Timah Canal (Keng Lee Rd),1.3130728,103.8499974
+CWS021,Stamford Canal (313 @ Somerset),1.301311,103.83773
+CWS033,Stamford Canal (Orchard Tower),1.3066516,103.8290935
+CWS136,Binchang Rise/Clover Close,1.3499593,103.8459807
+CWS226,Marine Parade Central/ Marine Parade Rd,1.3030111,103.9070301
+CWS234,Upper Pickering St / New Bridge Rd,1.2861336,103.8457544
+CWS304,Kallang River (SMRT Bishan Depot),1.3531194,103.8535093
+CWS332,Tanjong Katong Rd S/Amber Garden,1.3008444,103.897285
+EWS012,Sg Puak Besar (Cactus Rd),1.389324,103.851581
+EWS082,Poh Huat Road OD (Jln Arif),1.36773,103.883193
+EWS146,Carmen St/ Lakme Terrace,1.3176421,103.9263621
+WWS003,Sg Pandan (AYE),1.3191182,103.7502734
+WWS038,Sg Pang Sua (Bt Panjang),1.381099,103.761277
+WWS089,Gul Way/Pioneer Rd,1.310963,103.670688
+WWS093,Sg Pang Sua (Stagmont Ring),1.3924407,103.7530586
+WWS094,Gul Circle,1.312554,103.676528
+WWS116,Choa Chu Kang Ave 1/ Teck Wye Lane,1.380737,103.749716
+WWS229,Neo Tiew OD 5 (Neo Tiew Harvest Ln),1.417482,103.7244
+WWS289,Bt Batok East OD (PIE u/s culvert),1.3416816,103.7497114
+CWS020,Happy Ave OD (Jln Setia),1.337119,103.880717
+CWS023,Jln Mashhor OD (Behind RDA),1.3340997,103.8349749
+CWS032,Stamford Canal (Forum),1.3067141,103.828551
+CWS035,Lor Chuan OD (Serangoon Ave 2),1.35289,103.866666
+CWS082,Ubi Ave 2/ Eunos Link,1.3311071,103.901187
+CWS086,Dunearn Rd / Hillcrest Rd,1.3277872,103.8059192
+CWS146,Stamford Canal Tributary 1 (The Regent Singapore),1.3048295,103.8245988
+CWS220,Puay Hee Ave/ Siak Kew Ave,1.3298489,103.8701591
+CWS245,Whitley Rd OD (Merryn Dr),1.32395,103.826504
+CWS309,Lorong Chuan OD (The Chuan),1.3496875,103.8607365
+CWS405,Queens Rd OD (Crown Centre),1.323249,103.811084
+EWS002,Mimosa Walk / CTE,1.381286,103.859877
+EWS083,Ang Mo Kio Ave 5/ Luxus Hill Rd,1.378733,103.868619
+EWS086,Tampines Rd / Hougang Ave 3,1.3618378,103.8936989
+EWS144,Bedok Canal (NEWater Visitor Centre),1.3229933,103.9587864
+WWS001,Alexandra Rd/ Telok Blangah Rd,1.27286,103.802931
+WWS097,Sg Pandan Kechil(Clementi West Street 2),1.302088,103.764653
+WWS205,Sg Lanchar SD B1 (Jurong West Ave 4),1.3441387,103.700093
+WWS231,Neo Tiew OD4 (Neo Tiew Harvest Place),1.420198,103.726537
+WWS235,Neo Tiew OD 2 (Kranji Way),1.438236,103.733622
+WWS292,Bt Batok Ind Pk A OD (Unity Center),1.337657,103.75636
+WWS312,Bukit Timah 1st Diversion Canal (Pine Grove),1.318603,103.772563
+WWS319,Jln Terusan OD,1.322262,103.722926
+CWS039,Sg Namly,1.322988,103.798145
+CWS048,Stamford Canal (Wisma Atria) s'pore,1.304091,103.833281
+CWS057,Fort Rd / Katong Pk,1.2967953,103.8872042
+CWS117,Bt Timah 2nd Diversion Canal (Jalan Datoh),1.3290247,103.8436519
+CWS132,Alexandra Canal(Delta Ave),1.29222,103.826256
+CWS135,Arumugam Rd,1.3256447,103.8917348
+CWS152,Happy Avenue OD (Jln Anggerek),1.3310975,103.882217
+CWS156,Jln Seaview,1.301663,103.8968116
+CWS161,Playfair Rd OD (Bartley Rd East),1.341519,103.8818267
+CWS313,Serangoon Gdn OD2 (Colchester Gr Pk),1.3574218,103.8674822
+CWS329,Bt Timah 2nd Diversion Canal (Jalan Rajah),1.3290193,103.8503537
+CWS432,Siang Kuang Ave (Unit 43A),1.329966,103.87274
+EWS034,Sg Ketapang (Xilin Ave),1.329153,103.963372
+EWS047,Chin Cheng Ave/ Jamiyah Children's Home,1.317228,103.906299
+EWS058,Aviation Dr,1.3878,103.989499
+EWS066,Upper East Coast Rd / Jalan Haji Salam,1.319486,103.954401
+EWS076,Sungei Api Api (Pasir Ris Dr 3),1.377751,103.944632
+EWS092,Sungei Khatib Bongsu (Yishun Ave 6),1.433556,103.844282
+WWS013, Coronation Rd West/Jln Haji Alias,1.321613,103.796824
+WWS026,Sg Pandan (Bukit Batok East Ave 6),1.344481,103.752569
+WWS060,Sg Pandan Kechil (College Link),1.302878,103.773364
+WWS066,Clementi Rd / West Coast Rd,1.293455,103.768636
+WWS086,Clementi Rd / Sunset Lane,1.320677,103.769608
+WWS091,JIE OD (Enterprise Rd),1.33351,103.707011
+WWS103,Upp Bt Timah OD (ESPA),1.369412,103.764809
+WWS179,West Coast Rd (Opp Blk 408),1.3176186,103.7492462
+WWS181,Yee Siang Road/ W Coast Hwy,1.2769315,103.7923764
+WWS226,Neo Tiew OD 5 (Neo Tiew Lane 2),1.420298,103.7203
+WWS240,Bt Batok Canal (Bt Batok West Ave 2),1.3623493,103.7428769
+WWS261,Gombak OD (CCK Rd d/s culvert),1.3796028,103.7597262
+CWS011,Bt Timah 2nd Diversion Canal (Jln Tenteram),1.3293015,103.8592798
+CWS041,Camp Rd OD (Rochalie Dr),1.3057526,103.8279911
+CWS177,Tanjong Pagar Road / Hoe Chiang Rd,1.2739637,103.8430966
+CWS227,Jln Lokam/ Upp Paya Lebar Rd,1.3455473,103.8818562
+CWS230,Serangoon Ave 2/ Serangoon Ave 3,1.35181745,103.8693846
+CWS333,Mountbatten Rd / Tanjong Katong Rd,1.301956,103.896686
+EWS018,Tampines Ave 4,1.3478777,103.9381924
+EWS020,Tanah Merah Besar Rd,1.3607213,103.9740307
+EWS065,Bedok Canal First Sub Drain(Bedok North Road),1.3346953,103.920244
+EWS142,Hougang Ave 3 / Tampines Road,1.3609724,103.8929938
+WWS016,Sg Ulu Pandan (Sunset Walk),1.322861,103.767295
+WWS063,Kampong Bahru OD (Kampong Bahru Rd),1.2709785,103.8258698
+WWS095,PIE/Tuas Exit,1.325286,103.665511
+WWS108,Commonwealth Lane / Commonwealth Dr,1.3043539,103.7974324
+WWS178,Jurong Town Hall Rd/ West Coast Rd,1.319435,103.74468
+WWS201,Sg Lanchar SD B2 (Blk 639 Jurong West St 61),1.3409851,103.6968388
+WWS208,Sg Lanchar SD B (Blk 666A),1.340365,103.701791
+WWS212,Sg Lanchar SD C (Soka Cultural Ctr),1.348065,103.703917
+WWS264,Sg Pang Sua SD E (Mandai Rd u/s culvert),1.410518,103.762476
+WWS293,Toh Tuck OD (Secom Centre),1.334912,103.758996
+WWS415,Bt Timah Canal (Ascot Rise),1.3338299,103.7896898
+WWS479,Jurong East St 32 (Blk 312),1.347866,103.731878
+CWS034,Queen Rd OD (Prince Rd),1.3209725,103.8097551
+CWS047,Rochor Canal(Victoria Street),1.3065369,103.8615264
+CWS058,Langsat Rd / Lor 101 Changi,1.315948,103.899939
+CWS069,Bencoolen St/ Rochor Canal Rd,1.3027091,103.8539257
+CWS084,Cambridge Road OD,1.314108,103.847209
+CWS147,Mackenzie Rd,1.307446,103.846766
+CWS168,Upp Thomson Rd/ Jln Keli,1.3541568,103.8343446
+CWS223,Paya Lebar Road (ACE Building),1.3278746,103.8904698
+EWS030,Sg Seletar Simpang Kanan A (SLE),1.3932555,103.8344928
+EWS046,Lowland Rd/ Kovan Rd,1.360891,103.883513
+EWS053,Sembawang Rd / Jalan Jeruju,1.4419291,103.8242511
+EWS060,Jln Nipah,1.326236,103.952398
+EWS063,Woodlands Ave 12 / Gambas Ave,1.444062,103.811168
+EWS064,Yishun Ave 2 / Yishun Ave 5,1.430976,103.835187
+EWS079,Bedok Canal(Upper Changi Rd East),1.330595,103.951663
+EWS087,Lilac Drive/CTE,1.380716,103.859814
+EWS089,Bedok Canal 3rd SD (Bedok Rd),1.32299,103.95357
+WWS012,International Rd / 4th Lok Yang Rd,1.327881,103.687421
+WWS037,Jurong Industrial Estate OD (Jln Buroh),1.3144494,103.7020192
+WWS043,Yuan Ching Rd/ Yung Ho Rd,1.326599,103.725225
+WWS057,Sg Pandan Kechil (AYE 7.9km),1.297940016,103.7829971
+WWS067,Clementi Ave 4 / Commonwealth Ave West,1.316186,103.765245
+WWS098,Sg Pandan Kechil (West Coast Highway),1.3015,103.76318
+WWS106,Kranji Way,1.438686,103.7432082
+WWS175,Woodlands Road/ Mandai Estate,1.4071978,103.7562849
+CWS001,Alexandra Canal SD B (Prince Philip Ave),1.2918496,103.8195177
+CWS007,Balmoral Rd,1.31396,103.8312701
+CWS028,Macpherson OD (Geylang Bahru),1.323802,103.868673
+CWS065,Eng Neo OD (Eng Neo Ave),1.331943,103.798273
+CWS078,Bt Timah Canal (Anamalai Ave),1.3321194,103.7941755
+CWS122,Lorong 23 Geylang/Sims Lane,1.3165373,103.88101814
+CWS160,Bt Timah Canal (Watten Park),1.3263412,103.8073388
+CWS222,Happy Ave North /Happy Ave Ctrl,1.3311075,103.8810502
+CWS228,Langsat Rd/ Lor 105 Changi,1.3153997,103.90281
+CWS327,Aljunied Rd (Hong Leong NKF),1.3203608,103.8819065
+CWS435,Lor Gambir (Le Gambir),1.345356,103.875571
+EWS001,Admiralty Rd West/ Senoko South Rd,1.4607974,103.8067799
+EWS005,Bedok North Ave 3,1.3355755,103.9337543
+EWS006,Siglap Canal (Kg Kembangan CC),1.3237418,103.9121773
+EWS011,Siglap Canal (Frankel Walk),1.3171242,103.9142898
+EWS015,Sg Serangoon Branch (Hougang Ave 7),1.362659,103.8960327
+EWS024,Parbury Ave OD (Upp East Coast Rd,1.315339,103.944129
+EWS025,Sg Mandai (Woodlands Rd),1.426591,103.761881
+EWS036,Bedok Canal (Bedok Reservoir Rd),1.339208,103.935671
+WWS021,Ulu Pandan Canal (Pine Grove),1.315998,103.775243
+WWS059,Sg Pandan Kechil (AYE 9.2km),1.302919,103.774067
+WWS081,Woodlands Rd/Sg Kadut Ave,1.4079707,103.7557877
+WWS099,Ulu Pandan Rd / Clementi Rd,1.3194474,103.7714076
+WWS109,Yuan Ching Rd (Jurong Secondary School),1.329816,103.72499
+WWS173,Boon Lay Way (Blk 517C),1.3446688,103.7202632
+WWS197,Sg Lanchar SD B2 (Blk 834 Jurong West Ave 5),1.3432881,103.6944551
+WWS206,Sg Lanchar SD B2 (Blk 613 Jurong West St 65),1.340247,103.70068
+WWS316,15A Yarwood Avenue,1.338561,103.783423
+WWS320,Jurong East Subsidiary canal (Blk 374),1.3496114,103.7331341
+CWS025,Kallang River (Braddell Rd),1.3429821,103.8577046
+CWS101,Macpherson Rd/ Playfair Rd,1.333218,103.88697
+CWS139,Ang Mo Kio Ave 3/ Mayflower Ave,1.3698369,103.8405432
+CWS143,Geylang River (CISCO Centre),1.321765,103.892469
+CWS153,Geylang East Central OD (Paya Lebar Rd),1.3182213,103.8920617
+CWS154,Tanjong Pagar Rd/Craig Rd,1.2772959,103.8435013
+CWS158,Cavenagh Rd/ Kramat Lane,1.3012617,103.8414176
+CWS162,Mount Vernon Rd,1.3415043,103.881131
+EWS054,Neram OD (Upper Neram Rd),1.3869,103.867243
+EWS061,Marsiling Dr / Admiralty Rd,1.442321,103.775441
+EWS075,Hougang New Town OD(Hougang Ave 8),1.376488,103.890644
+EWS094,Tampines Rd/ Jln Teliti,1.361185,103.8918149
+WWS008,Commonwealth Ave/ Tanglin Halt Rd,1.303122,103.797286
+WWS009,Commonwealth Ave / Commonwealth Dr,1.303684,103.797218
+WWS090,University Flyover / AYE1,1.3052894,103.7700051
+WWS195,Sg Lanchar SD B2 (Blk 846 Pioneer Rd North),1.3452061,103.691172
+WWS204,Sg Lanchar SD C (Jln Bahar),1.3558585,103.698149
+WWS251,Sg Kadut OD 2 (Sg Kadut St 1),1.422543,103.7505443
+WWS314,Bukit Timah 1st Diversion Canal (Holland Green),1.326841,103.783825
+CWS015,Carmichael Rd OD (CTE ),1.342463,103.862048
+CWS049,Stamford Canal (Lucky Plaza),1.3043,103.833307
+CWS075,Mandalay Rd/ Martaban Rd,1.324371,103.850346
+CWS112,Fort Rd / ECP,1.2968416,103.8851151
+CWS118,Thomson Rd OD(Joan Rd),1.338294,103.836541
+CWS121,Stadium Crescent/Jalan Benaan Kapal,1.303456,103.881202
+CWS127,Macpherson Rd OD (Siang Kuang Ave),1.3297292,103.8731273
+CWS163,Balestier Rd / Thomson Rd,1.3263868,103.8424603
+CWS307,Kallang River (BCA Braddell Campus),1.3444484,103.8575891
+CWS314,Serangoon Gdn OD2 (Unit 5 Colchester Gr),1.3590347,103.8679309
+EWS017,Sg Tongkang (Lor Buangkok),1.382712,103.877028
+EWS088,Sg Blukar (Lorong Halus),1.38222,103.920866
+WWS004,BT Canal (Maple Ave),1.332772,103.792755
+WWS005,BT Canal (Rifle Range Rd),1.336735,103.781557
+WWS058,Sg Pandan Kechil (Lower Kent Ridge Rd),1.297361,103.7825141
+WWS071,Neo Pee Teck Lane / Pasir Panjang Rd,1.292287,103.768683
+WWS084,Sunset Dr/Sunset way,1.32586,103.766071
+WWS110,Kampung Bahru Road / Silat Road,1.276542,103.831896
+WWS182,Kampong Bahru (Bus Interchange),1.2762794,103.8327764
+WWS242,Sg Peng Siang Tributary A (Blk 805B Brickland Rd),1.3724825,103.7431762
+WWS249,Bt Batok Canal (Bt Batok West Ave 5),1.365544,103.750608
+WWS253,Bt Batok OD 2 (Bt Batok St 52),1.356603,103.753222
+WWS259,Bt Batok Canal (Bt Batok Rd),1.362925,103.742489
+WWS291,Spring View OD (Bt Batok Ind Pk A),1.3438158,103.7527586
+CWS010,Bishan St 21,1.3474994,103.8407024
+CWS019,Stamford Canal (Handy Rd),1.299421544,103.8460457
+CWS043,S'pore River (Coleman Bridge),1.29012,103.847601
+CWS046,Upper Paya Lebar Rd,1.3426017,103.8835836
+CWS052,Kallang River (Jln Taman),1.3262725,103.8654337
+CWS072,King George's Ave at PA HQ,1.30884,103.860445
+CWS073,CTE/ Moulmein Rd,1.3182441,103.8501448
+CWS100,Veerasamy Rd,1.3065772,103.855704
+CWS106,Boon Keng Rd / Bendemeer Rd,1.316782,103.862853
+CWS150,Sg Whampoa (Whampoa CC),1.3244983,103.85673371
+CWS182,Lorong Chuan OD (AIS),1.3492216,103.8586229
+CWS233,Upper Hokien St (Fook Hai Building),1.2853174,103.8463371
+CWS303,Ang Mo Kio OD 8A (Townsville Pri Sch),1.3601726,103.8530912
+CWS312,Kallang River (Blk 114 Potong Pasir),1.3372873,103.8636551
+CWS401,Haig Rd/Butterworth Lane,1.3127133,103.896126
+CWS403,Dorset Rd OD (Dorset Rd/Owen Rd),1.314651,103.852107
+EWS007,Meng Suan OD (Mandai Rd),1.4024893,103.8173045
+EWS013,Sg Punggol (Mugliston Pk),1.391422,103.881919
+EWS021,Swan Lake Ave,1.3204851,103.9245832
+EWS044,Bedok South Rd/ Bedok South Ave 1,1.316762,103.932985
+EWS085,Tampines Road OD(Tampines Rd),1.361263,103.890323
+WWS045,Mayfair OD (Sime Darby Centre),1.3364909,103.78322
+WWS056,Jurong Canal (PIE 32.7km),1.354112,103.7263
+WWS113,Wan Lee Rd / Enterprise Rd,1.3330559,103.7055339
+WWS119,Jurong Canal Culvert Inlet (PIE),1.353832,103.728186
+WWS176,Chin Bee Rd/ International Rd,1.3289087,103.7132841
+WWS198,Sg Lanchar SD B1 (Blk 866 Jurong West St 81),1.3505679,103.6956891
+WWS236,Sg Peng Siang Tributary A (Blk 484C Brickland Rd),1.375297,103.736794
+WWS241,CCK OD 3 (CCK Ave 4/CCK Way),1.3833084,103.742833
+WWS256,Yew Tee Ind Estate Drain 4 (Sg Kadut Ave),1.400139,103.753642
+WWS070,Eng Kong Crescent,1.33541,103.7683341
