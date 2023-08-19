@@ -1,20 +1,23 @@
 import os
 import pandas as pd
 import pyautogui as auto
+from time import time
 
 # Position list/Settings
-auto.PAUSE = 0.5
+auto.PAUSE = 1
 SEARCHBAR = (1340, 85)
 DRAGLOCATION = (0, 700)
 SCROLLDIST = 1380
-IMAGETOP = (650, 310)
+IMAGETOP = (650, 300)
 # With reference to top right
-IMAGEWIDTH = 1490 - IMAGETOP[0]
+IMAGEWIDTH = 1500 - IMAGETOP[0]
 # With reference to bottom left
-IMAGEHEIGHT = 690 - IMAGETOP[1]
+IMAGEHEIGHT = 800 - IMAGETOP[1]
 
 # Fetch stations
 sensors = pd.read_csv(os.path.join(__file__, "../stations.csv"))
+sensorCount = 0
+timer = time()
 for index, sensor in sensors.iterrows():
     url = (
         "https://app.pub.gov.sg/waterlevel/pages/WaterLevelReport.aspx?stationid="
@@ -36,4 +39,11 @@ for index, sensor in sensors.iterrows():
     auto.screenshot(
         f"{sensor['sensor-id']}.png",
         region=(*IMAGETOP, IMAGEWIDTH, IMAGEHEIGHT),
+    )
+
+    # Log details
+    sensorCount += 1
+    timeSpent = round(time() - timer, 2)
+    print(
+        f"Time spent: {round(time()-timer)}s\nTime per chart: {round(timeSpent / sensorCount)}\n"
     )
