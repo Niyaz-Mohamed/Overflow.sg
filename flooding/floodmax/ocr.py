@@ -1,6 +1,6 @@
 # Extract maximum flood level via OCI
 import os
-from statistics import mode
+from statistics import mode, mean
 import cv2
 import pandas as pd
 import numpy as np
@@ -16,9 +16,9 @@ GRAPHTOP = (78, 29)
 GRAPHBOTTOM = (78, 436)
 
 
-# Fetch stations
-sensors = pd.read_csv(os.path.join(__file__, "../stations.csv"))
-maxlevels = []
+# Fetch sensors
+sensors = pd.read_csv(os.path.join(__file__, "../sensors.csv"))
+maxCapacities = []
 for index, sensor in sensors.iterrows():
     img = cv2.imread(os.path.join(__file__, f"../images/{sensor['sensor-id']}.png"))
 
@@ -41,7 +41,16 @@ for index, sensor in sensors.iterrows():
     # cv2.imshow("Image", digitImg)
     # cv2.waitKey(0)
 
-    # Get sensor capacity
-    red = np.where(img == [231, 76, 60])
-    ycoords = list(red[0])
-    # Remove extremes
+    # Get red line's y coordinate
+    redPixels = np.argwhere(cv2.inRange(img, (50, 0, 220), (100, 120, 255)))
+    redYCoord = int(mode([p[0] for p in redPixels]))
+    # Generate max capacity
+    gHeight = GRAPHBOTTOM[1] - GRAPHTOP[1]
+    redHeight = gHeight - (redYCoord - GRAPHTOP[1])
+    capacity = round(graphMax * (redHeight / gHeight), 2)
+    maxCapacities.append(capacity)
+    print(f"Capacity: {capacity}m\n")
+
+# Add data to sensors
+sensors["max-level"] = maxCapacities
+sensors.to_csv(os.path.join(__file__, "../sensors.csv"))

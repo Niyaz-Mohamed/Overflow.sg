@@ -14,8 +14,8 @@ IMAGEWIDTH = 1500 - IMAGETOP[0]
 # With reference to bottom left
 IMAGEHEIGHT = 800 - IMAGETOP[1]
 
-# Fetch stations
-sensors = pd.read_csv(os.path.join(__file__, "../stations.csv"))
+# Fetch sensors
+sensors = pd.read_csv(os.path.join(__file__, "../sensors.csv"))
 sensorCount = 0
 timer = time()
 for index, sensor in sensors.iterrows():

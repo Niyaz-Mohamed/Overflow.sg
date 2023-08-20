@@ -12,7 +12,7 @@ def getFlooding():
     `sensor-id`: ID of the sensor
     `sensor-name`: Name of the sensor
     `latitude` & `longitude`: Location of the sensor
-    `water-level`: Water level measured in mm
+    `water-level`: Water level measured in m
     `status`: Status of the sensor (0,1,2 are flooding and 3,4 are maintenance)
     """
     endpoint = "https://app.pub.gov.sg/waterlevel/pages/GetWLInfo.aspx"
