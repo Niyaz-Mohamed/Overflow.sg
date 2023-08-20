@@ -74,4 +74,4 @@ for index, sensor in sensors.iterrows():
 
 # Add data to sensors
 sensors["max-level"] = maxCapacities
-sensors.to_csv(os.path.join(__file__, "../sensors.csv"))
+sensors.to_csv(os.path.join(__file__, "../sensors.csv"), index=False)
