@@ -26,7 +26,7 @@ def parseFlooding(raw: str):
                 }
             )
     df = pd.DataFrame(data)
-    return df
+    return df.sort_values(by=["timestamp", "sensor-id"]).reset_index(drop=True)
 
 
 def parseTimestamp(timestamp: str):

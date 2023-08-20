@@ -1,7 +1,6 @@
 # Extract maximum flood level via OCI
-import os
+import os, cv2
 from statistics import mode, mean
-import cv2
 import pandas as pd
 import numpy as np
 
