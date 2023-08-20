@@ -18,6 +18,7 @@ GRAPHBOTTOM = (78, 436)
 # Fetch sensors
 sensors = pd.read_csv(os.path.join(__file__, "../sensors.csv"))
 maxCapacities = []
+errorIndices = []
 for index, sensor in sensors.iterrows():
     img = cv2.imread(os.path.join(__file__, f"../images/{sensor['sensor-id']}.png"))
 
@@ -28,17 +29,38 @@ for index, sensor in sensors.iterrows():
         fx=3,
         fy=3,
     )
-    print(f"OCR {sensor['sensor-id']}: ", end="")
+    # if sensor["sensor-id"] == "WWS154":
+    #     cv2.imshow("Image", digitImg)
+    #     cv2.waitKey(0)
 
-    graphMax = float(
-        pytesseract.image_to_string(
-            digitImg,
-            config="--psm 10 --oem 3 -c tessedit_char_whitelist=0123456789.",
-        )
+    print(f"OCR {sensor['sensor-id']}: ", end="")
+    graphMax = pytesseract.image_to_string(
+        digitImg,
+        config="--psm 10 --oem 3 -c tessedit_char_whitelist=0123456789.",
     )
-    print(graphMax)
-    # cv2.imshow("Image", digitImg)
-    # cv2.waitKey(0)
+
+    # Handle errors
+    try:
+        graphMax = float(graphMax)
+        print(graphMax)
+    except:
+        mapper = {
+            "WWS154": 6.0,
+            "WWS155": 8.0,
+            "EWS144": 8.0,
+            "WWS319": 6.0,
+            "CWS132": 6.0,
+            "CWS011": 6.0,
+            "WWS415": 6.0,
+            "CWS025": 6.0,
+            "CWS307": 6.0,
+            "CWS043": 8.0,
+            "CWS052": 6.0,
+            "CWS312": 6.0,
+            "EWS013": 6.0,
+        }
+        graphMax = mapper[sensor["sensor-id"]]
+        print(graphMax)
 
     # Get red line's y coordinate
     redPixels = np.argwhere(cv2.inRange(img, (50, 0, 220), (100, 120, 255)))

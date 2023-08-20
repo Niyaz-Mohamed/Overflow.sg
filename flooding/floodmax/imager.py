@@ -39,7 +39,7 @@ for index, sensor in sensors.iterrows():
 
     # Take a screenshot
     auto.screenshot(
-        f"{sensor['sensor-id']}.png",
+        os.path.join(__file__, f"../images/{sensor['sensor-id']}.png"),
         region=(*IMAGETOP, IMAGEWIDTH, IMAGEHEIGHT),
     )
 
@@ -47,7 +47,7 @@ for index, sensor in sensors.iterrows():
     sensorCount += 1
     timeSpent = round(time() - timer, 2)
     print(
-        f"Chart-{index}\nTime spent: {round(time()-timer)}s\nAv. time per chart: {round(timeSpent / sensorCount)}\n"
+        f"Chart-{index}\nTime spent: {(time()-timer)}s\nAv. time per chart: {round(timeSpent / sensorCount)}\n"
     )
 
 auto.alert("COMPLETED EXTRACTION")
