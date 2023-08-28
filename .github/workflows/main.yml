@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master''
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
