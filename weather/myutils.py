@@ -67,9 +67,9 @@ def concatStations(data: list[pd.DataFrame]) -> pd.DataFrame:
 
 def saveWeather(weatherDf: pd.DataFrame, name: str):
     """
-    Convenience function to save a weather dataframe to [name].csv.
+    Convenience function to save a weather dataframe to the file name.
     """
-    weatherDf.to_csv(f"{name}.csv", index=False)
+    weatherDf.to_csv(name, index=False)
 
 
 def loadWeather(name):
