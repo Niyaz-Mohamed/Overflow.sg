@@ -46,7 +46,9 @@ def fetchWeather(type: str, date: datetime):
     }
 
 
-def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: int = 5):
+def fetchWeatherRange(
+    date: datetime, endDate: datetime = None, interval: int = 5
+) -> pd.DataFrame:
     """
     Fetches detailed weather data over a range of dates using the NEA's realtime weather API.
 
@@ -60,8 +62,8 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: i
 
     Parameters
     ----------
-    `startDate`: Date on which data should begin\n
-    `endDate`: Date on which data should end, defaults to same day as startDate\n
+    `date`: Date on which data should begin. To fetch data for a single date, do not pass in endDate\n
+    `endDate`: Optional date on which data should end\n
     `interval`: Interval in minutes between each reading. Mean of measurements within each interval is taken as measurement for that interval.
     """
 
@@ -69,10 +71,11 @@ def fetchWeatherRange(startDate: datetime, endDate: datetime = None, interval: i
     allTimer = time()
     # Get list of dates to fetch
     if endDate == None:
-        endDate = startDate
-    dates = list(pd.date_range(startDate, endDate))
+        endDate = date
+    dates = list(pd.date_range(date, endDate))
     weatherDf = pd.DataFrame()
 
+    # Fetch data over date range
     for date in dates:
         dateTimer = time()
         # Log details
