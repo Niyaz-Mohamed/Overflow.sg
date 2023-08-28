@@ -1,4 +1,4 @@
-# Extract maximum flood level via OCI
+# Extract maximum flood level via OCR, after getting graphs using imager.py
 import os, cv2
 from statistics import mode, mean
 import pandas as pd

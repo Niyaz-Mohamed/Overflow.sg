@@ -16,6 +16,7 @@ def getFlooding():
     `water-level`: Water level measured in m
     `status`: Status of the sensor (0,1,2 are flooding and 3,4 are maintenance)
     """
+
     # Fetch flooding data
     endpoint = "https://app.pub.gov.sg/waterlevel/pages/GetWLInfo.aspx"
     params = {"type": "WL"}
@@ -26,9 +27,11 @@ def getFlooding():
         ["sensor-id", "max-level"]
     ]
     data = data.merge(sensors, on="sensor-id")
-    data[r"% Full"] = round((data["water-level"] / data["max-level"]) * 100, 2)
+    data[r"% full"] = round((data["water-level"] / data["max-level"]) * 100, 2)
     # Reorder columns
     cols = data.columns.tolist()
     cols = cols[:-3] + cols[-2:] + [cols[-3]]
     data = data[cols]
+
+    # TODO: Add logging
     return data
