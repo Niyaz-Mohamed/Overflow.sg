@@ -2,7 +2,7 @@ name: get flooding
 
 on:
   schedule:
-    - cron: "30,0 * * * *" # Every 30 minutes
+    - cron: "15,0 * * * *" # Every 15 minutes
 
 jobs:
   build:
