@@ -23,6 +23,8 @@ jobs:
           pip install -r flooding/floodreq.txt
 
       - name: execute py script
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           cd flooding  # Navigate to the 'flooding' directory
           python __init__.py  # Run the '__init__.py' file
