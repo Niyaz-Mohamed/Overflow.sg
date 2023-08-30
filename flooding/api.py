@@ -23,9 +23,9 @@ def getFlooding():
     response = requests.get(endpoint, params=params)
     data = parseFlooding(response.content.decode("utf-8"))
     # Append sensor maxima
-    sensors = pd.read_csv(os.path.join(__file__, "../floodmax/sensors.csv"))[
-        ["sensor-id", "max-level"]
-    ]
+    baseDir = os.path.dirname(__file__)
+    sensorPath = os.path.abspath(os.path.join(baseDir, "floodmax", "sensors.csv"))
+    sensors = pd.read_csv(sensorPath)[["sensor-id", "max-level"]]
     data = data.merge(sensors, on="sensor-id")
     data[r"% full"] = round((data["water-level"] / data["max-level"]) * 100, 2)
     # Reorder columns

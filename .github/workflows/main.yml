@@ -2,7 +2,7 @@ name: get flooding
 
 on:
   schedule:
-    - cron: "15,0 * * * *" # Every 15 minutes
+    - cron: "0,15,30,45 * * * *" # Every 15 minutes
 
 jobs:
   build:
@@ -18,9 +18,9 @@ jobs:
           python-version: "3.10" # install the python version needed
 
       - name: install python packages
-        run: |
+        run: | # Install minimal libraries needed
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r flooding/floodreq.txt
 
       - name: execute py script
         run: |
