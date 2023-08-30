@@ -1,8 +1,8 @@
-name: get flooding
+name: fetch flooding
 
 on:
   schedule:
-    - cron: "0,15,30,45 * * * *" # Every 15 minutes
+    - cron: "*/45 * * * *" # Every 15 minutes
 
 jobs:
   build:
