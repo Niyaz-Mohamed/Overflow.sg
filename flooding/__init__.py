@@ -11,4 +11,4 @@ if __name__ == "__main__":
     # Reorder columns
     cols = data.columns.tolist()
     data = data[[cols[-1]] + cols[:-1]]
-    # saveToDatabase(data)
+    saveToDatabase(data)
