@@ -1,2 +1,2 @@
 ## Flood-Predictor
-An ML model for forecasting flooding in Singapore.
+An ML model and map for forecasting flooding in Singapore.
