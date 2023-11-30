@@ -1,7 +1,6 @@
 from api import getFlooding
-from db import saveToDatabase, fetchFromDatabase
+from db import saveToDatabase
 from datetime import datetime
-import pandas as pd
 
 # Run periodically to save to database
 if __name__ == "__main__":
@@ -12,6 +11,4 @@ if __name__ == "__main__":
     # Reorder columns
     cols = data.columns.tolist()
     data = data[[cols[-1]] + cols[:-1]]
-    df = pd.DataFrame(fetchFromDatabase())
-    data = df[["timestamp (data fetched)", "timestamp", "sensor-id"]]
-    data.to_csv("data.csv")
+    saveToDatabase(data)
