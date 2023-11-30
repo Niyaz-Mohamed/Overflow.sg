@@ -26,5 +26,5 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
-          cd flooding  # Navigate to the 'flooding' directory
+          cd model/flooding  # Navigate to the 'flooding' directory
           python __init__.py  # Run the '__init__.py' file
