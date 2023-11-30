@@ -58,4 +58,23 @@ def getAllData():
     return floodDf, weatherDf
 
 
+def calculateClosestStation(
+    floodDf: pd.DataFrame, weatherDf: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    Injects information about the closest weather station into floodDf.
+    """
+    sensors = floodDf.drop_duplicates(subset="sensor-id", keep="first")[
+        ["sensor-id", "sensor-name", "latitude", "longitude"]
+    ]
+    stations = weatherDf.drop_duplicates(subset="station-id", keep="first")[
+        ["station-id", "station-name", "latitude", "longitude"]
+    ]
+    print(sensors)
+    print(stations)
+    return floodDf
+    pass  # Insert the calculation function for distance here
+
+
 floodDf, weatherDf = getAllData()
+floodDf = calculateClosestStation(floodDf, weatherDf)

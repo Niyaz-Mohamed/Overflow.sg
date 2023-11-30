@@ -4,7 +4,7 @@ try:
 except:
     from api import getFlooding
     from db import saveToDatabase
-from datetime import datetime
+    from datetime import datetime
 
 # Run periodically to save to database
 if __name__ == "__main__":
