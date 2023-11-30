@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv, find_dotenv
 import pandas as pd
 from pymongo import MongoClient
+from colorama import Fore, Back, Style
+from time import time
 
 
 def saveToDatabase(data: pd.DataFrame):
@@ -26,10 +28,21 @@ def fetchFromDatabase(query=None):
     """Fetches all flooding data from the MongoDB database.
     Optionally provide a query to filter results"""
 
-    # Connect to Mongo, get collection data
+    # Connect to Mongo
     load_dotenv(find_dotenv())
     mongoURI = os.environ.get("MONGODB_URI")
     client = MongoClient(mongoURI)
+
+    # Get collection data
+    print(
+        Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL,
+        end=" Data from mongo\n",
+    )
+    fetchTimer = time()
     db = client.floodData
     documents = list(db.floodData.find(query))
+    print(
+        Fore.BLACK + Back.GREEN + "[END]" + Style.RESET_ALL,
+        end=f" Completed in {round(time()-fetchTimer, 2)}s\n\n",
+    )
     return documents

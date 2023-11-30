@@ -1,14 +1,27 @@
 # Functions for pulling data from government APIs
-from myutils import normalizeWeather, normalizeStations, mergeWeather, concatStations
+try:
+    from .myutils import (
+        normalizeWeather,
+        normalizeStations,
+        mergeWeather,
+        concatStations,
+    )
+except:
+    from myutils import (
+        normalizeWeather,
+        normalizeStations,
+        mergeWeather,
+        concatStations,
+    )
 from datetime import datetime
 from colorama import Fore, Back, Style
 from time import time
 import requests, pandas as pd
 
 
-def fetchWeather(type: str, date: datetime):
+def getWeather(type: str, date: datetime):
     """
-    Fetches raw data using the NEA's realtime weather API for the given date, of a specific type. Data is fetched at 5 minute intervals.
+    Gets raw data using the NEA's realtime weather API for the given date, of a specific type. Data is fetched at 5 minute intervals.
     NOTE: Measurement types used for each reading are:\n\t
         `air-temperature`: DBT 1M F\n\t
         `relative-humidity`: RH 1M F\n\t
@@ -33,6 +46,8 @@ def fetchWeather(type: str, date: datetime):
     timedReadings = response["items"]
     for minute in range(len(timedReadings)):
         for reading in timedReadings[minute]["readings"]:
+            if not "value" in reading:
+                reading["value"] = None
             reading[type] = reading.pop("value")
 
     # Log and return data
@@ -46,11 +61,11 @@ def fetchWeather(type: str, date: datetime):
     }
 
 
-def fetchWeatherRange(
+def getWeatherRange(
     date: datetime, endDate: datetime = None, interval: int = 5
 ) -> pd.DataFrame:
     """
-    Fetches detailed weather data over a range of dates using the NEA's realtime weather API.
+    Gets detailed weather data over a range of dates using the NEA's realtime weather API.
 
     Weather Data
     ----------
@@ -75,7 +90,7 @@ def fetchWeatherRange(
     dates = list(pd.date_range(date, endDate))
     weatherDf = pd.DataFrame()
 
-    # Fetch data over date range
+    # Get data over date range
     for date in dates:
         dateTimer = time()
         # Log details
@@ -83,7 +98,7 @@ def fetchWeatherRange(
             Fore.BLACK + Back.GREEN + "[FETCH]" + Style.RESET_ALL,
             f"Weather for {date.strftime('%d/%m/%Y')}",
         )
-        # Fetch all weather/station data
+        # Get all weather/station data
         weatherTypes = [
             "air-temperature",
             "relative-humidity",
@@ -94,7 +109,7 @@ def fetchWeatherRange(
         weatherData = []
         stationData = []
         for type in weatherTypes:
-            apiData = fetchWeather(type, date)
+            apiData = getWeather(type, date)
             weatherData.append(apiData["readings"])
             stationData.append(apiData["stations"])
 
