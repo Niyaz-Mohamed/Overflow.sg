@@ -1,5 +1,7 @@
 # Module for convenience functions
 import pandas as pd
+from datetime import datetime, timedelta
+from statistics import mean
 
 
 def normalizeWeather(data: dict) -> pd.DataFrame:
@@ -79,3 +81,42 @@ def loadWeather(name):
     df = pd.read_csv(f"{name}.csv").infer_objects()
     df["timestamp"] = pd.to_datetime(df["timestamp"])
     return df
+
+
+def weatherAt(
+    dt: datetime, weatherDf: pd.DataFrame, interval: int, stationId: int
+) -> pd.DataFrame:
+    """
+    Calculates weather at a point in time, accounting for \n
+    an interval of time around it, given a weather dataset.
+
+    NOTE: Interval should be even
+    """
+
+    # Create list of minutes to check and filter weatherDf
+    readingTimes = [
+        dt + (i - interval // 2) * timedelta(minutes=1) for i in range(interval + 1)
+    ]
+    reading = weatherDf[
+        (weatherDf["timestamp"].isin(readingTimes))
+        & (weatherDf["station-id"] == stationId)
+    ]
+
+    # Group readings in the interval together
+    reading = (
+        reading[reading["timestamp"] == dt]
+        .agg(
+            {
+                "rainfall": "sum",
+                "air-temperature": "mean",
+                "relative-humidity": "mean",
+                "wind-direction": "mean",
+                "wind-speed": "mean",
+            }
+        )
+        .squeeze()
+    )
+    # Append in station data
+    station = reading.iloc[:1, :5].squeeze()
+    reading = pd.DataFrame(pd.concat([station, reading])).T
+    return reading

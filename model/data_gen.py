@@ -1,4 +1,4 @@
-from weather import getWeatherRange
+from weather import getWeatherRange, weatherAt
 from flooding import fetchFromDatabase
 import os, pandas as pd
 from datetime import datetime, timedelta
@@ -61,6 +61,9 @@ def getAllData():
         if appendDates or prependDates:
             weatherDf.drop_duplicates().to_csv(weatherDataPath, index=False)
 
+    # Infer types for weatherDf
+    weatherDf["timestamp"] = weatherDf["timestamp"].str[:-6]
+    weatherDf["timestamp"] = pd.to_datetime(weatherDf["timestamp"])
     return floodDf, weatherDf
 
 
@@ -136,6 +139,40 @@ def calculateClosestStation(
     return floodDf
 
 
+def injectWeatherData(
+    floodDf: pd.DataFrame,
+    weatherDf: pd.DataFrame,
+    predictionTime: int,
+    intervalSize: int,
+    numMeasurements: int,
+    measurementSize: int,
+) -> pd.DataFrame:
+    """
+    Injects approppriate weather data into floodDf based on some parameters
+
+    Parameters
+    -----------
+    `predictionTime`: Prediction time (in hours) that the AI produced will have\n
+    `intervalSize`: Length of interval (in hours) between each moment in time where weather is measured\n
+    `numMeasurements`: Number of moments in time where weather is measured (prior to prediction time)\n
+    `measurementSize`: Size of period around measurement time (in minutes), taken to be measurement for that time\n
+    """
+    pass
+
+
+# Get data and find nearest station
 floodDf, weatherDf = getAllData()
-floodDf = calculateClosestStation(floodDf, weatherDf)
-print(floodDf)
+# floodDf = calculateClosestStation(floodDf, weatherDf)
+# # Inject weather data into flooding data based on factors
+# floodDf = injectWeatherData(
+#     floodDf,
+#     weatherDf,
+#     predictionTime=1,
+#     intervalSize=0.5,
+#     numMeasurements=3,
+#     measurementSize=10,
+# )
+# print(floodDf)
+
+ex = datetime.fromisoformat("2023-08-30T20:30:00")
+weatherAt(ex, weatherDf, interval=10, stationId="S104")

@@ -1,6 +1,7 @@
 # Document for generation of data
 try:
     from .api import getWeatherRange
+    from .myutils import weatherAt
 except:
     from api import getWeatherRange, getWeather
 
