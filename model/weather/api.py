@@ -38,7 +38,7 @@ def getWeather(type: str, date: datetime):
     print(Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL, f"{type}", end=": ")
     weatherTimer = time()
     # Fetch data
-    endpoint = "https://api.data.gov.sg/v1/environment/" + type
+    endpoint = "https://api.data.gov.sg/v2/environment/" + type
     params = {"date": date.strftime("%Y-%m-%d")}
     response = requests.get(endpoint, params=params).json()
 

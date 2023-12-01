@@ -93,6 +93,7 @@ def weatherAt(
     NOTE: Interval should be even
     """
 
+    print(dt, stationId)
     # Create list of minutes to check and filter weatherDf
     readingTimes = [
         dt + (i - interval // 2) * timedelta(minutes=1) for i in range(interval + 1)
@@ -103,6 +104,8 @@ def weatherAt(
     ]
 
     # Group readings in the interval together
+    print(reading, "\n\n")
+    station = reading.iloc[0, :5].squeeze()
     reading = (
         reading[reading["timestamp"] == dt]
         .agg(
@@ -117,6 +120,5 @@ def weatherAt(
         .squeeze()
     )
     # Append in station data
-    station = reading.iloc[:1, :5].squeeze()
     reading = pd.DataFrame(pd.concat([station, reading])).T
     return reading

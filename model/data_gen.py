@@ -144,8 +144,8 @@ def injectWeatherData(
     weatherDf: pd.DataFrame,
     predictionTime: int,
     intervalSize: int,
-    numMeasurements: int,
-    measurementSize: int,
+    numReadings: int,
+    readingSize: int,
 ) -> pd.DataFrame:
     """
     Injects approppriate weather data into floodDf based on some parameters
@@ -154,25 +154,53 @@ def injectWeatherData(
     -----------
     `predictionTime`: Prediction time (in hours) that the AI produced will have\n
     `intervalSize`: Length of interval (in hours) between each moment in time where weather is measured\n
-    `numMeasurements`: Number of moments in time where weather is measured (prior to prediction time)\n
-    `measurementSize`: Size of period around measurement time (in minutes), taken to be measurement for that time\n
+    `numreadings`: Number of moments in time where weather is measured (prior to prediction time)\n
+    `readingSize`: Size of period around reading time (in minutes), taken to be reading for that time\n
     """
-    pass
+
+    timeShifts = [-(predictionTime + n * intervalSize) for n in range(numReadings)]
+
+    for i in range(len(timeShifts)):
+        timeShift = timeShifts[i]
+
+        # Function to add weather for a particular time shift
+        def addWeatherSet(row):
+            weatherSet = weatherAt(
+                datetime.fromisoformat(row["timestamp"].replace(" ", "T")),
+                weatherDf,
+                interval=readingSize,
+                stationId=row["station-id"],
+            )
+            return pd.Series(
+                {
+                    f"rainfall{timeShift}h-prior": weatherSet["rainfall"],
+                    f"air-temperature{timeShift}h-prior": weatherSet["air-temperature"],
+                    f"relative-humidity{timeShift}h-prior": weatherSet[
+                        "relative-humidity"
+                    ],
+                    f"wind-direction{timeShift}h-prior": weatherSet["wind-direction"],
+                    f"wind-speed{timeShift}h-prior": weatherSet["wind-speed"],
+                }
+            )
+
+        # Apply the function to create multiple new columns
+        newColumns = floodDf.apply(addWeatherSet, axis=1)
+        # Merge the original DataFrame with the new columns
+        floodDf = pd.concat([floodDf, newColumns], axis=1)
+
+    return floodDf
 
 
 # Get data and find nearest station
 floodDf, weatherDf = getAllData()
-# floodDf = calculateClosestStation(floodDf, weatherDf)
-# # Inject weather data into flooding data based on factors
-# floodDf = injectWeatherData(
-#     floodDf,
-#     weatherDf,
-#     predictionTime=1,
-#     intervalSize=0.5,
-#     numMeasurements=3,
-#     measurementSize=10,
-# )
-# print(floodDf)
-
-ex = datetime.fromisoformat("2023-08-30T20:30:00")
-weatherAt(ex, weatherDf, interval=10, stationId="S104")
+floodDf = calculateClosestStation(floodDf, weatherDf)
+# Inject weather data into flooding data based on factors
+floodDf = injectWeatherData(
+    floodDf,
+    weatherDf,
+    predictionTime=1,
+    intervalSize=0.5,
+    numReadings=3,
+    readingSize=10,
+)
+print(floodDf)
