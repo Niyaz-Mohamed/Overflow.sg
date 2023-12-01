@@ -2,6 +2,7 @@ from weather import getWeatherRange
 from flooding import fetchFromDatabase
 import os, pandas as pd
 from datetime import datetime, timedelta
+from geopy.distance import geodesic
 
 
 def getAllData():
@@ -14,11 +15,16 @@ def getAllData():
     floodDataPath = os.path.join(__file__, "../data/floodData.csv")
     if not os.path.isfile(floodDataPath):
         floodDf = (
-            pd.DataFrame(fetchFromDatabase())
+            # Filter unneeded documents
+            pd.DataFrame(
+                fetchFromDatabase(
+                    query={"status": {"$in": [0, 1, 2]}},
+                )
+            )
+            # Clean and save data
             .drop(
                 columns=["_id", "timestamp (data fetched)", "water-level", "max-level"]
-            )
-            .sort_values(by="timestamp", ascending=True)
+            ).sort_values(by="timestamp", ascending=True)
         )
         floodDf.to_csv(floodDataPath, index=False)
     # Load memoized flooding data
@@ -70,11 +76,66 @@ def calculateClosestStation(
     stations = weatherDf.drop_duplicates(subset="station-id", keep="first")[
         ["station-id", "station-name", "latitude", "longitude"]
     ]
-    print(sensors)
-    print(stations)
+
+    # Calculate distance by comparing rows in dataframes
+    def calcDistance(row):
+        sensorCoords = (row["latitude"], row["longitude"])
+        distances = [
+            geodesic(
+                sensorCoords, (station["latitude"], station["longitude"])
+            ).kilometers
+            for _, station in stations.iterrows()
+        ]
+        closestStation = stations.iloc[distances.index(min(distances))]
+        return pd.Series(
+            {
+                "station-distance": min(distances),
+                "station-id": closestStation["station-id"],
+                "station-name": closestStation["station-name"],
+                "station-latitude": closestStation["latitude"],
+                "station-longitude": closestStation["latitude"],
+            }
+        )
+
+    # Apply distance calculation function and filter columns
+    sensors = pd.concat([sensors, sensors.apply(calcDistance, axis=1)], axis=1)[
+        [
+            "sensor-id",
+            "station-id",
+            "station-name",
+            "station-latitude",
+            "station-longitude",
+            "station-distance",
+        ]
+    ]
+
+    # Merge stations onto flooding data
+    floodDf = (
+        floodDf.merge(right=sensors, on="sensor-id")
+        .sort_values(by="timestamp", ascending=True)
+        .rename(
+            {"latitude": "sensor-latitude", "longitude": "sensor-longitude"}, axis=1
+        )
+        .reindex(
+            columns=[
+                "timestamp",
+                "sensor-id",
+                "sensor-name",
+                "sensor-latitude",
+                "sensor-longitude",
+                "station-id",
+                "station-name",
+                "station-latitude",
+                "station-longitude",
+                "station-distance",
+                "% full",
+            ]
+        )
+        .reset_index(drop=True)
+    )
     return floodDf
-    pass  # Insert the calculation function for distance here
 
 
 floodDf, weatherDf = getAllData()
 floodDf = calculateClosestStation(floodDf, weatherDf)
+print(floodDf)
