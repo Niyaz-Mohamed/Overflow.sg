@@ -3,15 +3,11 @@ try:
     from .myutils import (
         normalizeWeather,
         normalizeStations,
-        mergeWeather,
-        concatStations,
     )
 except:
     from myutils import (
         normalizeWeather,
         normalizeStations,
-        mergeWeather,
-        concatStations,
     )
 from datetime import datetime
 from colorama import Fore, Back, Style
@@ -19,9 +15,10 @@ from time import time
 import requests, pandas as pd
 
 
-def getWeather(type: str, date: datetime):
+def getWeather(type: str, date: datetime) -> pd.DataFrame:
     """
-    Gets raw data using the NEA's realtime weather API for the given date, of a specific type. Data is fetched at 5 minute intervals.
+    Gets raw data using the NEA's realtime weather API for the given date, of a specific type.\n
+
     NOTE: Measurement types used for each reading are:\n\t
         `air-temperature`: DBT 1M F\n\t
         `relative-humidity`: RH 1M F\n\t
@@ -38,7 +35,7 @@ def getWeather(type: str, date: datetime):
     print(Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL, f"{type}", end=": ")
     weatherTimer = time()
     # Fetch data
-    endpoint = "https://api.data.gov.sg/v2/environment/" + type
+    endpoint = "https://api.data.gov.sg/v1/environment/" + type
     params = {"date": date.strftime("%Y-%m-%d")}
     response = requests.get(endpoint, params=params).json()
 
@@ -50,15 +47,17 @@ def getWeather(type: str, date: datetime):
                 reading["value"] = None
             reading[type] = reading.pop("value")
 
+    # Merge required data
+    stations = normalizeStations(response["metadata"]["stations"])
+    readings = normalizeWeather(timedReadings)
+    readings = readings.merge(right=stations, on="station-id", how="left")
+    readings = readings[
+        ["timestamp", "station-id", "station-name", "latitude", "longitude", type]
+    ]
+
     # Log and return data
     print(f"{round(time()-weatherTimer,2)}s")
-    return {
-        "raw-data": response,
-        "stations": normalizeStations(response["metadata"]["stations"]),
-        "readings": normalizeWeather(timedReadings),
-        "type": type,
-        "api-status": response["api_info"]["status"],
-    }
+    return readings
 
 
 def getWeatherRange(
@@ -92,33 +91,37 @@ def getWeatherRange(
 
     # Get data over date range
     for date in dates:
+        # Begin logging
         dateTimer = time()
-        # Log details
         print(
             Fore.BLACK + Back.GREEN + "[FETCH]" + Style.RESET_ALL,
             f"Weather for {date.strftime('%d/%m/%Y')}",
         )
+
         # Get all weather/station data
         weatherTypes = [
+            "rainfall",
             "air-temperature",
             "relative-humidity",
-            "rainfall",
             "wind-direction",
             "wind-speed",
         ]
         weatherData = []
-        stationData = []
         for type in weatherTypes:
-            apiData = getWeather(type, date)
-            weatherData.append(apiData["readings"])
-            stationData.append(apiData["stations"])
+            weatherData.append(getWeather(type, date))
 
-        # Merge weather data and station data
-        mergedStations = concatStations(stationData)
-        mergedWeather = mergeWeather(weatherData).merge(
-            mergedStations, how="left", on="station-id"
+        # Merge weather data for a particular day and add to weatherDf
+        dateDf = weatherData[0]
+        for i in range(1, len(weatherData)):
+            currentType = weatherData[i].columns.tolist()[-1]
+            dateDf = dateDf.merge(
+                weatherData[i][["timestamp", "station-id", currentType]],
+                how="outer",
+                on=["timestamp", "station-id"],
+            )
+        weatherDf = pd.concat(
+            [weatherDf, dateDf.reset_index(drop=True)], ignore_index=True
         )
-        weatherDf = pd.concat([weatherDf, mergedWeather], ignore_index=True)
         print(
             Fore.BLACK + Back.GREEN + "[FETCH]" + Style.RESET_ALL,
             f"Completed in {round(time()-dateTimer, 2)}s\n",
@@ -130,6 +133,8 @@ def getWeatherRange(
         .sort_values(by=["station-id", "timestamp"])
         .reset_index(drop=True)
     )
+
+    weatherDf.to_csv("pregroup.csv")
     weatherDf = weatherDf.groupby(
         [
             "station-id",
@@ -146,10 +151,12 @@ def getWeatherRange(
         as_index=False,
     ).mean()
 
+    weatherDf.to_csv("postgroup.csv")
+
     # Reorder columns
-    cols = weatherDf.columns.tolist()
-    cols = [cols[2]] + cols[:2] + cols[-2:] + [cols[5]] + cols[3:5] + cols[6:-2]
-    weatherDf = weatherDf[cols]
+    # cols = weatherDf.columns.tolist()
+    # cols = [cols[2]] + cols[:2] + cols[-2:] + [cols[5]] + cols[3:5] + cols[6:-2]
+    # weatherDf = weatherDf[cols]
     print(
         Fore.BLACK
         + Back.GREEN

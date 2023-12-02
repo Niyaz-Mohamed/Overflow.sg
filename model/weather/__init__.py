@@ -11,9 +11,5 @@ if __name__ == "__main__":
     from datetime import datetime
 
     date = datetime(year=2023, month=10, day=3)
-    # df = getWeatherRange(date)
-    # Remove filtering of empty stations
-    thing = getWeather("air-temperature", date)["readings"].drop_duplicates(
-        subset="station-id", keep="first"
-    )
-    print(thing)
+    df = getWeatherRange(date)
+    print(df)

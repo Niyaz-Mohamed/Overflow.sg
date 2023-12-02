@@ -1,7 +1,6 @@
 # Module for convenience functions
 import pandas as pd
 from datetime import datetime, timedelta
-from statistics import mean
 
 
 def normalizeWeather(data: dict) -> pd.DataFrame:
@@ -36,23 +35,6 @@ def normalizeStations(data: dict) -> pd.DataFrame:
     return df
 
 
-def mergeWeather(
-    data: list[pd.DataFrame], how: str = "left", on: list = ["timestamp", "station-id"]
-) -> pd.DataFrame:
-    """Merges different weather dataframes together.
-
-    Parameters
-    ----------
-    `data`: List of dataframes to merge. First dataframe is taken as the left/right dataframe\n
-    `how`: Merge type (inner, outer, left, right)\n
-    `on`: Columns to use as keys when merging
-    """
-    df = data[0]
-    for i in range(1, len(data)):
-        df = df.merge(data[i], how=how, on=on)
-    return df.reset_index(drop=True)
-
-
 def concatStations(data: list[pd.DataFrame]) -> pd.DataFrame:
     """Merges different station dataframes together.
 
@@ -65,22 +47,6 @@ def concatStations(data: list[pd.DataFrame]) -> pd.DataFrame:
     for i in range(1, len(data)):
         df = pd.concat([df, data[i]], ignore_index=True).drop_duplicates()
     return df.reset_index(drop=True)
-
-
-def saveWeather(weatherDf: pd.DataFrame, name: str):
-    """
-    Convenience function to save a weather dataframe to the file name.
-    """
-    weatherDf.to_csv(name, index=False)
-
-
-def loadWeather(name):
-    """
-    Loads a weather dataframe from [name].csv
-    """
-    df = pd.read_csv(f"{name}.csv").infer_objects()
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
-    return df
 
 
 def weatherAt(
