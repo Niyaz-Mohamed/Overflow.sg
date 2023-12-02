@@ -73,11 +73,12 @@ def calculateClosestStation(
     """
     Injects information about the closest weather station into floodDf.
     """
+    # TODO: Iterate through floodDf and join in closest station with data for the given time
     sensors = floodDf.drop_duplicates(subset="sensor-id", keep="first")[
         ["sensor-id", "sensor-name", "latitude", "longitude"]
     ]
     stations = weatherDf.drop_duplicates(subset="station-id", keep="first")[
-        ["station-id", "station-name", "latitude", "longitude"]
+        ["timestamp", "station-id", "station-name", "latitude", "longitude"]
     ]
 
     # Calculate distance by comparing rows in dataframes

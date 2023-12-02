@@ -127,14 +127,21 @@ def getWeatherRange(
             f"Completed in {round(time()-dateTimer, 2)}s\n",
         )
 
-    # Typecast, clean, and compress columns to interval
+    # Clean and neaten data
     weatherDf = (
         weatherDf.infer_objects()
         .sort_values(by=["station-id", "timestamp"])
         .reset_index(drop=True)
     )
-
-    weatherDf.to_csv("pregroup.csv")
+    weatherDf = weatherDf.reindex(
+        columns=[
+            "timestamp",
+            "station-id",
+            "station-name",
+            *weatherDf.columns.tolist()[3:],
+        ]
+    )
+    # Compress to defined interval
     weatherDf = weatherDf.groupby(
         [
             "station-id",
@@ -151,12 +158,7 @@ def getWeatherRange(
         as_index=False,
     ).mean()
 
-    weatherDf.to_csv("postgroup.csv")
-
-    # Reorder columns
-    # cols = weatherDf.columns.tolist()
-    # cols = [cols[2]] + cols[:2] + cols[-2:] + [cols[5]] + cols[3:5] + cols[6:-2]
-    # weatherDf = weatherDf[cols]
+    # Log ending and return result
     print(
         Fore.BLACK
         + Back.GREEN

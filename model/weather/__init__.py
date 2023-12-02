@@ -12,4 +12,5 @@ if __name__ == "__main__":
 
     date = datetime(year=2023, month=10, day=3)
     df = getWeatherRange(date)
-    print(df)
+    df = df.sort_values(by=["timestamp", "station-id"])
+    df.to_csv("data.csv", index=False)
