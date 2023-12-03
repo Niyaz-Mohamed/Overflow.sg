@@ -64,6 +64,8 @@ def getAllData():
     # Infer types for weatherDf
     weatherDf["timestamp"] = weatherDf["timestamp"].str[:-6]
     weatherDf["timestamp"] = pd.to_datetime(weatherDf["timestamp"])
+    # Cut out all rows with nils
+    weatherDf.dropna(inplace=True)
     return floodDf, weatherDf
 
 
@@ -71,9 +73,21 @@ def calculateClosestStation(
     floodDf: pd.DataFrame, weatherDf: pd.DataFrame
 ) -> pd.DataFrame:
     """
-    Injects information about the closest weather station into floodDf.
+    Injects information about the closest weather station into floodDf\n
+    and memoizes it in a data folder in the same directory as the current file.
+
+    NOTE: Always delete
     """
-    # TODO: Iterate through floodDf and join in closest station with data for the given time
+
+    # Check if file exists
+    memoDataPath = os.path.join(__file__, "../data/floodDataWithStations.csv")
+    if os.path.isfile(memoDataPath):
+        # Check if file is valid (number of rows equal)
+        memoDf = pd.read_csv(memoDataPath)
+        if memoDf.shape[0] == floodDf.shape[0]:
+            return memoDf
+
+    # Quickly match sensors to stations
     sensors = floodDf.drop_duplicates(subset="sensor-id", keep="first")[
         ["sensor-id", "sensor-name", "latitude", "longitude"]
     ]
@@ -98,45 +112,59 @@ def calculateClosestStation(
                 "station-name": closestStation["station-name"],
                 "station-latitude": closestStation["latitude"],
                 "station-longitude": closestStation["latitude"],
+                "station-first-timestamp": closestStation["timestamp"],
             }
         )
 
-    # Apply distance calculation function and filter columns
-    sensors = pd.concat([sensors, sensors.apply(calcDistance, axis=1)], axis=1)[
-        [
-            "sensor-id",
-            "station-id",
-            "station-name",
-            "station-latitude",
-            "station-longitude",
-            "station-distance",
-        ]
-    ]
-
+    # Apply distance calculation function and filter columns (only keep sensor id and station details)
+    sensors = pd.concat([sensors, sensors.apply(calcDistance, axis=1)], axis=1)
+    col = sensors.columns.tolist()
+    sensors = sensors[col[:1] + col[4:]]
     # Merge stations onto flooding data
+    floodDf = floodDf.merge(right=sensors, on="sensor-id")
+
+    # Function handling error values (timestamp of flooding before first timestamp of station)
+    # through iteration of flooding data
+    def calcDistanceManual(row):
+        sensorCoords = (row["latitude"], row["longitude"])
+        availStations = stations[stations["timestamp"] <= row["timestamp"]]
+        distances = [
+            geodesic(
+                sensorCoords, (station["latitude"], station["longitude"])
+            ).kilometers
+            for _, station in availStations.iterrows()
+        ]
+        closestStation = availStations.iloc[distances.index(min(distances))]
+        return pd.Series(
+            {
+                "station-distance": min(distances),
+                "station-id": closestStation["station-id"],
+                "station-name": closestStation["station-name"],
+                "station-latitude": closestStation["latitude"],
+                "station-longitude": closestStation["latitude"],
+                "station-first-timestamp": closestStation["timestamp"],
+            }
+        )
+
+    # Get all rows with error values and fix errors
+    errorDf = floodDf[floodDf["timestamp"] < floodDf["station-first-timestamp"]]
+    cols = errorDf.columns.tolist()
+    errorDf = errorDf[cols[:-6]]
+    errorDf = pd.concat([errorDf, errorDf.apply(calcDistanceManual, axis=1)], axis=1)
+    # Update the original dataset with the corrected values and clean df
+    floodDf.update(errorDf)
     floodDf = (
-        floodDf.merge(right=sensors, on="sensor-id")
-        .sort_values(by="timestamp", ascending=True)
-        .rename(
+        floodDf.rename(
             {"latitude": "sensor-latitude", "longitude": "sensor-longitude"}, axis=1
         )
-        .reindex(
-            columns=[
-                "timestamp",
-                "sensor-id",
-                "sensor-name",
-                "sensor-latitude",
-                "sensor-longitude",
-                "station-id",
-                "station-name",
-                "station-latitude",
-                "station-longitude",
-                "station-distance",
-                "% full",
-            ]
-        )
+        .sort_values(by="timestamp", ascending=True)
         .reset_index(drop=True)
     )
+    cols = floodDf.columns.tolist()
+    floodDf = floodDf[cols[:5] + cols[8:-1] + cols[5:6]]
+
+    # Save and memoize the dataframe
+    floodDf.to_csv(memoDataPath, index=False)
     return floodDf
 
 
@@ -195,6 +223,7 @@ def injectWeatherData(
 # Get data and find nearest station
 floodDf, weatherDf = getAllData()
 floodDf = calculateClosestStation(floodDf, weatherDf)
+# TODO: Test with small sample dataset
 # Inject weather data into flooding data based on factors
 floodDf = injectWeatherData(
     floodDf,
@@ -204,4 +233,3 @@ floodDf = injectWeatherData(
     numReadings=3,
     readingSize=10,
 )
-print(floodDf)

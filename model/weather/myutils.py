@@ -59,7 +59,6 @@ def weatherAt(
     NOTE: Interval should be even
     """
 
-    print(dt, stationId)
     # Create list of minutes to check and filter weatherDf
     readingTimes = [
         dt + (i - interval // 2) * timedelta(minutes=1) for i in range(interval + 1)
@@ -70,7 +69,6 @@ def weatherAt(
     ]
 
     # Group readings in the interval together
-    print(reading, "\n\n")
     station = reading.iloc[0, :5].squeeze()
     reading = (
         reading[reading["timestamp"] == dt]
