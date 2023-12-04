@@ -55,7 +55,7 @@ memo = {}
 
 def weatherAt(
     dt: datetime, weatherDf: pd.DataFrame, interval: int, stationId: int
-) -> pd.DataFrame:
+) -> pd.Series:
     """
     Calculates weather at a point in time, accounting for \n
     an interval of time around it, given a weather dataset.
@@ -79,9 +79,10 @@ def weatherAt(
 
     # Group readings in the interval together
     station = reading.iloc[0, :5].squeeze()
+    station["timestamp"] = dt
+    # Timestamps selected might not be equal to dt, due to 5 minute granularity
     reading = (
-        reading[reading["timestamp"] == dt]
-        .agg(
+        reading.agg(
             {
                 "rainfall": "sum",
                 "air-temperature": "mean",
@@ -91,8 +92,9 @@ def weatherAt(
             }
         )
         .squeeze()
+        .round(2)
     )
     # Append in station data and memoize
-    reading = pd.DataFrame(pd.concat([station, reading])).T
+    reading = pd.concat([station, reading])
     memo[key] = reading
     return reading

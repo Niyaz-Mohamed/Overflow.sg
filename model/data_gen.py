@@ -111,7 +111,7 @@ def calculateClosestStation(
                 "station-id": closestStation["station-id"],
                 "station-name": closestStation["station-name"],
                 "station-latitude": closestStation["latitude"],
-                "station-longitude": closestStation["latitude"],
+                "station-longitude": closestStation["longitude"],
                 "station-first-timestamp": closestStation["timestamp"],
             }
         )
@@ -141,7 +141,7 @@ def calculateClosestStation(
                 "station-id": closestStation["station-id"],
                 "station-name": closestStation["station-name"],
                 "station-latitude": closestStation["latitude"],
-                "station-longitude": closestStation["latitude"],
+                "station-longitude": closestStation["longitude"],
                 "station-first-timestamp": closestStation["timestamp"],
             }
         )
@@ -187,48 +187,54 @@ def injectWeatherData(
     `readingSize`: Size of period around reading time (in minutes), taken to be reading for that time\n
     """
 
-    timeShifts = [-(predictionTime + n * intervalSize) for n in range(numReadings)]
+    timeShifts = [predictionTime + n * intervalSize for n in range(numReadings)]
 
     # Function to add weather for a particular time shift
+    # Time complexity n based on numReadings
     def addWeatherSet(row):
         weatherSet = [
             weatherAt(
                 datetime.fromisoformat(row["timestamp"].replace(" ", "T"))
-                + timedelta(hours=timeShift),
+                - timedelta(hours=timeShift),
                 weatherDf,
                 interval=readingSize,
                 stationId=row["station-id"],
             )
             for timeShift in timeShifts
         ]
+
         # Construct result
-        res = [
+        resultWeather = [
             pd.Series(
                 {
-                    f"rainfall{timeShifts[i]}h-prior": weatherSet[i]["rainfall"],
-                    f"air-temperature{timeShifts[i]}h-prior": weatherSet[i][
+                    f"rainfall-{timeShifts[i]}h-prior": weatherSet[i]["rainfall"],
+                    f"air-temperature-{timeShifts[i]}h-prior": weatherSet[i][
                         "air-temperature"
                     ],
-                    f"relative-humidity{timeShifts[i]}h-prior": weatherSet[i][
+                    f"relative-humidity-{timeShifts[i]}h-prior": weatherSet[i][
                         "relative-humidity"
                     ],
-                    f"wind-direction{timeShifts[i]}h-prior": weatherSet[i][
+                    f"wind-direction-{timeShifts[i]}h-prior": weatherSet[i][
                         "wind-direction"
                     ],
-                    f"wind-speed{timeShifts[i]}h-prior": weatherSet[i]["wind-speed"],
+                    f"wind-speed-{timeShifts[i]}h-prior": weatherSet[i]["wind-speed"],
                 }
             )
             for i in range(len(weatherSet))
         ]
-        res = pd.concat(res)
-        print(f"{row.name}/{floodDf.shape[0]}")
-        return res
+        resultWeather = pd.concat(resultWeather)
+        return resultWeather
 
     # Apply the function to create multiple new columns
+    # Time complexity n based on number of rows
     newColumns = floodDf.apply(addWeatherSet, axis=1)
     # Merge the original DataFrame with the new columns
     floodDf = pd.concat([floodDf, newColumns], axis=1)
-
+    # Push the '% full' column to the right
+    cols = floodDf.columns.tolist()
+    cols.append(cols[9])
+    del cols[9]
+    floodDf = floodDf[cols]
     return floodDf
 
 
@@ -237,26 +243,41 @@ def constructDataset(
     intervalSize: int,
     numReadings: int,
     readingSize: int,
+    restrictRows: int = None,
 ) -> pd.DataFrame:
     """
-    Constructs a training dataset based on parameters given.
+    Constructs a training dataset based on parameters given.\n\n
+    Returns a training dataset which it will also memoize in a data folder. Data is saved in the following format:\n
+    "trainingData-{predictionTime}-{intervalSize}-{numReadings}-{readingSize}.csv"
+
+    NOTE: `restrictRows` is an optional argument to only use the first few rows in a dataset
     """
-    pass
+    # Get data and find nearest station
+    floodDf, weatherDf = getAllData()
+    floodDf = calculateClosestStation(floodDf, weatherDf)
+
+    # Restrict rows
+    floodDf = floodDf.head(restrictRows)
+    # Inject weather data into flooding data based on factors (EXPENSIVE)
+    floodDf = injectWeatherData(
+        floodDf,
+        weatherDf,
+        predictionTime=1,
+        intervalSize=0.5,
+        numReadings=3,
+        readingSize=10,
+    )
+
+    # Save dataset
+    savePath = os.path.join(
+        __file__,
+        f"../data/trainingData-{predictionTime}-{intervalSize}-{numReadings}-{readingSize}.csv",
+    )
+    floodDf.to_csv(savePath, index=False)
+    return floodDf
 
 
-# Get data and find nearest station
-floodDf, weatherDf = getAllData()
-floodDf = calculateClosestStation(floodDf, weatherDf)
-floodDf = floodDf.head(1000)
-
-# EXPENSIVE FUNCTION
-# Inject weather data into flooding data based on factors
-floodDf = injectWeatherData(
-    floodDf,
-    weatherDf,
-    predictionTime=1,
-    intervalSize=0.5,
-    numReadings=3,
-    readingSize=10,
+floodDf = constructDataset(
+    predictionTime=1, intervalSize=0.5, numReadings=3, readingSize=10
 )
 print(floodDf)
