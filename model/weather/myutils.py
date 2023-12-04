@@ -49,6 +49,10 @@ def concatStations(data: list[pd.DataFrame]) -> pd.DataFrame:
     return df.reset_index(drop=True)
 
 
+# Expensive function, need to memoize details
+memo = {}
+
+
 def weatherAt(
     dt: datetime, weatherDf: pd.DataFrame, interval: int, stationId: int
 ) -> pd.DataFrame:
@@ -58,6 +62,11 @@ def weatherAt(
 
     NOTE: Interval should be even
     """
+
+    # Check for memoized results
+    key = (dt, interval, stationId)
+    if key in memo:
+        return memo[key]
 
     # Create list of minutes to check and filter weatherDf
     readingTimes = [
@@ -83,6 +92,7 @@ def weatherAt(
         )
         .squeeze()
     )
-    # Append in station data
+    # Append in station data and memoize
     reading = pd.DataFrame(pd.concat([station, reading])).T
+    memo[key] = reading
     return reading

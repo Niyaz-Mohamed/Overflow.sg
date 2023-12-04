@@ -189,41 +189,67 @@ def injectWeatherData(
 
     timeShifts = [-(predictionTime + n * intervalSize) for n in range(numReadings)]
 
-    for i in range(len(timeShifts)):
-        timeShift = timeShifts[i]
-
-        # Function to add weather for a particular time shift
-        def addWeatherSet(row):
-            weatherSet = weatherAt(
-                datetime.fromisoformat(row["timestamp"].replace(" ", "T")),
+    # Function to add weather for a particular time shift
+    def addWeatherSet(row):
+        weatherSet = [
+            weatherAt(
+                datetime.fromisoformat(row["timestamp"].replace(" ", "T"))
+                + timedelta(hours=timeShift),
                 weatherDf,
                 interval=readingSize,
                 stationId=row["station-id"],
             )
-            return pd.Series(
+            for timeShift in timeShifts
+        ]
+        # Construct result
+        res = [
+            pd.Series(
                 {
-                    f"rainfall{timeShift}h-prior": weatherSet["rainfall"],
-                    f"air-temperature{timeShift}h-prior": weatherSet["air-temperature"],
-                    f"relative-humidity{timeShift}h-prior": weatherSet[
+                    f"rainfall{timeShifts[i]}h-prior": weatherSet[i]["rainfall"],
+                    f"air-temperature{timeShifts[i]}h-prior": weatherSet[i][
+                        "air-temperature"
+                    ],
+                    f"relative-humidity{timeShifts[i]}h-prior": weatherSet[i][
                         "relative-humidity"
                     ],
-                    f"wind-direction{timeShift}h-prior": weatherSet["wind-direction"],
-                    f"wind-speed{timeShift}h-prior": weatherSet["wind-speed"],
+                    f"wind-direction{timeShifts[i]}h-prior": weatherSet[i][
+                        "wind-direction"
+                    ],
+                    f"wind-speed{timeShifts[i]}h-prior": weatherSet[i]["wind-speed"],
                 }
             )
+            for i in range(len(weatherSet))
+        ]
+        res = pd.concat(res)
+        print(f"{row.name}/{floodDf.shape[0]}")
+        return res
 
-        # Apply the function to create multiple new columns
-        newColumns = floodDf.apply(addWeatherSet, axis=1)
-        # Merge the original DataFrame with the new columns
-        floodDf = pd.concat([floodDf, newColumns], axis=1)
+    # Apply the function to create multiple new columns
+    newColumns = floodDf.apply(addWeatherSet, axis=1)
+    # Merge the original DataFrame with the new columns
+    floodDf = pd.concat([floodDf, newColumns], axis=1)
 
     return floodDf
+
+
+def constructDataset(
+    predictionTime: int,
+    intervalSize: int,
+    numReadings: int,
+    readingSize: int,
+) -> pd.DataFrame:
+    """
+    Constructs a training dataset based on parameters given.
+    """
+    pass
 
 
 # Get data and find nearest station
 floodDf, weatherDf = getAllData()
 floodDf = calculateClosestStation(floodDf, weatherDf)
-# TODO: Test with small sample dataset
+floodDf = floodDf.head(1000)
+
+# EXPENSIVE FUNCTION
 # Inject weather data into flooding data based on factors
 floodDf = injectWeatherData(
     floodDf,
@@ -233,3 +259,4 @@ floodDf = injectWeatherData(
     numReadings=3,
     readingSize=10,
 )
+print(floodDf)
