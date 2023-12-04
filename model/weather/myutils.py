@@ -78,7 +78,13 @@ def weatherAt(
     ]
 
     # Group readings in the interval together
-    station = reading.iloc[0, :5].squeeze()
+    try:
+        station = reading.iloc[0, :5].squeeze()
+    except:
+        nullSeries = weatherDf[weatherDf["station-id"] == stationId].head(1)
+        nullSeries.iloc[:, -5:] = None
+        return nullSeries.squeeze()
+
     station["timestamp"] = dt
     # Timestamps selected might not be equal to dt, due to 5 minute granularity
     reading = (

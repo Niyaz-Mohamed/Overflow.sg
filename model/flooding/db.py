@@ -35,14 +35,17 @@ def fetchFromDatabase(query=None):
 
     # Get collection data
     print(
-        Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL,
-        end=" Data from mongo\n",
+        "\n" + Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL,
+        end=" Getting flooding data from mongo\n",
     )
     fetchTimer = time()
     db = client.floodData
     documents = list(db.floodData.find(query))
     print(
-        Fore.BLACK + Back.GREEN + "[END]" + Style.RESET_ALL,
-        end=f" Completed in {round(time()-fetchTimer, 2)}s\n\n",
+        Fore.BLACK
+        + Back.GREEN
+        + f"Completed in {round(time()-fetchTimer, 2)}s"
+        + Style.RESET_ALL
+        + "\n\n"
     )
     return documents

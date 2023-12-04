@@ -3,6 +3,17 @@ from flooding import fetchFromDatabase
 import os, pandas as pd
 from datetime import datetime, timedelta
 from geopy.distance import geodesic
+from colorama import Back, Style
+from time import time
+
+
+def log(color: str, foreText: str = "", bodyText: str = "", end: str = ""):
+    """
+    Convenience function for logging, accepts a color and creates a printed log.
+
+    NOTE: color should be a colorama background color
+    """
+    print(color + foreText + Style.RESET_ALL + " " + bodyText)
 
 
 def getAllData():
@@ -123,6 +134,7 @@ def calculateClosestStation(
     # Merge stations onto flooding data
     floodDf = floodDf.merge(right=sensors, on="sensor-id")
 
+    # TODO: Account for stations having gaps in their recording periods
     # Function handling error values (timestamp of flooding before first timestamp of station)
     # through iteration of flooding data
     def calcDistanceManual(row):
@@ -161,7 +173,7 @@ def calculateClosestStation(
         .reset_index(drop=True)
     )
     cols = floodDf.columns.tolist()
-    floodDf = floodDf[cols[:5] + cols[8:-1] + cols[5:6]]
+    floodDf = floodDf[cols[:5] + cols[8:-1] + [cols[7], cols[5]]]
 
     # Save and memoize the dataframe
     floodDf.to_csv(memoDataPath, index=False)
@@ -192,6 +204,14 @@ def injectWeatherData(
     # Function to add weather for a particular time shift
     # Time complexity n based on numReadings
     def addWeatherSet(row):
+        # Log progress occationally
+        if (row.name + 1) % 2000 == 0:
+            log(
+                Back.WHITE,
+                "[UPDATE]",
+                f"Completed {row.name+1}/{floodDf.shape[0]} rows",
+            )
+
         weatherSet = [
             weatherAt(
                 datetime.fromisoformat(row["timestamp"].replace(" ", "T"))
@@ -243,6 +263,7 @@ def constructDataset(
     intervalSize: int,
     numReadings: int,
     readingSize: int,
+    restrictDistance: int = None,
     restrictRows: int = None,
 ) -> pd.DataFrame:
     """
@@ -250,34 +271,87 @@ def constructDataset(
     Returns a training dataset which it will also memoize in a data folder. Data is saved in the following format:\n
     "trainingData-{predictionTime}-{intervalSize}-{numReadings}-{readingSize}.csv"
 
-    NOTE: `restrictRows` is an optional argument to only use the first few rows in a dataset
+    Parameters
+    -----------
+    `predictionTime`: Prediction time (in hours) that the AI produced will have\n
+    `intervalSize`: Length of interval (in hours) between each moment in time where weather is measured\n
+    `numreadings`: Number of moments in time where weather is measured (prior to prediction time)\n
+    `readingSize`: Size of period around reading time (in minutes), taken to be reading for that time\n
+    `restrictDistance`: Only accept rows where station-to-sensor distance is lower than this [optional]\n
+    `restrictRows`: Restrict number of rows of filtered dataframe to inject weather into
     """
-    # Get data and find nearest station
+    # 2023-08-31T14:50:00 10 S111
+
+    # Fetch base datasets
+    log(Back.CYAN, "[TASK]", "Fetching and saving base weather and flooding datasets")
     floodDf, weatherDf = getAllData()
+
+    # Match water level sensors to closest weather station
+    log(Back.CYAN, "[TASK]", "Matching weather stations to flood sensors")
     floodDf = calculateClosestStation(floodDf, weatherDf)
 
-    # Restrict rows
-    floodDf = floodDf.head(restrictRows)
-    # Inject weather data into flooding data based on factors (EXPENSIVE)
-    floodDf = injectWeatherData(
-        floodDf,
-        weatherDf,
-        predictionTime=1,
-        intervalSize=0.5,
-        numReadings=3,
-        readingSize=10,
-    )
+    # Restrict rows and distance
+    if restrictDistance:
+        log(
+            Back.CYAN,
+            "[TASK]",
+            f"Restricting station-distance in flood dataset to below {restrictDistance}km",
+        )
+        floodDf = floodDf[floodDf["station-distance"] < restrictDistance]
+        floodDf.reset_index(drop=True, inplace=True)
+    if restrictRows:
+        log(
+            Back.CYAN,
+            "[TASK]",
+            f"Restricting row count in flood dataset to {restrictRows}",
+        )
+        floodDf = floodDf.head(restrictRows)
 
-    # Save dataset
+    # Check for existing dataset (only after fetching and saving original datasets)
     savePath = os.path.join(
         __file__,
         f"../data/trainingData-{predictionTime}-{intervalSize}-{numReadings}-{readingSize}.csv",
     )
-    floodDf.to_csv(savePath, index=False)
+    if os.path.isfile(savePath):
+        log(
+            Back.GREEN,
+            "Existing complete dataset found, ignoring row restriction",
+            "\n",
+        )
+        return pd.read_csv(savePath)
+
+    # Inject weather data into flooding data based on factors (EXPENSIVE)
+    log(Back.CYAN, "[TASK]", "Injecting weather data into flooding dataset")
+    # Expensive operation, begin timing and estimating required time
+    # Base case 6 readings, 6000 rows, 194s, with approppriate scale factors below
+    expectedTime = (270 * numReadings * floodDf.shape[0]) / (12000 * 3)
+    log(
+        Back.RED,
+        "[NOTE]",
+        f"Expected time required is {round(expectedTime)}s ({floodDf.shape[0]} rows, {numReadings} readings)",
+    )
+    startTime = time()
+    floodDf = injectWeatherData(
+        floodDf,
+        weatherDf,
+        predictionTime,
+        intervalSize,
+        numReadings,
+        readingSize,
+    )
+    log(Back.GREEN, f"Completed in {round(time()-startTime,2)}s", "\n")
+
+    # Save dataset to csv
+    floodDf.dropna().to_csv(savePath, index=False)
     return floodDf
 
 
 floodDf = constructDataset(
-    predictionTime=1, intervalSize=0.5, numReadings=3, readingSize=10
+    predictionTime=1,
+    intervalSize=0.5,
+    numReadings=3,
+    readingSize=10,
+    restrictDistance=5,
+    restrictRows=500000,
 )
 print(floodDf)

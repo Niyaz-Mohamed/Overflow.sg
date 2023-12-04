@@ -123,8 +123,11 @@ def getWeatherRange(
             [weatherDf, dateDf.reset_index(drop=True)], ignore_index=True
         )
         print(
-            Fore.BLACK + Back.GREEN + "[FETCH]" + Style.RESET_ALL,
-            f"Completed in {round(time()-dateTimer, 2)}s\n",
+            Fore.BLACK
+            + Back.GREEN
+            + f"Completed in {round(time()-dateTimer, 2)}s"
+            + Style.RESET_ALL
+            + "\n"
         )
 
     # Clean and neaten data
@@ -164,5 +167,6 @@ def getWeatherRange(
         + Back.GREEN
         + f"Data fetched in {round(time()-allTimer,2)}s"
         + Style.RESET_ALL
+        + "\n"
     )
     return weatherDf
