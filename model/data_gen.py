@@ -43,8 +43,8 @@ def getAllData():
 
     # Check if weather data is suitable for flood data
     weatherDataPath = os.path.join(__file__, "../data/weatherData.csv")
-    floodMin = datetime.fromisoformat(floodDf["timestamp"].min())
-    floodMax = datetime.fromisoformat(floodDf["timestamp"].max())
+    floodMin = datetime.fromisoformat(floodDf["timestamp"].min()).date()
+    floodMax = datetime.fromisoformat(floodDf["timestamp"].max()).date()
 
     # Generate data if i1t doesn't exist
     if not os.path.isfile(weatherDataPath):
@@ -53,8 +53,8 @@ def getAllData():
     # Define conditions on which to add more dates
     else:
         weatherDf = pd.read_csv(weatherDataPath)
-        weatherMin = datetime.fromisoformat(weatherDf["timestamp"].min()[:-6])
-        weatherMax = datetime.fromisoformat(weatherDf["timestamp"].max()[:-6])
+        weatherMin = datetime.fromisoformat(weatherDf["timestamp"].min()[:-6]).date()
+        weatherMax = datetime.fromisoformat(weatherDf["timestamp"].max()[:-6]).date()
         prependDates = weatherMin + timedelta(days=2) > floodMin
         appendDates = weatherMax < floodMax
 
@@ -65,7 +65,8 @@ def getAllData():
 
         # Append missing end dates
         if appendDates:
-            appendDf = getWeatherRange(weatherMax, floodMax)
+            print(floodMax)
+            appendDf = getWeatherRange(weatherMax + timedelta(days=1), floodMax)
             weatherDf = pd.concat([weatherDf, appendDf])
 
         # Update csv file
@@ -344,14 +345,3 @@ def constructDataset(
     # Save dataset to csv
     floodDf.dropna().to_csv(savePath, index=False)
     return floodDf
-
-
-floodDf = constructDataset(
-    predictionTime=1,
-    intervalSize=0.5,
-    numReadings=3,
-    readingSize=10,
-    restrictDistance=5,
-    restrictRows=500000,
-)
-print(floodDf)

@@ -35,7 +35,7 @@ def fetchFromDatabase(query=None):
 
     # Get collection data
     print(
-        "\n" + Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL,
+        Fore.BLACK + Back.WHITE + "[GET]" + Style.RESET_ALL,
         end=" Getting flooding data from mongo\n",
     )
     fetchTimer = time()
@@ -46,6 +46,5 @@ def fetchFromDatabase(query=None):
         + Back.GREEN
         + f"Completed in {round(time()-fetchTimer, 2)}s"
         + Style.RESET_ALL
-        + "\n\n"
     )
     return documents
