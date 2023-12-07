@@ -338,6 +338,17 @@ def constructDataset(
         )
         floodDf = floodDf.head(restrictRows)
 
+    # Check for existing dataset (only after fetching and saving original datasets)
+
+    savePath = os.path.join(__file__, f"../data/{saveName}")
+    if os.path.isfile(savePath):
+        log(
+            Back.GREEN,
+            "Existing complete dataset found, ignoring row restriction",
+            "\n",
+        )
+        return pd.read_csv(savePath)
+
     # Inject weather data into flooding data based on factors (EXPENSIVE)
     log(Back.CYAN, "[TASK]", "Injecting weather data into flooding dataset")
     expectedTime = (270 * numReadings * floodDf.shape[0]) / (12000 * 3)
