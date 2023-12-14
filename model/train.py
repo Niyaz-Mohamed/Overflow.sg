@@ -24,6 +24,7 @@ def testModel(model, xTest, yTest):
     r2 = r2_score(yTest, modelPredictions)
     rmse = mean_squared_error(yTest, modelPredictions) ** (1 / 2)
     mae = mean_absolute_error(yTest, modelPredictions)
+    # need to identify where the model parameter is affect? Go beyond using standard metrics. 
     print(f"R-squared (R²) Score: {r2:.4f}")
     print(f"Mean Absolute Error (MAE): {mae:.4f}")
     print(f"Root Mean Squared Error (RMSE): {rmse:.4f}\n")
@@ -50,6 +51,7 @@ def splitDataset(floodDf):
     )
     label = floodDf["% full"]
     scaler = StandardScaler()
+    # should not scale before splitting the dataset. Split before scaling.
     features = scaler.fit_transform(features)
     # Split into train and test
     xTrain, xTest, yTrain, yTest = train_test_split(features, label, test_size=0.33)
@@ -67,6 +69,8 @@ def createSVM(xTrain, xTest, yTrain, yTest):
 
 def createRF(xTrain, xTest, yTrain, yTest):
     # Create and test random forest
+    # how are these hyperparameters tuned? random search?
+    # no cross validation?
     model = RandomForestRegressor(n_estimators=100, random_state=42)
     print("RF\n--------")
     model.fit(xTrain, yTrain)
