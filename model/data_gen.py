@@ -47,7 +47,7 @@ def getAllData():
     floodMin = datetime.fromisoformat(floodDf["timestamp"].min()).date()
     floodMax = datetime.fromisoformat(floodDf["timestamp"].max()).date()
 
-    # Generate data if i1t doesn't exist
+    # Generate data if it doesn't exist
     if not os.path.isfile(weatherDataPath):
         weatherDf = getWeatherRange(floodMin - timedelta(days=2), floodMax)
         weatherDf.to_csv(weatherDataPath, index=False)
@@ -66,7 +66,6 @@ def getAllData():
 
         # Append missing end dates
         if appendDates:
-            print(floodMax)
             appendDf = getWeatherRange(weatherMax + timedelta(days=1), floodMax)
             weatherDf = pd.concat([weatherDf, appendDf])
 
@@ -89,8 +88,6 @@ def calculateClosestStation(
     """
     Injects information about the closest weather station into floodDf\n
     and memoizes it in a data folder in the same directory as the current file.
-
-    NOTE: Always delete
     """
 
     # Check if file exists
@@ -200,77 +197,127 @@ def injectWeatherData(
     `predictionTime`: Prediction time (in hours) that the AI produced will have\n
     `intervalSize`: Length of interval (in hours) between each moment in time where weather is measured\n
     `numreadings`: Number of moments in time where weather is measured (prior to prediction time)\n
-    `readingSize`: Size of period around reading time (in minutes), taken to be reading for that time\n
+    `readingSize`: Size of period around reading time (in hours), taken to be reading for that time\n
     """
 
-    timeShifts = [predictionTime + n * intervalSize for n in range(numReadings)]
+    # Set up timer
+    log(
+        Back.CYAN,
+        "[TASK]",
+        "Injecting weather data into flooding dataset\n",
+    )
+    startTime = time()
 
-    # Function to add weather for a particular time shift
-    # Time complexity n based on numReadings
-    def addWeatherSet(row):
-        # Log progress occationally
-        if (row.name + 1) % 2000 == 0:
+    # Function to generate weather columns for a particular time shift (iterates through df)
+    def addWeatherSet(row, timeShift):
+        # Log progress every 2500 rows
+        if (row.name + 1) % 5000 == 0:
             log(
                 Back.WHITE,
                 "[UPDATE]",
-                f"Completed {row.name+1}/{floodDf.shape[0]} rows",
+                f"Completed {row.name+1}/{fillerDf.shape[0]} rows ({round(time()-startTime)}s)",
             )
 
-        weatherSet = [
-            weatherAt(
-                datetime.fromisoformat(row["timestamp"].replace(" ", "T"))
-                - timedelta(hours=timeShift),
-                weatherDf,
-                interval=readingSize,
-                stationId=row["station-id"],
-            )
-            for timeShift in timeShifts
+        # Set timestamp at which weather is measured ()
+        try:
+            timestamp = row["timestamp"].to_pydatetime()
+        except:
+            timestamp = datetime.fromisoformat(row["timestamp"].replace(" ", "T"))
+
+        # Calculate weather for given timeshift
+        weatherSeries = weatherAt(
+            timestamp - timedelta(hours=timeShift),
+            weatherDf,
+            interval=round(readingSize * 60),
+            stationId=row["station-id"],
+        )
+
+        # Rename the resultant weather
+        weatherSeries = weatherSeries[
+            [
+                "rainfall",
+                "air-temperature",
+                "relative-humidity",
+                "wind-direction",
+                "wind-speed",
+            ]
         ]
+        weatherSeries.index = weatherSeries.index.map(
+            lambda x: x + f"-{timeShift}h-prior"
+        )
+        return weatherSeries
 
-        # Construct result
-        resultWeather = [
-            pd.Series(
-                {
-                    f"rainfall-{timeShifts[i]}h-prior": weatherSet[i]["rainfall"],
-                    f"air-temperature-{timeShifts[i]}h-prior": weatherSet[i][
-                        "air-temperature"
-                    ],
-                    f"relative-humidity-{timeShifts[i]}h-prior": weatherSet[i][
-                        "relative-humidity"
-                    ],
-                    f"wind-direction-{timeShifts[i]}h-prior": weatherSet[i][
-                        "wind-direction"
-                    ],
-                    f"wind-speed-{timeShifts[i]}h-prior": weatherSet[i]["wind-speed"],
-                }
+    # Iterate through timeshifts
+    timeShifts = [predictionTime + n * intervalSize for n in range(numReadings)]
+    for timeShift in timeShifts:
+        # Filter rows to fill based on existence of the columns
+        testColumn = f"rainfall-{timeShift}h-prior"
+        if testColumn in floodDf.columns:
+            # Filter only nan rows to fill
+            fillerDf = floodDf[pd.isnull(floodDf[testColumn])].reset_index(drop=True)
+        else:
+            # Else use entire dataset
+            fillerDf = floodDf.copy(deep=True)
+
+        # Check for and logs whether to continue
+        if fillerDf.shape[0] == 0:
+            log(
+                Back.GREEN,
+                "[FETCH]",
+                f"No updates for timeshift of -{timeShift}h",
             )
-            for i in range(len(weatherSet))
-        ]
-        resultWeather = pd.concat(resultWeather)
-        return resultWeather
+            continue
+        else:
+            log(
+                Back.GREEN,
+                "[FETCH]",
+                f"Weather for timeshift of -{timeShift}h ({fillerDf.shape[0]} rows)",
+            )
 
-    # Apply the function to create multiple new columns
-    # Time complexity n based on number of rows
-    newColumns = floodDf.apply(addWeatherSet, axis=1)
-    # Merge the original DataFrame with the new columns
-    floodDf = pd.concat([floodDf, newColumns], axis=1)
-    # Push the '% full' column to the right
-    cols = floodDf.columns.tolist()
-    cols.append(cols[9])
-    del cols[9]
-    floodDf = floodDf[cols]
+        # Filter essential info necessary for filling weather data
+        fillerDf = fillerDf[["timestamp", "sensor-id", "station-id"]]
+
+        # Insert weather data based on time shift
+        newColumns = fillerDf.apply(addWeatherSet, axis=1, timeShift=timeShift)
+        fillerDf = pd.concat([fillerDf, newColumns], axis=1)
+
+        # Update flood dataframe if columns required are already present
+        if testColumn in floodDf.columns:
+            floodDf.set_index(["timestamp", "sensor-id", "station-id"], inplace=True)
+            fillerDf.set_index(["timestamp", "sensor-id", "station-id"], inplace=True)
+            floodDf.update(fillerDf)
+            floodDf.reset_index(inplace=True)
+        # Update floodDf if columns required not present
+        else:
+            fillerDf.drop(
+                columns=["timestamp", "sensor-id", "station-id"], inplace=True
+            )
+            floodDf = pd.concat([floodDf, fillerDf], axis=1)
+
+        log(
+            Back.GREEN,
+            "[COMPLETE]",
+            f"Finished weather timeshift of -{timeShift}h ({round(time()-startTime)}s) \n",
+        )
+
+    # # Push the '% full' column to the right
+    # cols = floodDf.columns.tolist()
+    # cols.append(cols[9])
+    # del cols[9]
+    # floodDf = floodDf[cols]
+
+    # Remove NaNs due to incorrect station matching and return
+    log(Back.GREEN, f"Completed in {round((time()-startTime)/60,2)}min")
     return floodDf
 
 
 def constructDataset(
     predictionTime: int,
-    intervalSize: int,
-    numReadings: int,
-    readingSize: int,
+    intervalSize: int = 0.5,
+    readingSize: int = 0.5,
+    numReadings: int = 3,
     restrictDistance: int = None,
-    restrictRows: int = None,
     restrictDate: Union[str, Iterable] = None,
-    saveName: str = "trainingData.csv",
 ) -> pd.DataFrame:
     """
     Constructs a training dataset based on parameters given.\n\n
@@ -280,12 +327,10 @@ def constructDataset(
     -----------
     `predictionTime`: Prediction time (in hours) that the AI produced will have\n
     `intervalSize`: Length of interval (in hours) between each moment in time where weather is measured\n
+    `readingSize`: Size of period around reading time (in hours), taken to be reading for that time\n
     `numreadings`: Number of moments in time where weather is measured (prior to prediction time)\n
-    `readingSize`: Size of period around reading time (in minutes), taken to be reading for that time\n
     `restrictDistance`: Only accept rows where station-to-sensor distance is lower than this [optional]\n
-    `restrictRows`: Restrict number of rows of filtered dataframe to inject weather into\n
     `restrictDate`: 1 or 2 date values to filter dates from start to end time, formatted as '2023-01-30'\n
-    `saveName`: Filename for saving the file, 'trainingData.csv' by default
     """
 
     # Fetch base datasets
@@ -321,7 +366,7 @@ def constructDataset(
     log(Back.CYAN, "[TASK]", "Matching weather stations to flood sensors")
     floodDf = calculateClosestStation(floodDf, weatherDf)
 
-    # Restrict rows and distance
+    # Restrict distance
     if restrictDistance:
         log(
             Back.CYAN,
@@ -330,33 +375,48 @@ def constructDataset(
         )
         floodDf = floodDf[floodDf["station-distance"] < restrictDistance]
         floodDf.reset_index(drop=True, inplace=True)
-    if restrictRows:
-        log(
-            Back.CYAN,
-            "[TASK]",
-            f"Restricting row count in flood dataset to {restrictRows}",
-        )
-        floodDf = floodDf.head(restrictRows)
 
-    # Check for existing dataset (only after fetching and saving original datasets)
-    savePath = os.path.join(__file__, f"../data/{saveName}")
+    # Check for existing full dataset and load it in
+    savePath = os.path.join(__file__, f"../data/trainingData.csv")
     if os.path.isfile(savePath):
+        print("")
         log(
             Back.GREEN,
-            "Existing complete dataset found, ignoring row restriction",
-            "\n",
+            "[INFO]",
+            "Existing dataset found, updating dataset with required data",
         )
-        return pd.read_csv(savePath)
+        log(
+            Back.RED,
+            "[WARN]",
+            "If reading size is different for this run than when existing dataset was first created, please remake the dataset",
+        )
+        existingDf = pd.read_csv(savePath)
+        existingDf["timestamp"] = pd.to_datetime(existingDf["timestamp"])
 
-    # Inject weather data into flooding data based on factors (EXPENSIVE)
-    log(Back.CYAN, "[TASK]", "Injecting weather data into flooding dataset")
-    expectedTime = (270 * numReadings * floodDf.shape[0]) / (12000 * 3)
-    log(
-        Back.RED,
-        "[NOTE]",
-        f"Expected time required is {round(expectedTime)}s ({floodDf.shape[0]} rows, {numReadings} readings)",
-    )
-    startTime = time()
+        # Restrict date range for existing dataset
+        if restrictDate:
+            # Calculate approppriate start and end times
+            try:
+                startDate = pd.to_datetime(restrictDate[0] + "T00:00:00")
+                endDate = pd.to_datetime(restrictDate[1] + "T23:59:59")
+            except:
+                startDate = pd.to_datetime(restrictDate + "T00:00:00")
+                endDate = pd.to_datetime(restrictDate + "T23:59:59")
+
+            # Apply filters
+            existingDf = existingDf[
+                (existingDf["timestamp"] >= startDate)
+                & (existingDf["timestamp"] <= endDate)
+            ].reset_index(drop=True)
+
+        # Combine existing dataframe to current flooding dataframe (nulls to unknown values)
+        floodDf = pd.concat([existingDf, floodDf], ignore_index=True)
+        floodDf["timestamp"] = pd.to_datetime(floodDf["timestamp"])
+        floodDf = floodDf.drop_duplicates(
+            subset=["timestamp", "sensor-id"]
+        ).reset_index(drop=True)
+
+    # Inject weather data into flooding data based on factors (EXPENSIVE OPERATION)
     floodDf = injectWeatherData(
         floodDf,
         weatherDf,
@@ -365,10 +425,10 @@ def constructDataset(
         numReadings,
         readingSize,
     )
-    log(Back.GREEN, f"Completed in {round(time()-startTime,2)}s", "\n")
 
-    # Save dataset to csv
-    savePath = os.path.join(__file__, f"../data/{saveName}")
+    # Save and return the dataset
+    savePath = os.path.join(__file__, f"../data/trainingData.csv")
     floodDf = floodDf.dropna()
     floodDf.to_csv(savePath, index=False)
     return floodDf
+

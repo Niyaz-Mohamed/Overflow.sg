@@ -87,19 +87,15 @@ def weatherAt(
 
     station["timestamp"] = dt
     # Timestamps selected might not be equal to dt, due to 5 minute granularity
-    reading = (
-        reading.agg(
-            {
-                "rainfall": "sum",
-                "air-temperature": "mean",
-                "relative-humidity": "mean",
-                "wind-direction": "mean",
-                "wind-speed": "mean",
-            }
-        )
-        .squeeze()
-        .round(2)
-    )
+    reading = reading.agg(
+        {
+            "rainfall": "sum",
+            "air-temperature": "mean",
+            "relative-humidity": "mean",
+            "wind-direction": "mean",
+            "wind-speed": "mean",
+        }
+    ).squeeze()
     # Append in station data and memoize
     reading = pd.concat([station, reading])
     memo[key] = reading

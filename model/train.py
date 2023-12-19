@@ -134,11 +134,7 @@ def trialModels(predictionTimes: list):
 
         log(Back.GREEN, "[TEST]", f"Testing models for prediction time {predTime}h")
         floodDf = constructDataset(
-            predictionTime=predTime,
-            intervalSize=0.5,
-            numReadings=3,
-            readingSize=30,
-            restrictDate=["2023-11-20", "2023-11-28"],
+            predictionTime=predTime, restrictDate=["2023-11-20", "2023-11-28"]
         )
 
         # List of models to test (Approppriate model creation function needed)
