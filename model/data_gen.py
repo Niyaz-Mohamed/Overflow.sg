@@ -339,7 +339,6 @@ def constructDataset(
         floodDf = floodDf.head(restrictRows)
 
     # Check for existing dataset (only after fetching and saving original datasets)
-
     savePath = os.path.join(__file__, f"../data/{saveName}")
     if os.path.isfile(savePath):
         log(
@@ -370,5 +369,6 @@ def constructDataset(
 
     # Save dataset to csv
     savePath = os.path.join(__file__, f"../data/{saveName}")
-    floodDf.dropna().to_csv(savePath, index=False)
+    floodDf = floodDf.dropna()
+    floodDf.to_csv(savePath, index=False)
     return floodDf
