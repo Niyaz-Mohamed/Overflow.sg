@@ -210,7 +210,7 @@ def injectWeatherData(
 
     # Function to generate weather columns for a particular time shift (iterates through df)
     def addWeatherSet(row, timeShift):
-        # Log progress every 2500 rows
+        # Log progress every 5000 rows
         if (row.name + 1) % 5000 == 0:
             log(
                 Back.WHITE,
@@ -380,9 +380,11 @@ def constructDataset(
         # Combine existing dataframe to current flooding dataframe (nulls to unknown values)
         floodDf = pd.concat([existingDf, floodDf], ignore_index=True)
         floodDf["timestamp"] = pd.to_datetime(floodDf["timestamp"])
-        floodDf = floodDf.drop_duplicates(
-            subset=["timestamp", "sensor-id"]
-        ).reset_index(drop=True)
+        floodDf = (
+            floodDf.drop_duplicates(subset=["timestamp", "sensor-id"])
+            .reset_index(drop=True)
+            .sort_values(by="timestamp")
+        )
 
     # Inject weather data into flooding data based on factors (EXPENSIVE OPERATION)
     floodDf = injectWeatherData(
@@ -408,8 +410,8 @@ def constructDataset(
         for timeShift in timeShifts
     ]
     weatherColumns = [element for sublist in weatherColumns for element in sublist]
-    floodDf.to_csv(savePath, index=False)
     floodDf = floodDf.dropna(subset=weatherColumns).sort_values(by="timestamp")
+    floodDf.to_csv(savePath, index=False)
 
     # Restrict columns needed
     columns = floodDf.columns
@@ -424,6 +426,7 @@ def constructDataset(
 
     # Restrict date range for full dataset
     if restrictDate:
+        floodDf['timestamp'] = pd.to_datetime(floodDf['timestamp'])
         # Apply filters
         floodDf = floodDf[
             (floodDf["timestamp"] >= startDate) & (floodDf["timestamp"] <= endDate)

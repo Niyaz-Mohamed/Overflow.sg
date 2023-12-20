@@ -1,6 +1,7 @@
 from train import trialModels
 
 # Test models to produce final document
+trialModels(predictionTimes=[0.5, 1.0, 2.0], dateRange=["2023-11-28", "2023-11-29"])
 trialModels(predictionTimes=[0.5, 1.0, 2.0], dateRange=["2023-11-25", "2023-11-29"])
 trialModels(predictionTimes=[0.5, 1.0, 2.0], dateRange=["2023-11-20", "2023-11-24"])
 trialModels(predictionTimes=[0.5, 1.0, 2.0], dateRange=["2023-11-16", "2023-11-19"])
