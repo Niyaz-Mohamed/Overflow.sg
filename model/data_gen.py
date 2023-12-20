@@ -300,14 +300,8 @@ def injectWeatherData(
             f"Finished weather timeshift of -{timeShift}h ({round(time()-startTime)}s) \n",
         )
 
-    # # Push the '% full' column to the right
-    # cols = floodDf.columns.tolist()
-    # cols.append(cols[9])
-    # del cols[9]
-    # floodDf = floodDf[cols]
-
     # Remove NaNs due to incorrect station matching and return
-    log(Back.GREEN, f"Completed in {round((time()-startTime)/60,2)}min")
+    log(Back.GREEN, f"Completed in {round((time()-startTime)/60,2)}min", "\n")
     return floodDf
 
 
@@ -366,16 +360,6 @@ def constructDataset(
     log(Back.CYAN, "[TASK]", "Matching weather stations to flood sensors")
     floodDf = calculateClosestStation(floodDf, weatherDf)
 
-    # Restrict distance
-    if restrictDistance:
-        log(
-            Back.CYAN,
-            "[TASK]",
-            f"Restricting station-distance in flood dataset to below {restrictDistance}km",
-        )
-        floodDf = floodDf[floodDf["station-distance"] < restrictDistance]
-        floodDf.reset_index(drop=True, inplace=True)
-
     # Check for existing full dataset and load it in
     savePath = os.path.join(__file__, f"../data/trainingData.csv")
     if os.path.isfile(savePath):
@@ -392,22 +376,6 @@ def constructDataset(
         )
         existingDf = pd.read_csv(savePath)
         existingDf["timestamp"] = pd.to_datetime(existingDf["timestamp"])
-
-        # Restrict date range for existing dataset
-        if restrictDate:
-            # Calculate approppriate start and end times
-            try:
-                startDate = pd.to_datetime(restrictDate[0] + "T00:00:00")
-                endDate = pd.to_datetime(restrictDate[1] + "T23:59:59")
-            except:
-                startDate = pd.to_datetime(restrictDate + "T00:00:00")
-                endDate = pd.to_datetime(restrictDate + "T23:59:59")
-
-            # Apply filters
-            existingDf = existingDf[
-                (existingDf["timestamp"] >= startDate)
-                & (existingDf["timestamp"] <= endDate)
-            ].reset_index(drop=True)
 
         # Combine existing dataframe to current flooding dataframe (nulls to unknown values)
         floodDf = pd.concat([existingDf, floodDf], ignore_index=True)
@@ -428,7 +396,47 @@ def constructDataset(
 
     # Save and return the dataset
     savePath = os.path.join(__file__, f"../data/trainingData.csv")
-    floodDf = floodDf.dropna()
+    timeShifts = [predictionTime + n * intervalSize for n in range(numReadings)]
+    weatherColumns = [
+        [
+            f"rainfall-{timeShift}h-prior",
+            f"relative-humidity-{timeShift}h-prior",
+            f"air-temperature-{timeShift}h-prior",
+            f"wind-speed-{timeShift}h-prior",
+            f"wind-direction-{timeShift}h-prior",
+        ]
+        for timeShift in timeShifts
+    ]
+    weatherColumns = [element for sublist in weatherColumns for element in sublist]
     floodDf.to_csv(savePath, index=False)
-    return floodDf
+    floodDf = floodDf.dropna(subset=weatherColumns).sort_values(by="timestamp")
 
+    # Restrict columns needed
+    columns = floodDf.columns
+    newColumns = []
+    for col in columns:
+        if "prior" in col:
+            if col in weatherColumns:
+                newColumns.append(col)
+        else:
+            newColumns.append(col)
+    floodDf = floodDf[newColumns]
+
+    # Restrict date range for full dataset
+    if restrictDate:
+        # Apply filters
+        floodDf = floodDf[
+            (floodDf["timestamp"] >= startDate) & (floodDf["timestamp"] <= endDate)
+        ].reset_index(drop=True)
+
+    # Restrict distance
+    if restrictDistance:
+        log(
+            Back.CYAN,
+            "[TASK]",
+            f"Restricting station-distance in flood dataset to below {restrictDistance}km",
+        )
+        floodDf = floodDf[floodDf["station-distance"] < restrictDistance]
+        floodDf.reset_index(drop=True, inplace=True)
+
+    return floodDf

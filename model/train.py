@@ -10,7 +10,13 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+from sklearn.metrics import (
+    r2_score,
+    mean_absolute_error,
+    mean_squared_error,
+    mean_absolute_percentage_error,
+)
+from xgboost import XGBRegressor
 
 
 SAVEPATH = os.path.join(__file__, "../models/")
@@ -20,17 +26,25 @@ def saveModel(model, fileName):
     joblib.dump(model, os.path.join(SAVEPATH, fileName))
 
 
-def testModel(model, xTest, yTest):
+def testModel(model, xTest, yTest, epsilon=0.1):
     modelPredictions = model.predict(xTest)
     r2 = r2_score(yTest, modelPredictions)
     rmse = mean_squared_error(yTest, modelPredictions) ** (1 / 2)
     mae = mean_absolute_error(yTest, modelPredictions)
+    # Add an epsilon to reduce huge values
+    mape = mean_absolute_percentage_error(yTest + epsilon, modelPredictions)
 
     # TODO: Need to identify where the model parameter is affected? Go beyond using standard metrics.
     print(f"R-squared (R²) Score: {r2:.4f}")
+    print(f"Root Mean Squared Error (RMSE): {rmse:.4f}")
     print(f"Mean Absolute Error (MAE): {mae:.4f}")
-    print(f"Root Mean Squared Error (RMSE): {rmse:.4f}\n")
-    return {"R²": round(r2, 2), "MAE": round(mae, 2), "RMSE": round(rmse, 2)}
+    print(f"Mean Absolute Percentage Error (MAPE): {mape:.4f}\n")
+    return {
+        "R²": round(r2, 2),
+        "RMSE": round(rmse, 2),
+        "MAE": round(mae, 2),
+        "MAPE": round(mape, 2),
+    }
 
 
 def splitDataset(floodDf):
@@ -44,6 +58,8 @@ def splitDataset(floodDf):
             "timestamp",
             "sensor-id",
             "sensor-name",
+            # 'sensor-latitude',
+            # 'sensor-longitude',
             "station-id",
             "station-name",
             "station-latitude",
@@ -56,7 +72,7 @@ def splitDataset(floodDf):
 
     # Split into train and test
     xTrain, xTest, yTrain, yTest = train_test_split(
-        features, label, test_size=0.33, random_state=42
+        features, label, train_size=0.80, random_state=42
     )
 
     # Scale and return data after split
@@ -94,13 +110,25 @@ def createRF(xTrain, xTest, yTrain, yTest):
     # Create random forest
     # how are these hyperparameters tuned? random search?
     # no cross validation?
-    model = RandomForestRegressor(n_estimators=100, random_state=42)
+    model = RandomForestRegressor(random_state=42)
     print("RF\n--------")
     model.fit(xTrain, yTrain)
 
     # Perform testing
     eval = testModel(model, xTest, yTest)
     saveModel(model, "RF.pkl")
+    return eval
+
+
+def createXGB(xTrain, xTest, yTrain, yTest):
+    # Create XGBoost
+    model = XGBRegressor()
+    print("XGB\n--------")
+    model.fit(xTrain, yTrain)
+
+    # Perform testing
+    eval = testModel(model, xTest, yTest)
+    saveModel(model, "XGB.pkl")
     return eval
 
 
@@ -116,9 +144,9 @@ def createMLP(xTrain, xTest, yTrain, yTest):
     return eval
 
 
-def trialModels(predictionTimes: list):
+def trialModels(predictionTimes: list, dateRange: list):
     """
-    Evaluates all avaiable models for different prediction times (in hours) given.
+    Evaluates all avaiable models for different prediction times (in hours) given, using flooding data from given date range.
 
     NOTE: Function must be updated when new models are added
     """
@@ -127,18 +155,11 @@ def trialModels(predictionTimes: list):
 
     # Iterate through parameters for dataset
     for predTime in predictionTimes:
-        # Delete existing dataset
-        filePath = os.path.join(__file__, "../data/trainingData.csv")
-        if os.path.exists(filePath):
-            os.remove(filePath)
-
-        log(Back.GREEN, "[TEST]", f"Testing models for prediction time {predTime}h")
-        floodDf = constructDataset(
-            predictionTime=predTime, restrictDate=["2023-11-20", "2023-11-28"]
-        )
+        log(Back.GREEN, f"MODELS FOR PREDICTION TIME {predTime}h", "\n")
+        floodDf = constructDataset(predictionTime=predTime, restrictDate=dateRange)
 
         # List of models to test (Approppriate model creation function needed)
-        models = ["SVM", "CART", "RF", "MLP"]
+        models = ["RF", "XGB"]
         # Construct result dict to update with model test results
         result = [
             {
@@ -147,10 +168,10 @@ def trialModels(predictionTimes: list):
                 "R²": 0,
                 "MAE": 0,
                 "RMSE": 0,
+                "MAPE": 0,
             }
             for i in range(len(models))
         ]
-
         # Test all models needed
         splitData = splitDataset(floodDf)
         for i in range(len(result)):
