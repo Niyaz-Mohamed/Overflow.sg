@@ -300,7 +300,7 @@ def injectWeatherData(
             f"Finished weather timeshift of -{timeShift}h ({round(time()-startTime)}s) \n",
         )
 
-    # Remove NaNs due to incorrect station matching and return
+    # Log time and return
     log(Back.GREEN, f"Completed in {round((time()-startTime)/60,2)}min", "\n")
     return floodDf
 
@@ -396,8 +396,7 @@ def constructDataset(
         readingSize,
     )
 
-    # Save and return the dataset
-    savePath = os.path.join(__file__, f"../data/trainingData.csv")
+    # Get list of columns to keep
     timeShifts = [predictionTime + n * intervalSize for n in range(numReadings)]
     weatherColumns = [
         [
@@ -410,23 +409,27 @@ def constructDataset(
         for timeShift in timeShifts
     ]
     weatherColumns = [element for sublist in weatherColumns for element in sublist]
-    floodDf = floodDf.dropna(subset=weatherColumns).sort_values(by="timestamp")
+
+    # Fill NaNs (DO NOT CHANGE REPLACEMENT NUMBER)
+    replacementNumber = -99999
+    floodDf[weatherColumns] = floodDf[weatherColumns].fillna(replacementNumber)
+
+    # Save the dataset
+    savePath = os.path.join(__file__, f"../data/trainingData.csv")
+    floodDf = floodDf.sort_values(by="timestamp")
     floodDf.to_csv(savePath, index=False)
 
-    # Restrict columns needed
-    columns = floodDf.columns
-    newColumns = []
-    for col in columns:
-        if "prior" in col:
-            if col in weatherColumns:
-                newColumns.append(col)
-        else:
-            newColumns.append(col)
+    # Remove perviously filled NaNs
+    nanRowsMask = floodDf[weatherColumns].eq(replacementNumber).any(axis=1)
+    floodDf = floodDf[~nanRowsMask]
+
+    # Filter columns needed
+    newColumns = list(floodDf.columns[:11]) + weatherColumns
     floodDf = floodDf[newColumns]
 
     # Restrict date range for full dataset
     if restrictDate:
-        floodDf['timestamp'] = pd.to_datetime(floodDf['timestamp'])
+        floodDf["timestamp"] = pd.to_datetime(floodDf["timestamp"])
         # Apply filters
         floodDf = floodDf[
             (floodDf["timestamp"] >= startDate) & (floodDf["timestamp"] <= endDate)

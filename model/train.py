@@ -159,7 +159,7 @@ def trialModels(predictionTimes: list, dateRange: list):
         floodDf = constructDataset(predictionTime=predTime, restrictDate=dateRange)
 
         # List of models to test (Approppriate model creation function needed)
-        models = ["RF", "XGB"]
+        models = ["SVM", "MLP", "CART", "XGB", "RF"]
         # Construct result dict to update with model test results
         result = [
             {
