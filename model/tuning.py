@@ -19,7 +19,7 @@ from sklearn.metrics import (
 # Model to optimise, date range to use for data, and whether to exhaustively or randomly search
 MODEL = "XGB"
 DATERANGE = ["2023-11-26", "2023-11-30"]
-PREDTIME = 0.5
+PREDTIME = 2
 RANDOMIZE = False
 
 # Define grid of model hyperparameters
@@ -27,23 +27,23 @@ paramGrid = {
     # SVR parameters
     "SVM": {
         "C": [0.9],
-        "kernel": ["rbf"],
-        "gamma": ["scale"],
+        # "kernel": ["rbf"],
+        # "gamma": ["scale"],
     },
     # CART parameters
     "CART": {
-        "max_depth": [None],
+        # "max_depth": [None],
         "min_samples_split": [200],
         "min_samples_leaf": [60],
-        "max_features": [None],
+        # "max_features": [None],
     },
     # RF parameters
     "RF": {
         "n_estimators": [200],
-        "max_depth": [None],
+        # "max_depth": [None],
         "min_samples_split": [5],
         "min_samples_leaf": [20],
-        "max_features": [1.0],
+        # "max_features": [1.0],
     },
     # XGB parameters
     "XGB": {
@@ -58,11 +58,9 @@ paramGrid = {
     },
     # MLP parameters
     "MLP": {
-        "hidden_layer_sizes": [(100,)],
-        "activation": ["tanh"],
+        "activation": ["tanh", "relu"],
         "alpha": [0.001],
         "learning_rate_init": [0.01],
-        "solver": ["adam"],
     },
 }
 
@@ -141,6 +139,7 @@ x = data.drop(
 )
 y = data["% full"]
 gridSearch.fit(x, y)
+model = gridSearch.best_estimator_
 
 # Access best params
 print("\nBest parameters:", gridSearch.best_params_)

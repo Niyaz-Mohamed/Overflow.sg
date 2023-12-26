@@ -72,9 +72,7 @@ def splitDataset(floodDf):
     label = floodDf["% full"]
 
     # Split into train and test
-    xTrain, xTest, yTrain, yTest = train_test_split(
-        features, label, train_size=0.80, random_state=42
-    )
+    xTrain, xTest, yTrain, yTest = train_test_split(features, label, train_size=0.80)
 
     # Scale and return data after split
     scaler = StandardScaler()
