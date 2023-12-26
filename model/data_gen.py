@@ -445,4 +445,11 @@ def constructDataset(
         floodDf = floodDf[floodDf["station-distance"] < restrictDistance]
         floodDf.reset_index(drop=True, inplace=True)
 
+    # Log and save current dataset
+    log(
+        Back.GREEN,
+        "[INFO]",
+        f"Produced dataset with {floodDf.shape[0]} rows\n",
+    )
+    floodDf.to_csv(os.path.join(__file__, f"../data/currentTrainingData.csv"))
     return floodDf

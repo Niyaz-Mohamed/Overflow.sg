@@ -26,7 +26,7 @@ def saveModel(model, fileName):
     joblib.dump(model, os.path.join(SAVEPATH, fileName))
 
 
-def testModel(model, xTest, yTest, epsilon=0.1):
+def testModel(model, xTest, yTest, epsilon=10e-3):
     modelPredictions = model.predict(xTest)
     r2 = r2_score(yTest, modelPredictions)
     rmse = mean_squared_error(yTest, modelPredictions) ** (1 / 2)
@@ -35,10 +35,11 @@ def testModel(model, xTest, yTest, epsilon=0.1):
     mape = mean_absolute_percentage_error(yTest + epsilon, modelPredictions)
 
     # TODO: Need to identify where the model parameter is affected? Go beyond using standard metrics.
-    print(f"R-squared (R²) Score: {r2:.4f}")
-    print(f"Root Mean Squared Error (RMSE): {rmse:.4f}")
-    print(f"Mean Absolute Error (MAE): {mae:.4f}")
-    print(f"Mean Absolute Percentage Error (MAPE): {mape:.4f}\n")
+    log(Back.WHITE, "R²:", f"{r2:.4f}")
+    log(Back.WHITE, "RMSE:", f"{rmse:.4f}")
+    log(Back.WHITE, "MAE:", f"{mae:.4f}")
+    log(Back.WHITE, "MAPE:", f"{mape:.4f}\n")
+
     return {
         "R²": round(r2, 2),
         "RMSE": round(rmse, 2),
@@ -85,25 +86,25 @@ def splitDataset(floodDf):
 def createSVM(xTrain, xTest, yTrain, yTest):
     # Create SVM model
     model = SVR(kernel="poly")
-    print("SVM\n--------")
+    log(Back.CYAN, "__________SVM__________", end="\n")
     model.fit(xTrain, yTrain)
 
     # Perform testing
     eval = testModel(model, xTest, yTest)
     saveModel(model, "SVM.pkl")
-    return eval
+    return model, eval
 
 
 def createCART(xTrain, xTest, yTrain, yTest):
     # Create CART
     model = DecisionTreeRegressor(random_state=42)
-    print("CART\n--------")
+    log(Back.CYAN, "__________CART__________", end="\n")
     model.fit(xTrain, yTrain)
 
     # Perform testing
     eval = testModel(model, xTest, yTest)
     saveModel(model, "CART.pkl")
-    return eval
+    return model, eval
 
 
 def createRF(xTrain, xTest, yTrain, yTest):
@@ -111,40 +112,40 @@ def createRF(xTrain, xTest, yTrain, yTest):
     # how are these hyperparameters tuned? random search?
     # no cross validation?
     model = RandomForestRegressor(random_state=42)
-    print("RF\n--------")
+    log(Back.CYAN, "__________RF__________", end="\n")
     model.fit(xTrain, yTrain)
 
     # Perform testing
     eval = testModel(model, xTest, yTest)
     saveModel(model, "RF.pkl")
-    return eval
+    return model, eval
 
 
 def createXGB(xTrain, xTest, yTrain, yTest):
     # Create XGBoost
     model = XGBRegressor()
-    print("XGB\n--------")
+    log(Back.CYAN, "__________XGB__________", end="\n")
     model.fit(xTrain, yTrain)
 
     # Perform testing
     eval = testModel(model, xTest, yTest)
     saveModel(model, "XGB.pkl")
-    return eval
+    return model, eval
 
 
 def createMLP(xTrain, xTest, yTrain, yTest):
     # Create MLP
     model = MLPRegressor(random_state=42)
-    print("MLP\n--------")
+    log(Back.CYAN, "__________MLP__________", end="\n")
     model.fit(xTrain, yTrain)
 
     # Perform testing
     eval = testModel(model, xTest, yTest)
     saveModel(model, "MLP.pkl")
-    return eval
+    return model, eval
 
 
-def trialModels(predictionTimes: list, dateRange: list):
+def trialModels(predictionTimes: list, dateRange: list, restrictDistance: int = None):
     """
     Evaluates all avaiable models for different prediction times (in hours) given, using flooding data from given date range.
 
@@ -152,14 +153,18 @@ def trialModels(predictionTimes: list, dateRange: list):
     """
 
     trialDf = None
+    # List of models to test (Approppriate model creation function needed)
+    models = ["RF", "MLP"]
 
     # Iterate through parameters for dataset
     for predTime in predictionTimes:
         log(Back.GREEN, f"MODELS FOR PREDICTION TIME {predTime}h", "\n")
-        floodDf = constructDataset(predictionTime=predTime, restrictDate=dateRange)
+        floodDf = constructDataset(
+            predictionTime=predTime,
+            restrictDate=dateRange,
+            restrictDistance=restrictDistance,
+        )
 
-        # List of models to test (Approppriate model creation function needed)
-        models = ["SVM", "MLP", "CART", "XGB", "RF"]
         # Construct result dict to update with model test results
         result = [
             {
@@ -177,7 +182,7 @@ def trialModels(predictionTimes: list, dateRange: list):
         for i in range(len(result)):
             model = result[i]["model"]
             # Get and save model results
-            modelResults = eval(f"create{model}(*splitData)")
+            modelResults = eval(f"create{model}(*splitData)")[1]
             result[i].update(modelResults)
 
         # Update the dataframe containing results for all prediction times
