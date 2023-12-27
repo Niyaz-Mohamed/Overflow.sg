@@ -19,8 +19,9 @@ from sklearn.metrics import (
 # Model to optimise, date range to use for data, and whether to exhaustively or randomly search
 MODEL = "XGB"
 DATERANGE = ["2023-11-26", "2023-11-30"]
-PREDTIME = 2
+PREDTIME = 0.5
 RANDOMIZE = False
+NEATPRINT = True
 
 # Define grid of model hyperparameters
 paramGrid = {
@@ -58,7 +59,7 @@ paramGrid = {
     },
     # MLP parameters
     "MLP": {
-        "activation": ["tanh", "relu"],
+        "activation": ["tanh"],
         "alpha": [0.001],
         "learning_rate_init": [0.01],
     },
@@ -144,18 +145,32 @@ model = gridSearch.best_estimator_
 # Access best params
 print("\nBest parameters:", gridSearch.best_params_)
 print("Best score:", gridSearch.best_score_)
+results = gridSearch.cv_results_
+bestIndex = gridSearch.best_index_
 
-# Access best evaluations
-print("\nSummary of Best Results\n")
-print(f"R2: {gridSearch.cv_results_['mean_test_r2'][gridSearch.best_index_]}")
-print(f"MAE: {-gridSearch.cv_results_['mean_test_neg_MAE'][gridSearch.best_index_]}")
-print(f"RMSE: {-gridSearch.cv_results_['mean_test_neg_RMSE'][gridSearch.best_index_]}")
-print(f"MAPE: {-gridSearch.cv_results_['mean_test_neg_MAPE'][gridSearch.best_index_]}")
-print(f"Fit time: {gridSearch.cv_results_['mean_fit_time'][gridSearch.best_index_]}")
-print(
-    f"Score time: {gridSearch.cv_results_['mean_score_time'][gridSearch.best_index_]}"
-)
+if NEATPRINT:
+    # Access best evaluations
+    print("\nSummary of Best Results\n")
+    print(f"R2: {results['mean_test_r2'][bestIndex]}")
+    print(f"MAE: {-results['mean_test_neg_MAE'][bestIndex]}")
+    print(f"RMSE: {-results['mean_test_neg_RMSE'][bestIndex]}")
+    print(f"MAPE: {-results['mean_test_neg_MAPE'][bestIndex]}")
+    print(f"Fit time: {results['mean_fit_time'][bestIndex]}")
+    print(f"Score time: {results['mean_score_time'][bestIndex]}")
 
-# Access all info
-print("\nAll Results\n")
-PrettyPrinter().pprint(gridSearch.cv_results_)
+    # Access split information
+    for splitNo in range(5):
+        r2 = eval(f'results["split{splitNo}_test_r2"][bestIndex]')
+        mae = eval(f'-results["split{splitNo}_test_neg_MAE"][bestIndex]')
+        rmse = eval(f'-results["split{splitNo}_test_neg_RMSE"][bestIndex]')
+        mape = eval(f'-results["split{splitNo}_test_neg_MAPE"][bestIndex]')
+
+        print(f"\nSplit {splitNo+1}\n")
+        print(f"R2: {r2}")
+        print(f"MAE: {mae}")
+        print(f"RMSE: {rmse}")
+        print(f"MAPE: {mape}")
+else:
+    # Access all info
+    print("\nAll Results\n")
+    PrettyPrinter().pprint(gridSearch.cv_results_)

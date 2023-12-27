@@ -8,6 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
+from xgboost import XGBRegressor
 from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
@@ -16,7 +17,6 @@ from sklearn.metrics import (
     mean_squared_error,
     mean_absolute_percentage_error,
 )
-from xgboost import XGBRegressor
 
 
 SAVEPATH = os.path.join(__file__, "../models/")
@@ -26,7 +26,7 @@ def saveModel(model, fileName):
     joblib.dump(model, os.path.join(SAVEPATH, fileName))
 
 
-def testModel(model, xTest, yTest, epsilon=10e-3):
+def testModel(model, xTest, yTest, epsilon=1e-10):
     modelPredictions = model.predict(xTest)
     r2 = r2_score(yTest, modelPredictions)
     rmse = mean_squared_error(yTest, modelPredictions) ** (1 / 2)
