@@ -1,11 +1,15 @@
+from colorama import Back, Style
 from weather import getWeatherRange, weatherAt
 from flooding import fetchFromDatabase
-import os, pandas as pd
+from time import time
 from datetime import datetime, timedelta
 from geopy.distance import geodesic
-from colorama import Back, Style
-from time import time
-from typing import Union, Iterable
+import os, joblib, pandas as pd
+
+
+# Import AI related modules
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
 
 
 def log(color: str, foreText: str = "", bodyText: str = "", end: str = ""):
@@ -311,7 +315,7 @@ def constructDataset(
     readingSize: int = 0.5,
     numReadings: int = 3,
     restrictDistance: int = None,
-    restrictDate: Union[str, Iterable] = None,
+    restrictDate: list = None,
 ) -> pd.DataFrame:
     """
     Constructs a training dataset based on parameters given.\n\n
@@ -453,3 +457,47 @@ def constructDataset(
     )
     floodDf.to_csv(os.path.join(__file__, f"../data/currentTrainingData.csv"))
     return floodDf
+
+
+# AI Related Functions Below
+def saveModel(model, fileName):
+    """
+    Ensure filename includes file extension.
+    """
+    saveDir = os.path.join(__file__, "../models/")
+    if not os.path.isdir(saveDir):
+        os.makedirs(saveDir)
+    joblib.dump(model, os.path.join(saveDir, fileName))
+
+
+def splitDataset(floodDf):
+    """
+    Splits the dataset into training and testing, and xTrain and yTrain variables, returning a tuple in this format:\n
+    (xTrain, xTest, yTrain, yTest)
+    """
+    # Scale the dataset
+    features = floodDf.drop(
+        columns=[
+            "timestamp",
+            "sensor-id",
+            "sensor-name",
+            # "sensor-latitude",
+            # "sensor-longitude",
+            "station-id",
+            "station-name",
+            "station-latitude",
+            "station-longitude",
+            "station-distance",
+            "% full",
+        ]
+    )
+    label = floodDf["% full"]
+
+    # Split into train and test
+    xTrain, xTest, yTrain, yTest = train_test_split(features, label, train_size=0.80)
+
+    # Scale and return data after split
+    scaler = MinMaxScaler()
+    xTrain = scaler.fit_transform(xTrain)
+    xTest = scaler.fit_transform(xTest)
+    return xTrain, xTest, yTrain, yTest

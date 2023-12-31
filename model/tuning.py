@@ -1,9 +1,10 @@
-from data_gen import constructDataset
+from data_gen import constructDataset, saveModel
 from pprint import PrettyPrinter
-import numpy as np
+import numpy as np, pandas as pd
 
 # Import AI related modules
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.neural_network import MLPRegressor
@@ -16,20 +17,19 @@ from sklearn.metrics import (
     r2_score,
 )
 
-# Model to optimise, date range to use for data, and whether to exhaustively or randomly search
-MODEL = "XGB"
-DATERANGE = ["2023-11-26", "2023-11-30"]
-PREDTIME = 0.5
-RANDOMIZE = False
-NEATPRINT = True
+# Settings to modify
+MODEL = "XGB"  # Model to test
+DATERANGE = ["2023-11-26", "2023-11-30"]  # Date range to train over
+PREDTIME = 1  # Prediction time for the model
+PRINTALL = False  # Whether to print all raw results or to only give important results
+SAVERESULTS = False  # Whether to save data from splits. Only used if PRINTALL is False
+
 
 # Define grid of model hyperparameters
 paramGrid = {
     # SVR parameters
     "SVM": {
         "C": [0.9],
-        # "kernel": ["rbf"],
-        # "gamma": ["scale"],
     },
     # CART parameters
     "CART": {
@@ -41,10 +41,8 @@ paramGrid = {
     # RF parameters
     "RF": {
         "n_estimators": [200],
-        # "max_depth": [None],
         "min_samples_split": [5],
         "min_samples_leaf": [20],
-        # "max_features": [1.0],
     },
     # XGB parameters
     "XGB": {
@@ -97,31 +95,20 @@ scoring = {
     ),
 }
 
-# Prepare search (either random or grid)
-if RANDOMIZE:
-    gridSearch = RandomizedSearchCV(
-        estimator=modelGrid[MODEL],
-        param_distributions=paramGrid[MODEL],
-        cv=5,
-        scoring=scoring,
-        refit="r2",
-        verbose=1,
-        n_jobs=-1,  # Use all available CPU cores
-    )
-else:
-    gridSearch = GridSearchCV(
-        estimator=modelGrid[MODEL],
-        param_grid=paramGrid[MODEL],
-        cv=5,
-        scoring=scoring,
-        refit="r2",
-        verbose=1,
-        n_jobs=-1,  # Use all available CPU cores
-    )
+# Prepare exhaustive
+gridSearch = GridSearchCV(
+    estimator=modelGrid[MODEL],
+    param_grid=paramGrid[MODEL],
+    cv=5,
+    scoring=scoring,
+    refit="r2",
+    verbose=1,
+    n_jobs=-1,  # Use all available CPU cores
+)
 
-# Get data and fit
+# Get data and preprocess it
 data = constructDataset(
-    predictionTime=PREDTIME, restrictDate=DATERANGE, restrictDistance=3.5
+    predictionTime=PREDTIME, restrictDate=DATERANGE, restrictDistance=0.6
 )
 x = data.drop(
     columns=[
@@ -139,37 +126,55 @@ x = data.drop(
     ]
 )
 y = data["% full"]
+scaler = MinMaxScaler()
+x = scaler.fit_transform(x)
+
+# Fit data to grid search
 gridSearch.fit(x, y)
 model = gridSearch.best_estimator_
+saveModel(model, f"{MODEL}-{PREDTIME}.pkl")
 
 # Access best params
-print("\nBest parameters:", gridSearch.best_params_)
-print("Best score:", gridSearch.best_score_)
+print("\nBest parameters:\n")
+PrettyPrinter().pprint(gridSearch.best_params_)
 results = gridSearch.cv_results_
 bestIndex = gridSearch.best_index_
 
-if NEATPRINT:
-    # Access best evaluations
-    print("\nSummary of Best Results\n")
-    print(f"R2: {results['mean_test_r2'][bestIndex]}")
-    print(f"MAE: {-results['mean_test_neg_MAE'][bestIndex]}")
-    print(f"RMSE: {-results['mean_test_neg_RMSE'][bestIndex]}")
-    print(f"MAPE: {-results['mean_test_neg_MAPE'][bestIndex]}")
-    print(f"Fit time: {results['mean_fit_time'][bestIndex]}")
-    print(f"Score time: {results['mean_score_time'][bestIndex]}")
+if not PRINTALL:
+    bestResults = pd.Series(
+        data=[
+            results["mean_test_r2"][bestIndex],
+            -results["mean_test_neg_MAE"][bestIndex],
+            -results["mean_test_neg_RMSE"][bestIndex],
+            -results["mean_test_neg_MAPE"][bestIndex],
+            results["mean_fit_time"][bestIndex],
+            results["mean_score_time"][bestIndex],
+        ],
+        index=["R2", "MAE", "RMSE", "MAPE", "Fit Time", "Score Time"],
+    )
 
-    # Access split information
+    # Access best evaluations
+    print("\nMEAN RESULTS OF BEST PARAMETER\n")
+    print(bestResults)
+
+    # Keep data in a dataframe in case you need to save it
+    print("\nSPLIT EVALUATIONS\n")
+    resDf = pd.DataFrame(columns=["SplitNo", "R2", "MAE", "RMSE", "MAPE"])
+
+    # Get and savesplit information
     for splitNo in range(5):
         r2 = eval(f'results["split{splitNo}_test_r2"][bestIndex]')
         mae = eval(f'-results["split{splitNo}_test_neg_MAE"][bestIndex]')
         rmse = eval(f'-results["split{splitNo}_test_neg_RMSE"][bestIndex]')
         mape = eval(f'-results["split{splitNo}_test_neg_MAPE"][bestIndex]')
-
-        print(f"\nSplit {splitNo+1}\n")
-        print(f"R2: {r2}")
-        print(f"MAE: {mae}")
-        print(f"RMSE: {rmse}")
-        print(f"MAPE: {mape}")
+        # Append all data to the dataframe
+        resDf.loc[len(resDf)] = pd.Series(
+            data=[splitNo, r2, mae, rmse, mape],
+            index=["SplitNo", "R2", "MAE", "RMSE", "MAPE"],
+        )
+    print(resDf)
+    if SAVERESULTS:
+        resDf.to_csv("splitData.csv", index=False)
 else:
     # Access all info
     print("\nAll Results\n")
