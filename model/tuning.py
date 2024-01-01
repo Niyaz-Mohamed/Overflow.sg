@@ -1,6 +1,6 @@
 from data_gen import constructDataset, saveModel, log
 from pprint import PrettyPrinter
-import numpy as np, pandas as pd
+import numpy as np, pandas as pd, os
 from colorama import Back
 
 # Import AI related modules
@@ -18,14 +18,16 @@ from sklearn.metrics import (
     r2_score,
 )
 
-# Settings to modify
-# TODO: Make sure you use the correct value of epsilon (1e-10)
-MODEL = "XGB"  # Model to test
+#! Model Settings
+MODEL = "CART"  # Model to test
 DATERANGE = ["2023-11-26", "2023-11-30"]  # Date range to train over
-PREDTIME = 1  # Prediction time for the model
+PREDTIME = 2  # Prediction time for the model
 STATIONDISTANCE = 3.5  # Maximum Sensor-Station Distance Accepted
+EPSILON = 1e-10  # Value of epsilon to use for MAPE calculations
+
+#! Print Settings
 PRINTALL = False  # Whether to print all raw results or to only give important results
-SAVERESULTS = True  # Whether to save data from splits. Only used if PRINTALL is False
+SAVERESULTS = False  # Whether to save data from splits. Only used if PRINTALL is False
 
 # Define grid of model hyperparameters
 paramGrid = {
@@ -76,7 +78,7 @@ modelGrid = {
 
 
 # Define MAPE and RMSE scorers
-def mean_absolute_percentage_error_eps(y_true, y_pred, epsilon=1e-10):
+def mean_absolute_percentage_error_eps(y_true, y_pred, epsilon=EPSILON):
     y_true = np.array(y_true)
     y_pred = np.array(y_pred)
     return np.mean(np.abs((y_true - y_pred) / (y_true + epsilon)))
@@ -135,10 +137,10 @@ x = scaler.fit_transform(x)
 # Fit data to grid search
 gridSearch.fit(x, y)
 model = gridSearch.best_estimator_
-saveModel(model, f"{MODEL}-{PREDTIME}.pkl")
+saveModel(model, f"{MODEL}-{PREDTIME}h-{STATIONDISTANCE}km.pkl")
 
 # Access best params
-log(Back.GREEN, "BEST PARAMETERS", start="\n")
+log(Back.GREEN, "BEST PARAMETERS", "\n", start="\n")
 PrettyPrinter().pprint(gridSearch.best_params_)
 results = gridSearch.cv_results_
 bestIndex = gridSearch.best_index_
@@ -157,11 +159,11 @@ if not PRINTALL:
     )
 
     # Access best evaluations
-    log(Back.GREEN, "MEAN EVALS FOR BEST PARAMETERS", start="\n", end="\n")
+    log(Back.GREEN, "MEAN EVALS FOR BEST PARAMETERS", "\n", start="\n")
     print(bestResults)
 
     # Keep data in a dataframe in case you need to save it
-    log(Back.GREEN, "SPLIT EVALUATIONS", start="\n", end="\n")
+    log(Back.GREEN, "SPLIT EVALUATIONS", "\n", start="\n")
     resDf = pd.DataFrame(columns=["SplitNo", "R2", "MAE", "RMSE", "MAPE"])
 
     # Get and savesplit information
@@ -177,7 +179,12 @@ if not PRINTALL:
         )
     print(resDf)
     if SAVERESULTS:
-        resDf.to_csv("splitData.csv", index=False)
+        # Add on to existing data if possible
+        savePath = os.path.join(__file__, "../splitData.csv")
+        if os.path.isfile(savePath):
+            data = pd.read_csv(savePath)
+            resDf = pd.concat([data, resDf])
+        resDf.to_csv(savePath, index=False)
 else:
     # Access all info
     log(Back.GREEN, "ALL RESULTS", "\n", start="\n", end="\n")
