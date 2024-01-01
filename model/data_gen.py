@@ -12,13 +12,15 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 
-def log(color: str, foreText: str = "", bodyText: str = "", end: str = ""):
+def log(
+    color: str, foreText: str = "", bodyText: str = "", start: str = "", end: str = "\n"
+):
     """
-    Convenience function for logging, accepts a color and creates a printed log.
+    Convenience function for logging, accepts a color and creates a printed log. Only foreText is colored.
 
     NOTE: color should be a colorama background color
     """
-    print(color + foreText + Style.RESET_ALL + " " + bodyText)
+    print(start + color + foreText + Style.RESET_ALL + " " + bodyText, end=end)
 
 
 def getAllData():

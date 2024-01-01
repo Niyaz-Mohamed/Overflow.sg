@@ -1,6 +1,7 @@
-from data_gen import constructDataset, saveModel
+from data_gen import constructDataset, saveModel, log
 from pprint import PrettyPrinter
 import numpy as np, pandas as pd
+from colorama import Back
 
 # Import AI related modules
 from sklearn.preprocessing import MinMaxScaler
@@ -18,12 +19,13 @@ from sklearn.metrics import (
 )
 
 # Settings to modify
+# TODO: Make sure you use the correct value of epsilon (1e-10)
 MODEL = "XGB"  # Model to test
 DATERANGE = ["2023-11-26", "2023-11-30"]  # Date range to train over
 PREDTIME = 1  # Prediction time for the model
+STATIONDISTANCE = 3.5  # Maximum Sensor-Station Distance Accepted
 PRINTALL = False  # Whether to print all raw results or to only give important results
-SAVERESULTS = False  # Whether to save data from splits. Only used if PRINTALL is False
-
+SAVERESULTS = True  # Whether to save data from splits. Only used if PRINTALL is False
 
 # Define grid of model hyperparameters
 paramGrid = {
@@ -102,14 +104,15 @@ gridSearch = GridSearchCV(
     cv=5,
     scoring=scoring,
     refit="r2",
-    verbose=1,
+    verbose=3,
     n_jobs=-1,  # Use all available CPU cores
 )
 
 # Get data and preprocess it
 data = constructDataset(
-    predictionTime=PREDTIME, restrictDate=DATERANGE, restrictDistance=0.6
+    predictionTime=PREDTIME, restrictDate=DATERANGE, restrictDistance=STATIONDISTANCE
 )
+data = data.sample(frac=1).reset_index(drop=True)  # Shuffle data
 x = data.drop(
     columns=[
         "timestamp",
@@ -135,7 +138,7 @@ model = gridSearch.best_estimator_
 saveModel(model, f"{MODEL}-{PREDTIME}.pkl")
 
 # Access best params
-print("\nBest parameters:\n")
+log(Back.GREEN, "BEST PARAMETERS", start="\n")
 PrettyPrinter().pprint(gridSearch.best_params_)
 results = gridSearch.cv_results_
 bestIndex = gridSearch.best_index_
@@ -154,11 +157,11 @@ if not PRINTALL:
     )
 
     # Access best evaluations
-    print("\nMEAN RESULTS OF BEST PARAMETER\n")
+    log(Back.GREEN, "MEAN EVALS FOR BEST PARAMETERS", start="\n", end="\n")
     print(bestResults)
 
     # Keep data in a dataframe in case you need to save it
-    print("\nSPLIT EVALUATIONS\n")
+    log(Back.GREEN, "SPLIT EVALUATIONS", start="\n", end="\n")
     resDf = pd.DataFrame(columns=["SplitNo", "R2", "MAE", "RMSE", "MAPE"])
 
     # Get and savesplit information
@@ -177,5 +180,5 @@ if not PRINTALL:
         resDf.to_csv("splitData.csv", index=False)
 else:
     # Access all info
-    print("\nAll Results\n")
+    log(Back.GREEN, "ALL RESULTS", "\n", start="\n", end="\n")
     PrettyPrinter().pprint(gridSearch.cv_results_)
