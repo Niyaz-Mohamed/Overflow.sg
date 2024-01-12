@@ -2,7 +2,8 @@ name: get flooding
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # Every 30 minutes
+    # - cron: "*/30 * * * *" # Every 30 minutes
+    - cron: "59 23 31 12 *" # Only runs 31 December, temporarily pauses program
 
 jobs:
   build:
