@@ -23,28 +23,62 @@ def log(
     print(start + color + foreText + Style.RESET_ALL + " " + bodyText, end=end)
 
 
-def getAllData():
+def getAllData(dateRange: list = None):
     """
     Fetches all flooding and relevant weather data and memoizes
     it in a data folder in the same directory as the current file.\n\n
     Returns a floodDf and weatherDf
     """
+    # TODO: Make sure only the required flooding data for a given date range is fetched
     # Check if flooding data exists, generate it if otherwise
     floodDataPath = os.path.join(__file__, "../data/floodData.csv")
+    # Load data if it does not exist
     if not os.path.isfile(floodDataPath):
-        floodDf = (
-            # Filter unneeded documents
-            pd.DataFrame(
-                fetchFromDatabase(
-                    query={"status": {"$in": [0, 1, 2]}},
-                )
+        if dateRange:
+            floodDf = fetchFromDatabase(
+                query={
+                    "status": {"$in": [0, 1, 2]},
+                    "timestamp": {
+                        "$gte": dateRange[0],
+                        "$lte": dateRange[1] + " 23:59:59",
+                    },
+                }
             )
-            # Clean and save data
-            .drop(
-                columns=["_id", "timestamp (data fetched)", "water-level", "max-level"]
-            ).sort_values(by="timestamp", ascending=True)
-        )
+        else:
+            floodDf = fetchFromDatabase(
+                query={
+                    "status": {"$in": [0, 1, 2]},
+                }
+            )
         floodDf.to_csv(floodDataPath, index=False)
+    # Check if existing dataset falls within date range
+    elif dateRange:
+        # Get the start and end dates
+        floodDf = pd.read_csv(floodDataPath)
+        floodDf["timestamp"] = pd.to_datetime(floodDf["timestamp"])
+        dataStartDate = floodDf["timestamp"].min()
+        dataEndDate = floodDf["timestamp"].max()
+
+        # Convert provided date range strings to datetime
+        providedStartDate = pd.to_datetime(dateRange[0] + "T00:00:00")
+        providedEndDate = pd.to_datetime(dateRange[1] + "T23:59:59")
+
+        # Check if data's start and end dates fall within the provided date range
+        startDateWithinRange = providedStartDate <= dataStartDate <= providedEndDate
+        endDateWithinRange = providedStartDate <= dataEndDate <= providedEndDate
+
+        if not (startDateWithinRange and endDateWithinRange):
+            addedData = fetchFromDatabase(
+                query={
+                    "status": {"$in": [0, 1, 2]},
+                    "timestamp": {"$gte": dateRange[0], "$lte": dateRange[1]},
+                }
+            )
+            floodDf = pd.concat([floodDf, addedData]).drop_duplicates(
+                subset=["timestamp", "sensor-id"], keep="first"
+            )
+            floodDf.to_csv(floodDataPath, index=False)
+
     # Load memoized flooding data
     floodDf = pd.read_csv(floodDataPath)
 
@@ -55,19 +89,20 @@ def getAllData():
 
     # Generate data if it doesn't exist
     if not os.path.isfile(weatherDataPath):
-        weatherDf = getWeatherRange(floodMin - timedelta(days=2), floodMax)
+        weatherDf = getWeatherRange(floodMin - timedelta(days=1), floodMax)
         weatherDf.to_csv(weatherDataPath, index=False)
+        weatherDf = pd.read_csv(weatherDataPath)
     # Define conditions on which to add more dates
     else:
         weatherDf = pd.read_csv(weatherDataPath)
         weatherMin = datetime.fromisoformat(weatherDf["timestamp"].min()[:-6]).date()
         weatherMax = datetime.fromisoformat(weatherDf["timestamp"].max()[:-6]).date()
-        prependDates = weatherMin + timedelta(days=2) > floodMin
+        prependDates = weatherMin + timedelta(days=1) > floodMin
         appendDates = weatherMax < floodMax
 
         # Prepend missing early dates
         if prependDates:
-            prependDf = getWeatherRange(floodMin - timedelta(days=2), weatherMin)
+            prependDf = getWeatherRange(floodMin - timedelta(days=1), weatherMin)
             weatherDf = pd.concat([prependDf, weatherDf])
 
         # Append missing end dates
@@ -178,8 +213,23 @@ def calculateClosestStation(
         .sort_values(by="timestamp", ascending=True)
         .reset_index(drop=True)
     )
-    cols = floodDf.columns.tolist()
-    floodDf = floodDf[cols[:5] + cols[8:-1] + [cols[7], cols[5]]]
+    # Set columns required
+    floodDf = floodDf[
+        [
+            "timestamp",
+            "sensor-id",
+            "sensor-name",
+            "sensor-latitude",
+            "sensor-longitude",
+            "station-id",
+            "station-name",
+            "station-latitude",
+            "station-longitude",
+            "station-distance",
+            "% full",
+            "status",
+        ]
+    ]
 
     # Save and memoize the dataframe
     floodDf.to_csv(memoDataPath, index=False)
@@ -335,7 +385,7 @@ def constructDataset(
 
     # Fetch base datasets
     log(Back.CYAN, "[TASK]", "Fetching and saving base weather and flooding datasets")
-    floodDf, weatherDf = getAllData()
+    floodDf, weatherDf = getAllData(restrictDate)
 
     # Restrict date range
     if restrictDate:
@@ -354,8 +404,8 @@ def constructDataset(
                 "[TASK]",
                 f"Restricting dates in flood dataset to {restrictDate}",
             )
-            startDate = pd.to_datetime(restrictDate + "T00:00:00")
-            endDate = pd.to_datetime(restrictDate + "T23:59:59")
+            startDate = pd.to_datetime(restrictDate[0] + "T00:00:00")
+            endDate = pd.to_datetime(restrictDate[1] + "T23:59:59")
 
         # Apply filters
         floodDf = floodDf[
@@ -369,7 +419,6 @@ def constructDataset(
     # Check for existing full dataset and load it in
     savePath = os.path.join(__file__, f"../data/trainingData.csv")
     if os.path.isfile(savePath):
-        print("")
         log(
             Back.GREEN,
             "[INFO]",
@@ -430,7 +479,7 @@ def constructDataset(
     floodDf = floodDf[~nanRowsMask]
 
     # Filter columns needed
-    newColumns = list(floodDf.columns[:11]) + weatherColumns
+    newColumns = list(floodDf.columns[:12]) + weatherColumns
     floodDf = floodDf[newColumns]
 
     # Restrict date range for full dataset

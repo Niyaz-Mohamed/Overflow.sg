@@ -1,19 +1,24 @@
 try:
-    from .api import getFlooding
     from .db import fetchFromDatabase
 except:
-    from api import getFlooding
-    from db import saveToDatabase
-    from datetime import datetime
+    import requests
+    from db import deleteDuplicates, saveToDatabase, cleanDatabase, fetchFromDatabase
+    from myutils import parseFlooding
+
 
 # Run periodically to save to database
 if __name__ == "__main__":
-    data = getFlooding()
-    print(data)
-    now = datetime.now().replace(microsecond=0)
-    # Add timestamp to fetched data
-    data["timestamp (data fetched)"] = [now for i in range(len(data.index))]
-    # Reorder columns
-    cols = data.columns.tolist()
-    data = data[[cols[-1]] + cols[:-1]]
-    saveToDatabase(data)
+    # TODO: Test if AI wasn't broken by this
+    # TODO: Also remove max-level during flood data fetching, and include status within final training dataset, but remove from actual training
+
+    # Fetch raw flooding data
+    endpoint = "https://app.pub.gov.sg/waterlevel/pages/GetWLInfo.aspx"
+    params = {"type": "WL"}
+    response = requests.get(endpoint, params=params)
+    data = parseFlooding(response.content.decode("utf-8"))
+
+    # Save modified data to database
+    data = data[["timestamp", "sensor-id", "water-level", "status"]]
+    print(data, "\n\n", data.info(), end="\n\n")
+    saveToDatabase(deleteDuplicates(data))
+    cleanDatabase()

@@ -49,4 +49,4 @@ def parseTimestamp(timestamp: str):
         timestamp[-1] = "0" + timestamp[-1]
     timestamp = " ".join(timestamp)
     timestamp = datetime.strptime(timestamp, "%b %d %Y  %I:%M%p")
-    return timestamp
+    return str(timestamp)

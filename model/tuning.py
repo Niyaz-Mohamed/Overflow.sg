@@ -22,8 +22,8 @@ from sklearn.metrics import (
 MODEL = "XGB"  # Model to test
 DATERANGE = ["2023-11-26", "2023-11-30"]  # Date range to train over
 PREDTIME = 1  # Prediction time for the model
-STATIONDISTANCE = 6  # Maximum Sensor-Station Distance Accepted
-EPSILON = 1e-2  # Value of epsilon to use for MAPE calculations
+STATIONDISTANCE = 3.5  # Maximum Sensor-Station Distance Accepted
+EPSILON = 1e-10  # Value of epsilon to use for MAPE calculations
 
 #! Print Settings
 PRINTALL = False  # Whether to print all raw results or to only give important results
@@ -120,17 +120,16 @@ x = data.drop(
         "timestamp",
         "sensor-id",
         "sensor-name",
-        # "sensor-latitude",
-        # "sensor-longitude",
         "station-id",
         "station-name",
         "station-latitude",
         "station-longitude",
         "station-distance",
         "% full",
+        "status",
     ]
 )
-y = data["% full"]
+y = data["% full"]  # NOTE: To experiment with classification, use status instead
 scaler = MinMaxScaler()
 x = scaler.fit_transform(x)
 
