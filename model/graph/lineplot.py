@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 DATASOURCENAME = "XGB Convergence.csv"
 IMAGENAME = "xgb-converge.png"
 
-# Fetch data
+# TODO: Provide a data csv file to construct the line chart
 df = pd.read_csv(os.path.join(__file__, f"../{DATASOURCENAME}"))
 
 # Define colors for each line

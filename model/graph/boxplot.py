@@ -4,7 +4,7 @@ import pandas as pd, numpy as np, os
 DATASOURCENAME = "Distance Boxplot.csv"
 IMAGENAME = "dist-boxplot.png"
 
-# TODO: Provide a data.csv file to construct the boxplot
+# TODO: Provide a data csv file to construct the boxplot
 df = pd.read_csv(os.path.join(__file__, f"../{DATASOURCENAME}"))
 
 fig, axs = plt.subplots(2, 2)
