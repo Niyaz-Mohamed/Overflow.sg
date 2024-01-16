@@ -14,31 +14,41 @@
       src="https://kit.fontawesome.com/479e7d047b.js"
       crossorigin="anonymous"
     ></script>
+    <script>
+      window.addEventListener("load", () => {
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+
+        /* remove second/millisecond if needed - credit ref. https://stackoverflow.com/questions/24468518/html5-input-datetime-local-default-value-of-today-and-current-time#comment112871765_60884408 */
+        now.setMilliseconds(null);
+        now.setSeconds(null);
+
+        document.getElementById("cal").value = now.toISOString().slice(0, -1);
+      });
+    </script>
   </head>
   <body>
     <aside class="sidebar">
-      <img src="logo.png" alt="Website Logo" />
+      <!-- <img
+        src="{{ url_for('static', filename='images/logo.png') }}"
+        alt="Website Logo"
+      /> -->
       <!--Controls for map-->
       <div class="controls">
-        <div class="controls">
-          <div class="control-group">
-            <!--Prediction Time-->
-            <label for="prediction-time">Prediction Time</label>
-            <div class="prediction-time">
-              <div class="bar" data-time="0.5">0.5h</div>
-              <div class="bar" data-time="1">1h</div>
-              <div class="bar" data-time="2">2h</div>
-            </div>
+        <!--Prediction Time-->
+        <div class="control-group">
+          <label for="prediction-time">Prediction Time</label>
+          <div class="prediction-time">
+            <div class="bar inactivebar" data-time="0.5">0.5h</div>
+            <div class="bar activebar" data-time="1">1h</div>
+            <div class="bar inactivebar" data-time="2">2h</div>
           </div>
-          <div class="control-group">
-            <!--Datetime selector-->
-            <label for="datetime">Date & Time</label>
-            <div class="datetime-selector">
-              <div class="datetime-input">
-                <input type="datetime-local" id="datetime" name="datetime" />
-                <i class="far fa-calendar-alt"></i>
-              </div>
-            </div>
+        </div>
+        <!--Datetime selector-->
+        <div class="control-group">
+          <label for="datetime">Date & Time</label>
+          <div class="datetime-selector">
+            <input type="datetime-local" id="cal" name="datetime" />
           </div>
         </div>
       </div>
