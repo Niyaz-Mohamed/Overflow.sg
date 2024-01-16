@@ -1,0 +1,78 @@
+html {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: "ui-sans-serif", "system-ui", "-apple-system",
+    "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial",
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  background-color: #ffffff; /* Set your background color */
+  margin: 0;
+  min-height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  width: 20%;
+  padding: 20px;
+  background-color: #ffffff;
+  color: #2521e9;
+  text-align: center;
+  border: 2px solid grey; /* Specify border style and color */
+}
+
+.sidebar img {
+  max-width: 100%;
+}
+
+.tabs {
+  margin-top: 20px;
+}
+
+.tab {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+.prediction-time {
+  display: flex;
+  margin-bottom: 10px;
+  background-color: #2521e9; /* Set the theme color as background */
+}
+
+.bar {
+  flex-grow: 1;
+  text-align: center;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #2521e9; /* Set the theme color as background */
+  color: #ffffff; /* Set text color to white */
+}
+
+.datetime-selector {
+  margin-top: 10px;
+}
+
+.datetime-selector label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.datetime-input {
+  position: relative;
+}
+
+.datetime-input input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}

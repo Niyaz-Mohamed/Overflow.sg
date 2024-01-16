@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overflow</title>
+
+    <!-- Libraries or stylesheets-->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+    <script
+      src="https://kit.fontawesome.com/479e7d047b.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <img src="logo.png" alt="Website Logo" />
+      <!--Controls for map-->
+      <div class="controls">
+        <div class="controls">
+          <div class="control-group">
+            <!--Prediction Time-->
+            <label for="prediction-time">Prediction Time</label>
+            <div class="prediction-time">
+              <div class="bar" data-time="0.5">0.5h</div>
+              <div class="bar" data-time="1">1h</div>
+              <div class="bar" data-time="2">2h</div>
+            </div>
+          </div>
+          <div class="control-group">
+            <!--Datetime selector-->
+            <label for="datetime">Date & Time</label>
+            <div class="datetime-selector">
+              <div class="datetime-input">
+                <input type="datetime-local" id="datetime" name="datetime" />
+                <i class="far fa-calendar-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="map-container">
+      <!-- Leaflet map will go here -->
+    </div>
+  </body>
+</html>
