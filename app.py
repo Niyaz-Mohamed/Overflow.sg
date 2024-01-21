@@ -3,7 +3,7 @@ from model import loadModel
 
 # General purpose modules
 import os, pandas as pd, requests
-from flask import Flask, render_template
+from flask import Flask, request, jsonify, render_template
 
 
 # Create Flask app
@@ -37,7 +37,21 @@ def getCurrentFloodData():
 def map():
     # Convert the DataFrame to a list of dictionaries
     currentData = getCurrentFloodData().to_dict(orient="records")
-    return render_template("map.html", sensors=currentData)
+    return render_template("map.html", sensorData=currentData)
+
+
+@app.route("/update_data", methods=["POST"])
+def update_data():
+    # Extract data from the POST request
+    dateTime = request.form.get("datetime")
+    predTime = float(request.form.get("prediction_time"))
+    print(dateTime, predTime, "\n\n\n\n")
+
+    # TODO: Update the data in floodDf based on new values
+    floodDf = getCurrentFloodData()
+    floodDf[f"% full ({predTime}h)"] = 80
+    floodDf = floodDf.to_dict(orient="records")
+    return jsonify(floodDf)
 
 
 if __name__ == "__main__":
