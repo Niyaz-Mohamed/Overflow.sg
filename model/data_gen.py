@@ -1,10 +1,14 @@
-from colorama import Back, Style
-from weather import getWeatherRange, weatherAt
-from flooding import fetchFromDatabase
+try:
+    from .weather import getWeatherRange, weatherAt
+    from .flooding import fetchFromDatabase, parseFlooding
+except:
+    from weather import getWeatherRange, weatherAt
+    from flooding import fetchFromDatabase, parseFlooding
 from time import time
 from datetime import datetime, timedelta
 from geopy.distance import geodesic
 import os, joblib, pandas as pd
+from colorama import Back, Style
 
 
 # Import AI related modules

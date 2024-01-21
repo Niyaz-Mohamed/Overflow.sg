@@ -19,7 +19,7 @@ from sklearn.metrics import (
 )
 
 #! Model Settings
-MODEL = "XGB"  # Model to test
+MODEL = "CART"  # Model to test
 DATERANGE = ["2023-11-26", "2023-11-30"]  # Date range to train over
 PREDTIME = 1  # Prediction time for the model
 STATIONDISTANCE = 3.5  # Maximum Sensor-Station Distance Accepted

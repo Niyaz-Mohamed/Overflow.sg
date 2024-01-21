@@ -1,5 +1,6 @@
 try:
     from .db import fetchFromDatabase
+    from .myutils import parseFlooding
 except:
     import requests, os
     from db import deleteDuplicates, saveToDatabase, cleanDatabase

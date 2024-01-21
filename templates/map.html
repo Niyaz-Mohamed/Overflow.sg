@@ -14,6 +14,7 @@
       src="https://kit.fontawesome.com/479e7d047b.js"
       crossorigin="anonymous"
     ></script>
+    <!--Update datetime-local with current time-->
     <script>
       window.addEventListener("load", () => {
         var now = new Date();
@@ -24,6 +25,43 @@
         now.setSeconds(null);
 
         document.getElementById("cal").value = now.toISOString().slice(0, -1);
+      });
+    </script>
+    <!--Generate leaflet map with required data-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <!--Update map on input change-->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Add event listener to prediction time bars
+        var predictionBars = document.querySelectorAll(".bar");
+
+        predictionBars.forEach(function (bar) {
+          bar.addEventListener("click", function () {
+            // Reset all bars to inactive state
+            predictionBars.forEach(function (inactiveBar) {
+              inactiveBar.classList.add("inactivebar");
+              inactiveBar.classList.remove("activebar");
+            });
+
+            // Set the clicked bar to active state
+            bar.classList.remove("inactivebar");
+            bar.classList.add("activebar");
+
+            // Get the selected prediction time from the clicked bar
+            var selectedTime = parseFloat(bar.getAttribute("data-time"));
+            console.log(selectedTime);
+          });
+        });
       });
     </script>
   </head>
@@ -37,7 +75,7 @@
       <div class="controls">
         <!--Prediction Time-->
         <div class="control-group">
-          <label for="prediction-time">Prediction Time</label>
+          <label>Prediction Time</label>
           <div class="prediction-time">
             <div class="bar inactivebar" data-time="0.5">0.5h</div>
             <div class="bar activebar" data-time="1">1h</div>
@@ -46,15 +84,78 @@
         </div>
         <!--Datetime selector-->
         <div class="control-group">
-          <label for="datetime">Date & Time</label>
+          <label>Date & Time</label>
           <div class="datetime-selector">
             <input type="datetime-local" id="cal" name="datetime" />
           </div>
         </div>
       </div>
     </aside>
-    <div class="map-container">
-      <!-- Leaflet map will go here -->
-    </div>
+    <!--Leaflet map here-->
+    <div id="map"></div>
+    <script>
+      var map = L.map("map").setView([1.3521, 103.8198], 12); // Coordinates for Singapore
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      // Assuming 'sensors' is a list of dictionaries containing sensor data including 'latitude', 'longitude', and 'info'
+      var sensors = {{ sensors | tojson }};
+
+      sensors.forEach(function (sensor) {
+        var markerColor = "grey"; // Default color for unknown status
+
+        // Set marker color based on status
+        switch (sensor.status) {
+          case 0:
+            markerColor = "green";
+            break;
+          case 1:
+            markerColor = "yellow";
+            break;
+          case 2:
+            markerColor = "red";
+            break;
+          default:
+            markerColor = "grey";
+        }
+
+
+        // Create marker with dynamic color
+        const markerSize = 16
+        var markerIcon = new L.Icon({
+          iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`,
+          iconSize: [markerSize, markerSize * (41 / 25)],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+        var marker = L.marker([sensor.latitude, sensor.longitude], {
+          icon: markerIcon,
+        }).addTo(map);
+
+        // Bind popup with sensor information
+        statusDesc = {
+          0: "Low Risk",
+          1: "Moderate Risk",
+          2: "High Risk",
+          3: "Under Maintenance",
+          4: "Under Maintenance",
+        };
+        marker.bindPopup(
+          "<b>Sensor ID:</b> " +
+            sensor["sensor-id"] +
+            "<br><b>Sensor Name:</b> " +
+            sensor["sensor-name"] +
+            "<br><b>Water Level:</b> " +
+            sensor["water-level"] + "m" +
+            "<br><b>Percentage Filled:</b> " +
+            sensor["% full"] + "%" +
+            "<br><b>Status:</b> " +
+            statusDesc[sensor["status"]]
+        );
+      });
+    </script>
   </body>
 </html>
