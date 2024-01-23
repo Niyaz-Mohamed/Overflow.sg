@@ -7,7 +7,8 @@ except:
 from time import time
 from datetime import datetime, timedelta
 from geopy.distance import geodesic
-import os, joblib, pandas as pd
+import os, joblib, pandas as pd, numpy as np
+from sklearn.preprocessing import MinMaxScaler
 from colorama import Back, Style
 
 
@@ -478,7 +479,7 @@ def constructDataset(
     floodDf = floodDf.sort_values(by="timestamp")
     floodDf.to_csv(savePath, index=False)
 
-    # Remove perviously filled NaNs
+    # Remove previously filled NaNs
     nanRowsMask = floodDf[weatherColumns].eq(replacementNumber).any(axis=1)
     floodDf = floodDf[~nanRowsMask]
 
@@ -510,7 +511,6 @@ def constructDataset(
         "[INFO]",
         f"Produced dataset with {floodDf.shape[0]} rows\n",
     )
-    floodDf.to_csv(os.path.join(__file__, f"../data/currentTrainingData.csv"))
     return floodDf
 
 
@@ -556,3 +556,187 @@ def splitDataset(floodDf):
     xTrain = scaler.fit_transform(xTrain)
     xTest = scaler.fit_transform(xTest)
     return xTrain, xTest, yTrain, yTest
+
+
+def loadModel(predTime: float):
+    """
+    Returns the scikit-learn model with the given prediction lead time.
+    Prediction lead time is either 0.5, 1, or 2.
+    """
+    return joblib.load(os.path.join(__file__, f"../XGB-{predTime}h.pkl"))
+
+
+# Special function for appending results of XGB models to memoized training data
+# def appendPredictionsToData():
+#     # Log starting
+#     log(
+#         Back.CYAN,
+#         "[TASK]",
+#         "Adding predictions to flood dataframe",
+#     )
+
+#     # Load data
+#     dataPath = os.path.join(__file__, "../data/")
+#     floodDf = pd.read_csv(os.path.join(dataPath, "trainingData.csv"))
+#     startTime = time()
+#     # Push "% full" to end
+#     floodDf = floodDf.drop(columns="% full").assign(**{"% full": floodDf["% full"]})
+
+#     # Restrict distance
+#     floodDf = floodDf[floodDf["station-distance"] < 3.5]
+#     # Check for nan
+#     replacementNumber = -99999
+#     floodDf.replace(replacementNumber, pd.NA, inplace=True)
+#     floodDf = floodDf.dropna().reset_index(drop=True)
+
+#     # Scale data
+#     origFloodDf = floodDf.copy()
+#     scaler = MinMaxScaler()
+#     numericalColumns = floodDf.select_dtypes(include=["float64", "int64"]).columns
+#     # Fit and transform the selected columns
+#     floodDf[numericalColumns] = scaler.fit_transform(floodDf[numericalColumns])
+
+#     # Set parameters for appending of data
+#     predTimes = [1.0]
+#     models = {n: loadModel(n) for n in predTimes}
+
+#     def genPredictions(row: pd.Series):
+#         """
+#         Appends columns containing predicted data to a row.
+#         When prediction is not possible, appended column is left empty
+#         """
+#         # Log progress every 5000 rows
+#         if (row.name + 1) % 5000 == 0:
+#             log(
+#                 Back.WHITE,
+#                 "[UPDATE]",
+#                 f"Completed {row.name+1}/{floodDf.shape[0]} rows ({round(time()-startTime)}s)",
+#             )
+
+#         # Enumerate through models and generate predictions for each timeshift
+#         predictions = {}
+#         for predTime, model in models.items():
+#             inputColumns = [
+#                 [
+#                     f"rainfall-{timeShift}h-prior",
+#                     f"relative-humidity-{timeShift}h-prior",
+#                     f"air-temperature-{timeShift}h-prior",
+#                     f"wind-speed-{timeShift}h-prior",
+#                     f"wind-direction-{timeShift}h-prior",
+#                 ]
+#                 for timeShift in [predTime, predTime + 0.5, predTime + 1.0]
+#             ]
+#             inputColumns = [element for sublist in inputColumns for element in sublist]
+#             inputColumns.extend(["sensor-latitude", "sensor-longitude"])
+#             inputData = row[inputColumns]
+
+#             # Make predictions based on the model
+#             inputData = inputData.values.reshape(1, -1)
+#             prediction = round(model.predict(inputData)[0], 2)
+
+#             # Store the prediction in the dictionary
+#             predictions[f"% full ({predTime}h)"] = prediction
+
+#         # Create a new column with the predictions
+#         row = pd.concat([row, pd.Series(predictions)], axis=0)
+#         return row
+
+#     # Apply function
+#     floodDf = floodDf.apply(genPredictions, axis=1)
+#     # Re-join old unscaled data
+#     cols = floodDf.columns.tolist()
+#     floodDf = floodDf[cols[-len(predTimes) :]]
+#     print(floodDf)
+#     print(origFloodDf)
+#     floodDf = pd.concat([origFloodDf, floodDf], axis=1)
+#     floodDf.to_csv(os.path.join(dataPath, "dataWithPredictions.csv"), index=False)
+#     return floodDf
+
+
+# Special function to insert actual values for future values relative to each timestamp
+def appendFutureTimesToData():
+    """
+    For simulation purposes. Generates a data file which can be used to display markers for the website.
+    """
+    RANDOM = 15  # Defines what percentage to shift the result by
+    # Log starting
+    log(
+        Back.CYAN,
+        "[TASK]",
+        "Adding future values to flood dataframe",
+    )
+
+    dataPath = os.path.join(__file__, "../data/")
+    #! Load data from existing floodDf used to generate training dataset
+    floodDf = pd.read_csv(os.path.join(dataPath, "trainingData.csv"))
+    #! Alternatively, fetch data from the mongoDB database
+    # floodDf = fetchFromDatabase(query={"status": {"$in": [0, 1, 2]}})
+    # floodDf.to_csv(os.path.join(dataPath, "allFloodingData.csv"))
+    #! Alternatively, fetch already loaded mongoDB data
+    # floodDf = pd.read_csv(os.path.join(dataPath, "allFloodingData.csv"))
+
+    # Do some preprocessing
+    floodDf["timestamp"] = pd.to_datetime(floodDf["timestamp"])
+    floodDf = floodDf.sort_values(by="timestamp")
+    floodDf = floodDf.drop(columns="% full").assign(
+        **{"% full": floodDf["% full"]}
+    )  # Push % full to the end
+    floodDf = floodDf[["timestamp", "sensor-id", "% full"]].reset_index(drop=True)
+    startTime = time()
+
+    # How much forward to look ahead of each row
+    timeShifts = [0.5, 1.0, 2.0]
+
+    # Function to find the index of the closest timestamp in the future
+    def insertTimestampShift(row: pd.Series, timeShift: int):
+        """
+        To a row, insert the measurement taken timeShift hours ahead of the row's reading.
+        If no reading was taken exactly 1h ahead, the nearest other measurement is used.
+        """
+        # Log progress every 5000 rows
+        if (row.name + 1) % 5000 == 0:
+            log(
+                Back.WHITE,
+                "[UPDATE]",
+                f"Completed {row.name+1}/{floodDf.shape[0]} rows ({round(time()-startTime)}s)",
+            )
+
+        # Fetch timestamp and create df
+        futureTimestamp = row["timestamp"] + timedelta(hours=timeShift)
+        checkableDf = floodDf[floodDf["sensor-id"] == row["sensor-id"]]
+        # Find row closest to the timeshift given
+        appendedDataName = f"% full (in {timeShift}h)"
+        closestIndex = (checkableDf["timestamp"] - futureTimestamp).abs().idxmin()
+        insertRow = checkableDf.loc[closestIndex].rename(
+            index={"% full": appendedDataName}
+        )
+        # print(row, "\n\n", insertRow, end="\n--------------------\n\n")
+
+        # Add randomness to row
+        percentageShift = np.random.uniform(-RANDOM, RANDOM)
+        insertRow[appendedDataName] = round(
+            insertRow[appendedDataName] * (1 + percentageShift / 100), 2
+        )
+        # Insert data into row
+        row = pd.concat([row, insertRow.loc[[appendedDataName]]])
+        return row
+
+    for timeShift in timeShifts:
+        log(
+            Back.GREEN,
+            "[INFO]",
+            f"Adding future data for timeshift of {timeShift}h",
+            start="\n",
+        )
+        floodDf = floodDf.apply(insertTimestampShift, timeShift=timeShift, axis=1)
+        log(
+            Back.GREEN,
+            "[INFO]",
+            f"Completed timeshift of {timeShift}h",
+        )
+
+    # Save the result
+    floodDf.to_csv(os.path.join(dataPath, "dataWithFutureFlooding.csv"), index=False)
+
+
+appendFutureTimesToData()

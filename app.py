@@ -1,5 +1,4 @@
-from model.data_gen import parseFlooding, constructDataset
-from model import loadModel
+from model.data_gen import parseFlooding, constructDataset, loadModel
 
 # General purpose modules
 import os, pandas as pd, requests
@@ -45,11 +44,12 @@ def update_data():
     # Extract data from the POST request
     dateTime = request.form.get("datetime")
     predTime = float(request.form.get("prediction_time"))
-    print(dateTime, predTime, "\n\n\n\n")
+    # print(dateTime, predTime, "\n\n\n\n")
 
-    # TODO: Update the data in floodDf based on new values
+    # TODO: Update the data in floodDf based on new values, pull from existing database
     floodDf = getCurrentFloodData()
     floodDf[f"% full ({predTime}h)"] = 80
+    # Format the data to send to html file
     floodDf = floodDf.to_dict(orient="records")
     return jsonify(floodDf)
 
