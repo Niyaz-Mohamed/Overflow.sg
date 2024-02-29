@@ -21,7 +21,7 @@ from sklearn.metrics import (
 #! Model Settings
 MODEL = "XGB"  # Model to test
 DATERANGE = ["2023-11-26", "2023-11-30"]  # Date range to train over
-PREDTIME = 2  # Prediction time for the model
+PREDTIME = 0.5  # Prediction time for the model
 STATIONDISTANCE = 3.5  # Maximum Sensor-Station Distance Accepted
 EPSILON = 1e-10  # Value of epsilon to use for MAPE calculations
 

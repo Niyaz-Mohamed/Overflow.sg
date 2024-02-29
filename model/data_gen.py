@@ -737,6 +737,3 @@ def appendFutureTimesToData():
 
     # Save the result
     floodDf.to_csv(os.path.join(dataPath, "dataWithFutureFlooding.csv"), index=False)
-
-
-appendFutureTimesToData()

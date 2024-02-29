@@ -1,13 +1,12 @@
 from matplotlib import pyplot as plt
 import pandas as pd, numpy as np, os
-
 import matplotlib.pyplot as plt
 
 DATASOURCENAME = "XGB Convergence.csv"
 IMAGENAME = "xgb-converge.png"
 
-# TODO: Provide a data csv file to construct the line chart
-df = pd.read_csv(os.path.join(__file__, f"../{DATASOURCENAME}"))
+# TODO: Provide a csv file to generate the barplot from
+df = pd.read_csv(os.path.join(__file__, f"../datasources/{DATASOURCENAME}"))
 
 # Define colors for each line
 colors = {"R2_times_10": "blue", "MAE": "orange", "RMSE": "green"}
@@ -33,5 +32,9 @@ plt.grid(True)
 plt.tight_layout()
 
 # Show the plot
-plt.savefig(os.path.join(__file__, "../", IMAGENAME), bbox_inches="tight")
+plt.savefig(
+    os.path.join(__file__, "../finalgraphs/", IMAGENAME),
+    bbox_inches="tight",
+    dpi=1200,
+)
 plt.show()

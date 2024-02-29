@@ -1,11 +1,12 @@
 from matplotlib import pyplot as plt
 import pandas as pd, numpy as np, os
 
+# TITLE = "Comparing models of different lead times"
 DATASOURCENAME = "Distance Boxplot.csv"
-IMAGENAME = "dist-boxplot.png"
+IMAGENAME = "distance-boxplot.png"
 
-# TODO: Provide a data csv file to construct the boxplot
-df = pd.read_csv(os.path.join(__file__, f"../{DATASOURCENAME}"))
+# TODO: Provide a csv file to generate the boxplot from
+df = pd.read_csv(os.path.join(__file__, f"../datasources/{DATASOURCENAME}"))
 
 fig, axs = plt.subplots(2, 2)
 metrics = ("R2", "MAE", "RMSE", "MAPE")
@@ -45,7 +46,12 @@ for i, metric in enumerate(metrics):
     plt.sca(ax)
     plt.xticks(rotation=45, ha="right")
 
+# fig.suptitle(TITLE)
 plt.tight_layout()
 plt.subplots_adjust(hspace=0.5)
-plt.savefig(os.path.join(__file__, "../", IMAGENAME), bbox_inches="tight")
+plt.savefig(
+    os.path.join(__file__, "../finalgraphs/", IMAGENAME),
+    bbox_inches="tight",
+    dpi=1200,
+)
 plt.show()

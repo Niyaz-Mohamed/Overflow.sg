@@ -165,3 +165,4 @@ data/
 models/
 model/graph/*.csv
 model/graph/*.png
+model/visualization/finalgraphs/

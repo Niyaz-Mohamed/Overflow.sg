@@ -1,246 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overflow</title>
 
-    <!-- Libraries or stylesheets-->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/main.css') }}"
-    />
-    <script
-      src="https://kit.fontawesome.com/479e7d047b.js"
-      crossorigin="anonymous"
-    ></script>
-    <!--Update datetime-local with current time-->
-    <script>
-      window.addEventListener("load", () => {
-        var now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overflow</title>
 
-        /* remove second/millisecond if needed - credit ref. https://stackoverflow.com/questions/24468518/html5-input-datetime-local-default-value-of-today-and-current-time#comment112871765_60884408 */
-        now.setMilliseconds(null);
-        now.setSeconds(null);
+  <!-- Libraries or stylesheets-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+  <script src="https://kit.fontawesome.com/479e7d047b.js" crossorigin="anonymous"></script>
+  <!--Update datetime-local with current time-->
+  <script>
+    window.addEventListener("load", () => {
+      var now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
 
-        document.getElementById("cal").value = now.toISOString().slice(0, -1);
-      });
-    </script>
-    <!--Generate leaflet map with required data, and provide function for map update-->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
-    <script>
-      // Store references to maps for later use
-      var activeMaps = [];
-      L.Map.addInitHook(function () {
-        activeMaps.push(this); // Use whatever global scope variable you like.
-      });
+      /* remove second/millisecond if needed - credit ref. https://stackoverflow.com/questions/24468518/html5-input-datetime-local-default-value-of-today-and-current-time#comment112871765_60884408 */
+      now.setMilliseconds(null);
+      now.setSeconds(null);
 
-      function updateMap(sensorData, predictionTime) {
-        // Check if the map already exists
-        var mapContainer = document.querySelector(".leaflet-container");
-        if (!mapContainer) {
-          // Create new map
-          var map = L.map("map").setView([1.3521, 103.8198], 12); // Coordinates for Singapore
-          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          }).addTo(map);
-        } else {
-          // Wipe markers off old map
-          var map = activeMaps[0];
-          map.eachLayer(function (layer) {
-            if (layer instanceof L.Marker) {
-              map.removeLayer(layer);
-            }
-          });
-        }
+      document.getElementById("cal").value = now.toISOString().slice(0, -1);
+    });
+  </script>
+  <!--Generate leaflet map with required data, and provide function for map update-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    // Store references to maps for later use
+    var activeMaps = [];
+    L.Map.addInitHook(function () {
+      activeMaps.push(this); // Use whatever global scope variable you like.
+    });
 
-        // NOTE: sensorData MUST be converted to a JS datetime object before use
-        sensorData.forEach(function (sensor) {
-          var markerColor = "grey"; // Default color for unknown status
-
-          // Set status based on % full for custom vals
-          if (predictionTime) {
-            fullness = sensor[`% full (${predictionTime.toFixed(1)}h)`];
-            if (sensor.status > 2) {
-              markerColor = "grey";
-            } else if (fullness < 75) {
-              markerColor = "green";
-            } else if (fullness < 90) {
-              markerColor = "yellow";
-            } else {
-              markerColor = "red";
-            }
-          } else {
-            // Set marker color based on status
-            switch (sensor.status) {
-              case 0:
-                markerColor = "green";
-                break;
-              case 1:
-                markerColor = "yellow";
-                break;
-              case 2:
-                markerColor = "red";
-                break;
-              default:
-                markerColor = "grey";
-            }
+    function updateMap(sensorData, predictionTime) {
+      // Check if the map already exists
+      var mapContainer = document.querySelector(".leaflet-container");
+      if (!mapContainer) {
+        // Create new map
+        var map = L.map("map").setView([1.3521, 103.8198], 12); // Coordinates for Singapore
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+      } else {
+        // Wipe markers off old map
+        var map = activeMaps[0];
+        map.eachLayer(function (layer) {
+          if (layer instanceof L.Marker) {
+            map.removeLayer(layer);
           }
-
-          // Create marker with dynamic color
-          const markerSize = 16;
-          var markerIcon = new L.Icon({
-            iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`,
-            iconSize: [markerSize, markerSize * (41 / 25)],
-            popupAnchor: [1, -20],
-          });
-          var marker = L.marker([sensor.latitude, sensor.longitude], {
-            icon: markerIcon,
-          }).addTo(map);
-
-          // Bind popup with sensor information
-          statusDesc = {
-            0: "Low Risk",
-            1: "Moderate Risk",
-            2: "High Risk",
-            3: "Under Maintenance",
-            4: "Under Maintenance",
-          };
-          markerPopup =
-            "<b>Sensor ID:</b> " +
-            sensor["sensor-id"] +
-            "<br><b>Sensor Name:</b> " +
-            sensor["sensor-name"] +
-            "<br><b>Water Level:</b> " +
-            sensor["water-level"] +
-            "m" +
-            "<br><b>Status:</b> " +
-            statusDesc[sensor["status"]];
-          if (predictionTime) {
-            markerPopup +=
-              `<br><b class="activeText">Percentage Filled (In ${predictionTime}h):</b> ` +
-              sensor[`% full (${predictionTime.toFixed(1)}h)`] +
-              "%";
-          } else {
-            markerPopup +=
-              "<br><b>Percentage Filled (Now):</b> " + sensor["% full"] + "%";
-          }
-          marker.bindPopup(markerPopup);
         });
       }
-    </script>
-    <!--Update map on input change-->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var predictionBars = document.querySelectorAll(".bar");
-        var datetimeInput = document.getElementById("cal");
 
-        // Add event listener to prediction time bars
-        predictionBars.forEach(function (bar) {
-          bar.addEventListener("click", function () {
-            // Reset all bars to inactive state
-            predictionBars.forEach(function (inactiveBar) {
-              inactiveBar.classList.add("inactivebar");
-              inactiveBar.classList.remove("activebar");
-            });
+      // NOTE: sensorData MUST be converted to a JS datetime object before use
+      sensorData.forEach(function (sensor) {
+        var markerColor = "grey"; // Default color for unknown status
 
-            // Set the clicked bar to active state
-            bar.classList.remove("inactivebar");
-            bar.classList.add("activebar");
+        // Set status based on % full for custom vals
+        if (predictionTime || predictionTime === 0) {
+          fullness = sensor[`% full (in ${predictionTime.toFixed(1)}h)`];
+          if (sensor.status > 2) {
+            markerColor = "grey";
+          } else if (fullness < 75) {
+            markerColor = "green";
+          } else if (fullness < 90) {
+            markerColor = "yellow";
+          } else {
+            markerColor = "red";
+          }
+        } else {
+          // Set marker color based on status
+          switch (sensor.status) {
+            case 0:
+              markerColor = "green";
+              break;
+            case 1:
+              markerColor = "yellow";
+              break;
+            case 2:
+              markerColor = "red";
+              break;
+            default:
+              markerColor = "grey";
+          }
+        }
 
-            // Get the selected prediction parameters from input boxes
-            var selectedTime = parseFloat(bar.getAttribute("data-time"));
-            var selectedDatetime = datetimeInput.value;
-
-            // Send AJAX request to update data
-            updateData(selectedTime, selectedDatetime);
-          });
+        // Create marker with dynamic color
+        const markerSize = 16;
+        var markerIcon = new L.Icon({
+          iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`,
+          iconSize: [markerSize, markerSize * (41 / 25)],
+          popupAnchor: [1, -20],
         });
+        var marker = L.marker([sensor.latitude, sensor.longitude], {
+          icon: markerIcon,
+        }).addTo(map);
 
-        // Add event listener to datetime input
-        datetimeInput.addEventListener("input", function () {
+        // Bind popup with sensor information
+        statusDesc = {
+          0: "Low Risk",
+          1: "Moderate Risk",
+          2: "High Risk",
+          3: "Under Maintenance",
+          4: "Under Maintenance",
+        };
+        markerPopup =
+          "<b>Sensor ID:</b> " +
+          sensor["sensor-id"] +
+          "<br><b>Sensor Name:</b> " +
+          sensor["sensor-name"] +
+          "<br><b>Status:</b> " +
+          statusDesc[sensor["status"]];
+        if (predictionTime || predictionTime === 0) {
+          markerPopup +=
+            `<br><b class="activeText">Percentage Filled (In ${predictionTime}h):</b> ` +
+            sensor[`% full (in ${predictionTime.toFixed(1)}h)`] +
+            "%";
+        } else {
+          markerPopup +=
+            "<br><b>Percentage Filled (Now):</b> " + sensor["% full"] + "%";
+        }
+        marker.bindPopup(markerPopup);
+      });
+    }
+  </script>
+  <!--Update map on input change-->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var predictionBars = document.querySelectorAll(".bar");
+      var datetimeInput = document.getElementById("cal");
+
+      // Add event listener to prediction time bars
+      predictionBars.forEach(function (bar) {
+        bar.addEventListener("click", function () {
+          // Reset all bars to inactive state
+          predictionBars.forEach(function (inactiveBar) {
+            inactiveBar.classList.add("inactivebar");
+            inactiveBar.classList.remove("activebar");
+          });
+
+          // Set the clicked bar to active state
+          bar.classList.remove("inactivebar");
+          bar.classList.add("activebar");
+
+          // Get the selected prediction parameters from input boxes
+          var selectedTime = parseFloat(bar.getAttribute("data-time"));
           var selectedDatetime = datetimeInput.value;
-
-          // Get the selected prediction time from the active bar
-          var activeBar = document.querySelector(".activebar");
-          var selectedTime = activeBar
-            ? parseFloat(activeBar.getAttribute("data-time"))
-            : undefined;
 
           // Send AJAX request to update data
           updateData(selectedTime, selectedDatetime);
         });
-
-        // Function to send AJAX request and update data
-        function updateData(predictionTime, datetime) {
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", "/update_data", true); // Define the request type, URL, and set it to asynchronous
-          xhr.setRequestHeader(
-            "Content-Type",
-            "application/x-www-form-urlencoded"
-          ); // Set the request header
-          var data =
-            "prediction_time=" + predictionTime + "&datetime=" + datetime; // Define the data to be sent in the request body
-
-          // Define the callback function for when the request is complete
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-              // Parse the response JSON and update the map
-              var updatedData = JSON.parse(xhr.responseText);
-              updateMap(updatedData, predictionTime);
-            }
-          };
-
-          // Send the request with the data
-          xhr.send(data);
-        }
       });
-    </script>
-  </head>
-  <body>
-    <aside class="sidebar">
-      <!-- <img
+
+      // Add event listener to datetime input
+      datetimeInput.addEventListener("input", function () {
+        var selectedDatetime = datetimeInput.value;
+
+        // Get the selected prediction time from the active bar
+        var activeBar = document.querySelector(".activebar");
+        var selectedTime = activeBar
+          ? parseFloat(activeBar.getAttribute("data-time"))
+          : undefined;
+
+        // Send AJAX request to update data
+        updateData(selectedTime, selectedDatetime);
+      });
+
+      // Function to send AJAX request and update data
+      function updateData(predictionTime, datetime) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/update_data", true); // Define the request type, URL, and set it to asynchronous
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        ); // Set the request header
+        var data =
+          "prediction_time=" + predictionTime + "&datetime=" + datetime; // Define the data to be sent in the request body
+
+        // Define the callback function for when the request is complete
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            // Parse the response JSON and update the map
+            var updatedData = JSON.parse(xhr.responseText);
+            updateMap(updatedData, predictionTime);
+          }
+        };
+
+        // Send the request with the data
+        xhr.send(data);
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <aside class="sidebar">
+    <!-- <img
         src="{{ url_for('static', filename='images/logo.png') }}"
         alt="Website Logo"
       /> -->
-      <!--Controls for map-->
-      <div class="controls">
-        <!--Prediction Time-->
-        <div class="control-group">
-          <label>Prediction Time</label>
-          <div class="prediction-time">
-            <div class="bar inactivebar" data-time="0.5">0.5h</div>
-            <div class="bar inactivebar" data-time="1">1h</div>
-            <div class="bar inactivebar" data-time="2">2h</div>
-          </div>
-        </div>
-        <!--Datetime selector-->
-        <div class="control-group">
-          <label>Date & Time</label>
-          <div class="datetime-selector">
-            <input type="datetime-local" id="cal" name="datetime" />
-          </div>
+    <!--Controls for map-->
+    <div class="controls">
+      <!--Prediction Time-->
+      <div class="control-group">
+        <label>Prediction Time</label>
+        <div class="prediction-time">
+          <div class="bar inactivebar" data-time="0.5">0.5h</div>
+          <div class="bar inactivebar" data-time="1">1h</div>
+          <div class="bar inactivebar" data-time="2">2h</div>
         </div>
       </div>
-    </aside>
-    <!--Leaflet map here-->
-    <div id="map"></div>
-    <script>
-      // List of dicts containing sensor data including latlong and other info
-      var sensorData = {{ sensorData | tojson }};
-      updateMap(sensorData)
-    </script>
-  </body>
+      <!--Datetime selector-->
+      <div class="control-group">
+        <label>Date & Time</label>
+        <div class="datetime-selector">
+          <input type="datetime-local" id="cal" name="datetime" />
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!--Leaflet map here-->
+  <div id="map"></div>
+  <script>
+    // List of dicts containing sensor data including latlong and other info
+    var sensorData = {{ sensorData | tojson }};
+    updateMap(sensorData)
+  </script>
+</body>
+
 </html>
