@@ -16,14 +16,27 @@ body {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   width: 20%;
   min-width: 200px;
   padding: 20px;
   background-color: #ffffff;
   color: #2521e9;
   text-align: center;
-  border: 2px solid grey; /* Specify border style and color */
+  border: 2px solid grey;
   font-weight: bold;
+}
+
+.sidebar p {
+  font-size: 0.6em;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+  padding: 10px 5px 10px 5px;
+  margin-top: auto;
 }
 
 .control-group {

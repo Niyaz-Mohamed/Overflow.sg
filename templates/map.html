@@ -9,17 +9,22 @@
   <!-- Libraries or stylesheets-->
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
   <script src="https://kit.fontawesome.com/479e7d047b.js" crossorigin="anonymous"></script>
-  <!--Update datetime-local with current time-->
+  <!--Update datetime-local with the start time-->
   <script>
     window.addEventListener("load", () => {
-      var now = new Date();
-      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      // Fetch date with jinja
+      var startDate = "{{ dateRange[0] | safe }}";
+      startDate = new Date(startDate.replace(' ', 'T'))
 
-      /* remove second/millisecond if needed - credit ref. https://stackoverflow.com/questions/24468518/html5-input-datetime-local-default-value-of-today-and-current-time#comment112871765_60884408 */
-      now.setMilliseconds(null);
-      now.setSeconds(null);
+      // Load in the date
+      var year = startDate.getFullYear();
+      var month = ('0' + (startDate.getMonth() + 1)).slice(-2); // Months are zero-based
+      var day = ('0' + startDate.getDate()).slice(-2);
+      var hours = ('0' + startDate.getHours()).slice(-2);
+      var minutes = ('0' + startDate.getMinutes()).slice(-2);
+      var formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
 
-      document.getElementById("cal").value = now.toISOString().slice(0, -1);
+      document.getElementById("cal").value = formattedDate;
     });
   </script>
   <!--Generate leaflet map with required data, and provide function for map update-->
@@ -34,7 +39,7 @@
       activeMaps.push(this); // Use whatever global scope variable you like.
     });
 
-    function updateMap(sensorData, predictionTime) {
+    function updateMap(sensorData, predictionTime, skipLowFlooding = false) {
       // Check if the map already exists
       var mapContainer = document.querySelector(".leaflet-container");
       if (!mapContainer) {
@@ -58,33 +63,29 @@
       sensorData.forEach(function (sensor) {
         var markerColor = "grey"; // Default color for unknown status
 
-        // Set status based on % full for custom vals
-        if (predictionTime || predictionTime === 0) {
-          fullness = sensor[`% full (in ${predictionTime.toFixed(1)}h)`];
-          if (sensor.status > 2) {
-            markerColor = "grey";
-          } else if (fullness < 75) {
-            markerColor = "green";
-          } else if (fullness < 90) {
-            markerColor = "yellow";
-          } else {
-            markerColor = "red";
-          }
+        if (sensor['sensor-name'] === 'International Rd/ Second Chin Bee Rd') {
+          console.log(sensor)
+        }
+
+        // Get approppriate fullness
+        if (!predictionTime) {
+          fullness = sensor['% full']
         } else {
-          // Set marker color based on status
-          switch (sensor.status) {
-            case 0:
-              markerColor = "green";
-              break;
-            case 1:
-              markerColor = "yellow";
-              break;
-            case 2:
-              markerColor = "red";
-              break;
-            default:
-              markerColor = "grey";
-          }
+          predictionTime = parseFloat(predictionTime)
+          predictionTimeString = (predictionTime).toFixed(1)
+          fullness = sensor[`% full (in ${predictionTimeString}h)`];
+        };
+        // Set status and color based on % full
+        if (fullness > 90) {
+          markerColor = "red";
+          sensorStatus = 'High Risk'
+        } else if (fullness > 75) {
+          markerColor = "yellow";
+          sensorStatus = 'Moderate Risk'
+        } else {
+          if (skipLowFlooding) return;
+          markerColor = "green";
+          sensorStatus = 'Low Risk'
         }
 
         // Create marker with dynamic color
@@ -99,28 +100,19 @@
         }).addTo(map);
 
         // Bind popup with sensor information
-        statusDesc = {
-          0: "Low Risk",
-          1: "Moderate Risk",
-          2: "High Risk",
-          3: "Under Maintenance",
-          4: "Under Maintenance",
-        };
         markerPopup =
-          "<b>Sensor ID:</b> " +
-          sensor["sensor-id"] +
-          "<br><b>Sensor Name:</b> " +
+          "<b>Sensor Name:</b> " +
           sensor["sensor-name"] +
           "<br><b>Status:</b> " +
-          statusDesc[sensor["status"]];
-        if (predictionTime || predictionTime === 0) {
-          markerPopup +=
-            `<br><b class="activeText">Percentage Filled (In ${predictionTime}h):</b> ` +
-            sensor[`% full (in ${predictionTime.toFixed(1)}h)`] +
-            "%";
-        } else {
+          sensorStatus;
+        if (!predictionTime) {
           markerPopup +=
             "<br><b>Percentage Filled (Now):</b> " + sensor["% full"] + "%";
+        } else {
+          markerPopup +=
+            `<br><b class="activeText">Percentage Filled (In ${predictionTime}h):</b> ` +
+            sensor[`% full (in ${predictionTimeString}h)`] +
+            "%";
         }
         marker.bindPopup(markerPopup);
       });
@@ -207,6 +199,7 @@
       <div class="control-group">
         <label>Prediction Time</label>
         <div class="prediction-time">
+          <div class="bar activebar" data-time="0">now</div>
           <div class="bar inactivebar" data-time="0.5">0.5h</div>
           <div class="bar inactivebar" data-time="1">1h</div>
           <div class="bar inactivebar" data-time="2">2h</div>
@@ -220,6 +213,10 @@
         </div>
       </div>
     </div>
+    <p>
+      Please note that this demo only works for dates between {{ dateRange[0]
+      }} and {{ dateRange[1] }}
+    </p>
   </aside>
   <!--Leaflet map here-->
   <div id="map"></div>
