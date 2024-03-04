@@ -39,7 +39,7 @@
       activeMaps.push(this); // Use whatever global scope variable you like.
     });
 
-    function updateMap(sensorData, predictionTime, skipLowFlooding = false) {
+    function updateMap(sensorData, predictionTime) {
       // Check if the map already exists
       var mapContainer = document.querySelector(".leaflet-container");
       if (!mapContainer) {
@@ -59,13 +59,13 @@
         });
       }
 
+      // Check whether to render green markers
+      var hidingCheckbox = document.getElementById('hide');
+      var skipLowFlooding = hidingCheckbox.checked
+
       // NOTE: sensorData MUST be converted to a JS datetime object before use
       sensorData.forEach(function (sensor) {
         var markerColor = "grey"; // Default color for unknown status
-
-        if (sensor['sensor-name'] === 'International Rd/ Second Chin Bee Rd') {
-          console.log(sensor)
-        }
 
         // Get approppriate fullness
         if (!predictionTime) {
@@ -75,6 +75,7 @@
           predictionTimeString = (predictionTime).toFixed(1)
           fullness = sensor[`% full (in ${predictionTimeString}h)`];
         };
+
         // Set status and color based on % full
         if (fullness > 90) {
           markerColor = "red";
@@ -123,6 +124,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       var predictionBars = document.querySelectorAll(".bar");
       var datetimeInput = document.getElementById("cal");
+      var hidingCheckbox = document.getElementById('hide');
 
       // Add event listener to prediction time bars
       predictionBars.forEach(function (bar) {
@@ -150,7 +152,20 @@
       datetimeInput.addEventListener("input", function () {
         var selectedDatetime = datetimeInput.value;
 
-        // Get the selected prediction time from the active bar
+        // Get the selected prediction time from the active bar and hide status
+        var activeBar = document.querySelector(".activebar");
+        var selectedTime = activeBar
+          ? parseFloat(activeBar.getAttribute("data-time"))
+          : undefined;
+
+        // Send AJAX request to update data
+        updateData(selectedTime, selectedDatetime);
+      });
+
+      // Add event listener to checkbox
+      hidingCheckbox.addEventListener("change", function () {
+        // Get all parameters required
+        var selectedDatetime = datetimeInput.value;
         var activeBar = document.querySelector(".activebar");
         var selectedTime = activeBar
           ? parseFloat(activeBar.getAttribute("data-time"))
@@ -168,6 +183,7 @@
           "Content-Type",
           "application/x-www-form-urlencoded"
         ); // Set the request header
+
         var data =
           "prediction_time=" + predictionTime + "&datetime=" + datetime; // Define the data to be sent in the request body
 
@@ -210,6 +226,13 @@
         <label>Date & Time</label>
         <div class="datetime-selector">
           <input type="datetime-local" id="cal" name="datetime" />
+        </div>
+      </div>
+      <!--Non-Flood Hiding Checkmark-->
+      <div class="control-group">
+        <label>Only Show Flooding Cases</label>
+        <div class="hiding-checkbox">
+          <input type="checkbox" id="hide" name="hide-flooding" value="true" />
         </div>
       </div>
     </div>
