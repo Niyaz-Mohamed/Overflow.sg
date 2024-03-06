@@ -22,7 +22,7 @@ demoDf["timestamp"] = pd.to_datetime(demoDf["timestamp"])
 demoDf = demoDf.sort_values(by="timestamp")
 # Find date range of the demo data
 dateRange = [demoDf["timestamp"].min(), demoDf["timestamp"].max()]
-dateRange = [date.strftime("%Y-%m-%d %H:%M:%S") for date in dateRange]
+dateRange = [date.strftime("%Y-%m-%dT%H:%M:%S") for date in dateRange]
 
 
 @app.route("/")

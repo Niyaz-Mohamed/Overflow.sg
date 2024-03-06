@@ -225,7 +225,7 @@
       <div class="control-group">
         <label>Date & Time</label>
         <div class="datetime-selector">
-          <input type="datetime-local" id="cal" name="datetime" />
+          <input type="datetime-local" id="cal" name="datetime" min={{ dateRange[0] }} max={{ dateRange[1] }} />
         </div>
       </div>
       <!--Non-Flood Hiding Checkmark-->
@@ -237,8 +237,8 @@
       </div>
     </div>
     <p>
-      Please note that this demo only works for dates between {{ dateRange[0]
-      }} and {{ dateRange[1] }}
+      Please note that this demo only works for dates between {{ dateRange[0] | replace('T', ' ')
+      }} and {{ dateRange[1] | replace('T', ' ') }}
     </p>
   </aside>
   <!--Leaflet map here-->
